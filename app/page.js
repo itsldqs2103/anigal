@@ -8,6 +8,7 @@ import Download from "yet-another-react-lightbox/plugins/download";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Link from "next/link";
 import Image from "next/image";
+import { ListCheckIcon } from "lucide-react";
 
 const LIMIT = 24;
 
@@ -81,7 +82,7 @@ export default function Home() {
       <div className="mb-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Gallery</h1>
         <Link href="/manage" className="btn btn-primary">
-          Manage
+          <ListCheckIcon className="w-4 h-4" /> Manage
         </Link>
       </div>
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState, useCallback, memo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CheckIcon, PlusIcon } from "lucide-react";
+import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, EllipsisIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 
 const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
@@ -18,10 +18,10 @@ const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
       />
       <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
         <button className="btn btn-warning flex-1" onClick={() => onEdit(id)}>
-          Edit
+          <PencilIcon className="w-4 h-4" /> Edit
         </button>
         <button className="btn btn-error flex-1" onClick={() => onDelete(id)}>
-          Delete
+          <Trash2Icon className="w-4 h-4" /> Delete
         </button>
       </div>
     </div>
@@ -206,7 +206,7 @@ export default function Manage() {
                   disabled={loading || page === 1}
                   onClick={() => setPage(p => p - 1)}
                 >
-                  «
+                  <ChevronLeftIcon className="w-4 h-4" />
                 </button>
 
                 <div className="hidden sm:flex join">
@@ -251,7 +251,7 @@ export default function Manage() {
                           key={p + i}
                           className="join-item btn btn-disabled pointer-events-none"
                         >
-                          …
+                          <EllipsisIcon className="w-4 h-4" />
                         </button>
                       )
                     );
@@ -267,7 +267,7 @@ export default function Manage() {
                   disabled={loading || page === totalPages}
                   onClick={() => setPage(p => p + 1)}
                 >
-                  »
+                  <ChevronRightIcon className="w-4 h-4" />
                 </button>
               </div>
             </div>
