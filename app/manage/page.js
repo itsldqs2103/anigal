@@ -126,72 +126,48 @@ export default function Manage() {
       <ToastContainer theme="dark" position="bottom-right" />
 
       <div className="p-4">
-        <div className="mb-4">
+        <div className="mb-6 flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Manage</h1>
           <button className="btn btn-primary" onClick={addImage}>
             Add Image
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Preview</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={2} className="text-center">
-                    Loading images…
-                  </td>
-                </tr>
-              ) : images.length === 0 ? (
-                <tr>
-                  <td colSpan={2} className="text-center">
-                    No images found!
-                  </td>
-                </tr>
-              ) : (
-                images.map(({ id, path }) => (
-                  <tr
-                    key={id}
-                    className="hover:bg-base-100 transition-[background-color]"
+        {loading ? (
+          <div className="text-center">Loading images…</div>
+        ) : images.length === 0 ? (
+          <div className="text-center">No images found!</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+            {images.map(({ id, path }) => (
+              <div
+                key={id}
+                className="bg-base-100 rounded-default shadow-lg overflow-hidden flex flex-col"
+              >
+                <LazyLoadImage
+                  src={path}
+                  alt={`Image ${id}`}
+                  effect="opacity"
+                  className="h-48 w-full object-cover"
+                />
+                <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
+                  <button
+                    className="btn btn-warning flex-1"
+                    onClick={() => editImage(id)}
                   >
-                    <td className="align-middle">
-                      <LazyLoadImage
-                        src={path}
-                        alt={`Image ${id}`}
-                        effect="opacity"
-                        wrapperProps={{ style: { display: "block" } }}
-                        className="h-32 rounded-default shadow-lg"
-                      />
-                    </td>
-
-                    <td className="align-middle">
-                      <div className="flex gap-2 flex-wrap">
-                        <button
-                          className="btn btn-warning"
-                          onClick={() => editImage(id)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-error"
-                          onClick={() => deleteImage(id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-error flex-1"
+                    onClick={() => deleteImage(id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
