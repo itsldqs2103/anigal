@@ -15,7 +15,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@kunalukey/react-image": "^1.0.7",
     "@neondatabase/serverless": "^1.0.2",
     "@vercel/blob": "^2.0.0",
     "axios": "^1.13.2",

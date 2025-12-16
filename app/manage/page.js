@@ -2,9 +2,37 @@
 
 import { usePageTitle } from "@/hooks/usePageTitle";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ToastContainer, toast } from "react-toastify";
+
+const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
+  return (
+    <div className="card bg-base-100 rounded-default shadow-lg overflow-hidden flex flex-col">
+      <LazyLoadImage
+        src={path}
+        alt={`Image ${id}`}
+        effect="opacity"
+        className="h-48 w-full object-cover"
+        wrapperProps={{ style: { display: "block" } }}
+      />
+      <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
+        <button
+          className="btn btn-warning flex-1"
+          onClick={() => onEdit(id)}
+        >
+          Edit
+        </button>
+        <button
+          className="btn btn-error flex-1"
+          onClick={() => onDelete(id)}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  );
+});
 
 export default function Manage() {
   usePageTitle("Manage");
@@ -12,19 +40,19 @@ export default function Manage() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchImages = () => {
+  const fetchImages = useCallback(() => {
     setLoading(true);
     fetch("/api/images")
       .then(res => res.json())
       .then(setImages)
       .finally(() => setLoading(false));
-  };
+  }, []);
 
   useEffect(() => {
     fetchImages();
-  }, []);
+  }, [fetchImages]);
 
-  const addImage = async () => {
+  const addImage = useCallback(async () => {
     const url = prompt("Enter image URL:");
     if (!url) return;
 
@@ -39,14 +67,16 @@ export default function Manage() {
 
       if (!res.ok) throw new Error();
 
+      const newImage = await res.json();
+
+      setImages(prev => [...prev, newImage]);
+
       toast.update(toastId, {
         render: "Image added",
         type: "success",
         isLoading: false,
         autoClose: 5000,
       });
-
-      fetchImages();
     } catch {
       toast.update(toastId, {
         render: "Failed",
@@ -55,9 +85,9 @@ export default function Manage() {
         autoClose: 5000,
       });
     }
-  };
+  }, []);
 
-  const editImage = async (id) => {
+  const editImage = useCallback(async (id) => {
     const url = prompt("Enter NEW image URL:");
     if (!url) return;
 
@@ -72,14 +102,18 @@ export default function Manage() {
 
       if (!res.ok) throw new Error();
 
+      setImages(prev =>
+        prev.map(img =>
+          img.id === id ? { ...img, path: url } : img
+        )
+      );
+
       toast.update(toastId, {
         render: "Image updated",
         type: "success",
         isLoading: false,
         autoClose: 5000,
       });
-
-      fetchImages();
     } catch {
       toast.update(toastId, {
         render: "Update failed",
@@ -88,9 +122,9 @@ export default function Manage() {
         autoClose: 5000,
       });
     }
-  };
+  }, []);
 
-  const deleteImage = async (id) => {
+  const deleteImage = useCallback(async (id) => {
     if (!confirm("Are you sure you want to delete this image?")) return;
 
     const toastId = toast.loading("Deleting image");
@@ -104,14 +138,14 @@ export default function Manage() {
 
       if (!res.ok) throw new Error();
 
+      setImages(prev => prev.filter(img => img.id !== id));
+
       toast.update(toastId, {
         render: "Image deleted",
         type: "success",
         isLoading: false,
         autoClose: 5000,
       });
-
-      fetchImages();
     } catch {
       toast.update(toastId, {
         render: "Delete failed",
@@ -120,7 +154,7 @@ export default function Manage() {
         autoClose: 5000,
       });
     }
-  };
+  }, []);
 
   return (
     <>
@@ -145,32 +179,14 @@ export default function Manage() {
           <div className="text-center">No images found</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-            {images.map(({ id, path }) => (
-              <div
-                key={id}
-                className="bg-base-100 rounded-default shadow-lg overflow-hidden flex flex-col"
-              >
-                <LazyLoadImage
-                  src={path}
-                  alt={`Image ${id}`}
-                  effect="opacity"
-                  className="h-48 w-full object-cover" wrapperProps={{ style: { display: "block" } }}
-                />
-                <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
-                  <button
-                    className="btn btn-warning flex-1"
-                    onClick={() => editImage(id)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-error flex-1"
-                    onClick={() => deleteImage(id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+            {images.map(img => (
+              <ImageCard
+                key={img.id}
+                id={img.id}
+                path={img.path}
+                onEdit={editImage}
+                onDelete={deleteImage}
+              />
             ))}
           </div>
         )}
