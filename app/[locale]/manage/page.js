@@ -5,9 +5,9 @@ import { Link } from '@/i18n/navigation';
 import { useEffect, useState, useCallback, memo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, EllipsisIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, EllipsisIcon, LanguagesIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
   const t = useTranslations('Manage');
@@ -168,6 +168,7 @@ export default function Manage() {
   }, [fetchImages]);
 
   const t = useTranslations('Manage');
+  const locale = useLocale();
 
   return (
     <>
@@ -183,6 +184,15 @@ export default function Manage() {
             <Link href="/" className="btn btn-accent">
               <CheckIcon className="w-4 h-4" /> {t('done')}
             </Link>
+            {locale === 'en' ? (
+              <Link href="/manage" locale="vi" className="btn btn-accent">
+                <LanguagesIcon className="w-4 h-4" /> VI
+              </Link>
+            ) : (
+              <Link href="/manage" locale="en" className="btn btn-accent">
+                <LanguagesIcon className="w-4 h-4" /> ENG
+              </Link>
+            )}
           </div>
         </div>
 
