@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: dracula --default;
+  themes: dark --default;
   exclude: properties, rootscrolllock, rootscrollgutter;
 }
 
