@@ -40,7 +40,7 @@ export default async function RootLayout({ children }) {
       <body>
         {children}
 
-        <footer className="text-end p-4">
+        <footer className="text-end px-4 pb-4">
           Version:{" "}
           <a
             href={commitUrl}
