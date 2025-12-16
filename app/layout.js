@@ -2,6 +2,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import axios from "axios";
 import moment from "moment";
+import { ReactScan } from "@/components/ReactScan";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -38,6 +39,8 @@ export default async function RootLayout({ children }) {
       className={`${manrope.className} antialiased bg-base-300 text-base-content`}
     >
       <body>
+        <ReactScan />
+
         {children}
 
         <footer className="text-end px-4 pb-4">
