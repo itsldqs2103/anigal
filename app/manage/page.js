@@ -154,7 +154,7 @@ export default function Manage() {
                   src={path}
                   alt={`Image ${id}`}
                   effect="opacity"
-                  className="h-48 w-full object-cover"
+                  className="h-48 w-full object-cover" wrapperProps={{ style: { display: "block" } }}
                 />
                 <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
                   <button
