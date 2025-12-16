@@ -127,7 +127,7 @@ export default function Manage() {
       <ToastContainer theme="dark" position="bottom-right" />
 
       <div className="p-4">
-        <div className="mb-6 flex justify-between items-center">
+        <div className="mb-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Manage</h1>
           <div className="gap-2 flex">
             <button className="btn btn-primary" onClick={addImage}>

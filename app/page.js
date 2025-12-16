@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div className="p-4">
 
-      <div className="mb-6 flex justify-between items-center">
+      <div className="mb-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Gallery</h1>
         <Link href="/manage" className="btn btn-primary">Manage</Link>
       </div>
