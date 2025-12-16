@@ -43,7 +43,7 @@ export default function Manage() {
         render: "Image added",
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 5000,
       });
 
       fetchImages();
@@ -52,7 +52,7 @@ export default function Manage() {
         render: "Failed",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 5000,
       });
     }
   };
@@ -76,7 +76,7 @@ export default function Manage() {
         render: "Image updated",
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 5000,
       });
 
       fetchImages();
@@ -85,7 +85,7 @@ export default function Manage() {
         render: "Update failed",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 5000,
       });
     }
   };
@@ -108,7 +108,7 @@ export default function Manage() {
         render: "Image deleted",
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 5000,
       });
 
       fetchImages();
@@ -117,7 +117,7 @@ export default function Manage() {
         render: "Delete failed",
         type: "error",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 5000,
       });
     }
   };
