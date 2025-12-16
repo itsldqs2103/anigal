@@ -7,6 +7,8 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   description: "AniGal - a gallery of stunning anime-style illustrations and artwork.",
 };
