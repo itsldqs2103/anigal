@@ -27,7 +27,7 @@ export default function Manage() {
     const url = prompt("Enter image URL:");
     if (!url) return;
 
-    const toastId = toast.loading("Adding image…");
+    const toastId = toast.loading("Adding image");
 
     try {
       const res = await fetch("/api/images", {
@@ -39,7 +39,7 @@ export default function Manage() {
       if (!res.ok) throw new Error();
 
       toast.update(toastId, {
-        render: "Image added!",
+        render: "Image added",
         type: "success",
         isLoading: false,
         autoClose: 3000,
@@ -48,10 +48,10 @@ export default function Manage() {
       fetchImages();
     } catch {
       toast.update(toastId, {
-        render: "Failed!",
+        render: "Failed",
         type: "error",
         isLoading: false,
-        autoClose: 4000,
+        autoClose: 3000,
       });
     }
   };
@@ -60,7 +60,7 @@ export default function Manage() {
     const url = prompt("Enter NEW image URL:");
     if (!url) return;
 
-    const toastId = toast.loading("Updating image…");
+    const toastId = toast.loading("Updating image");
 
     try {
       const res = await fetch("/api/images", {
@@ -72,7 +72,7 @@ export default function Manage() {
       if (!res.ok) throw new Error();
 
       toast.update(toastId, {
-        render: "Image updated!",
+        render: "Image updated",
         type: "success",
         isLoading: false,
         autoClose: 3000,
@@ -81,10 +81,10 @@ export default function Manage() {
       fetchImages();
     } catch {
       toast.update(toastId, {
-        render: "Update failed!",
+        render: "Update failed",
         type: "error",
         isLoading: false,
-        autoClose: 4000,
+        autoClose: 3000,
       });
     }
   };
@@ -92,7 +92,7 @@ export default function Manage() {
   const deleteImage = async (id) => {
     if (!confirm("Are you sure you want to delete this image?")) return;
 
-    const toastId = toast.loading("Deleting image…");
+    const toastId = toast.loading("Deleting image");
 
     try {
       const res = await fetch("/api/images", {
@@ -104,7 +104,7 @@ export default function Manage() {
       if (!res.ok) throw new Error();
 
       toast.update(toastId, {
-        render: "Image deleted!",
+        render: "Image deleted",
         type: "success",
         isLoading: false,
         autoClose: 3000,
@@ -113,10 +113,10 @@ export default function Manage() {
       fetchImages();
     } catch {
       toast.update(toastId, {
-        render: "Delete failed!",
+        render: "Delete failed",
         type: "error",
         isLoading: false,
-        autoClose: 4000,
+        autoClose: 3000,
       });
     }
   };
@@ -134,7 +134,7 @@ export default function Manage() {
         </div>
 
         {loading ? (
-          <div className="text-center">Loading images…</div>
+          <div className="text-center">Loading images</div>
         ) : images.length === 0 ? (
           <div className="text-center">No images found!</div>
         ) : (

@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div className="p-4">
       {loading ? (
-        <div className="text-center">Loading images…</div>
+        <div className="text-center">Loading images</div>
       ) : images.length === 0 ? (
         <div className="text-center">No images found!</div>
       ) : (
