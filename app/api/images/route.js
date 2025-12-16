@@ -4,16 +4,37 @@ import { del } from '@vercel/blob';
 
 export const runtime = 'nodejs';
 
-export async function GET() {
-    const rows = await db`
-        SELECT id, path, created_at, updated_at
-        FROM images
-        ORDER BY created_at DESC
-    `;
+export async function GET(req) {
+    const { searchParams } = new URL(req.url);
 
-    return new Response(JSON.stringify(rows), {
-        headers: { 'Content-Type': 'application/json' },
-    });
+    const page = Number(searchParams.get("page") ?? 1);
+    const limit = Number(searchParams.get("limit") ?? 24);
+    const offset = (page - 1) * limit;
+
+    const [images, [{ count }]] = await Promise.all([
+        db`
+      SELECT id, path, created_at, updated_at
+      FROM images
+      ORDER BY created_at DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `,
+        db`
+      SELECT COUNT(*)::int AS count FROM images
+    `,
+    ]);
+
+    return new Response(
+        JSON.stringify({
+            data: images,
+            page,
+            limit,
+            total: count,
+            totalPages: Math.ceil(count / limit),
+        }),
+        {
+            headers: { "Content-Type": "application/json" },
+        }
+    );
 }
 
 export async function POST(request) {

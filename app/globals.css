@@ -5,7 +5,6 @@
   exclude: properties, rootscrolllock, rootscrollgutter;
 }
 
-@import "react-lazy-load-image-component/src/effects/opacity.css";
 @import "react-toastify/dist/ReactToastify.css";
 @import "yet-another-react-lightbox/styles.css";
 :root {

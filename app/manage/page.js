@@ -3,30 +3,24 @@
 import { usePageTitle } from "@/hooks/usePageTitle";
 import Link from "next/link";
 import { useEffect, useState, useCallback, memo } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ToastContainer, toast } from "react-toastify";
+import { useRouter, useSearchParams } from "next/navigation";
+import { CheckIcon, PlusIcon } from "lucide-react";
+import Image from "next/image";
 
 const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
   return (
     <div className="card bg-base-100 rounded-default shadow-lg overflow-hidden flex flex-col">
-      <LazyLoadImage
-        src={path}
-        alt={`Image ${id}`}
-        effect="opacity"
+      <Image
+        src={path} loading="eager"
+        alt={`Image ${id}`} width={256} height={256}
         className="h-48 w-full object-cover"
-        wrapperProps={{ style: { display: "block" } }}
       />
       <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
-        <button
-          className="btn btn-warning flex-1"
-          onClick={() => onEdit(id)}
-        >
+        <button className="btn btn-warning flex-1" onClick={() => onEdit(id)}>
           Edit
         </button>
-        <button
-          className="btn btn-error flex-1"
-          onClick={() => onDelete(id)}
-        >
+        <button className="btn btn-error flex-1" onClick={() => onDelete(id)}>
           Delete
         </button>
       </div>
@@ -37,20 +31,36 @@ const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
 export default function Manage() {
   usePageTitle("Manage");
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const initialPage = Number(searchParams.get("page") ?? 1);
+
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(initialPage);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const LIMIT = 24;
 
   const fetchImages = useCallback(() => {
     setLoading(true);
-    fetch("/api/images")
+    fetch(`/api/images?page=${page}&limit=${LIMIT}`)
       .then(res => res.json())
-      .then(setImages)
+      .then(res => {
+        setImages(res.data);
+        setTotalPages(res.totalPages);
+      })
       .finally(() => setLoading(false));
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     fetchImages();
   }, [fetchImages]);
+
+  useEffect(() => {
+    router.replace(`?page=${page}`, { scroll: false });
+  }, [page, router]);
 
   const addImage = useCallback(async () => {
     const url = prompt("Enter image URL:");
@@ -67,9 +77,8 @@ export default function Manage() {
 
       if (!res.ok) throw new Error();
 
-      const newImage = await res.json();
-
-      setImages(prev => [...prev, newImage]);
+      setPage(1);
+      fetchImages();
 
       toast.update(toastId, {
         render: "Image added",
@@ -85,7 +94,7 @@ export default function Manage() {
         autoClose: 5000,
       });
     }
-  }, []);
+  }, [fetchImages]);
 
   const editImage = useCallback(async (id) => {
     const url = prompt("Enter NEW image URL:");
@@ -103,9 +112,7 @@ export default function Manage() {
       if (!res.ok) throw new Error();
 
       setImages(prev =>
-        prev.map(img =>
-          img.id === id ? { ...img, path: url } : img
-        )
+        prev.map(img => (img.id === id ? { ...img, path: url } : img))
       );
 
       toast.update(toastId, {
@@ -138,7 +145,8 @@ export default function Manage() {
 
       if (!res.ok) throw new Error();
 
-      setImages(prev => prev.filter(img => img.id !== id));
+      setPage(1);
+      fetchImages();
 
       toast.update(toastId, {
         render: "Image deleted",
@@ -154,7 +162,7 @@ export default function Manage() {
         autoClose: 5000,
       });
     }
-  }, []);
+  }, [fetchImages]);
 
   return (
     <>
@@ -165,10 +173,10 @@ export default function Manage() {
           <h1 className="text-2xl font-bold">Manage</h1>
           <div className="gap-2 flex">
             <button className="btn btn-primary" onClick={addImage}>
-              Add Image
+              <PlusIcon className="w-4 h-4" /> Add
             </button>
             <Link href="/" className="btn btn-accent">
-              Done
+              <CheckIcon className="w-4 h-4" /> Done
             </Link>
           </div>
         </div>
@@ -178,17 +186,92 @@ export default function Manage() {
         ) : images.length === 0 ? (
           <div className="text-center">No images found</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-            {images.map(img => (
-              <ImageCard
-                key={img.id}
-                id={img.id}
-                path={img.path}
-                onEdit={editImage}
-                onDelete={deleteImage}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+              {images.map(img => (
+                <ImageCard
+                  key={img.id}
+                  id={img.id}
+                  path={img.path}
+                  onEdit={editImage}
+                  onDelete={deleteImage}
+                />
+              ))}
+            </div>
+
+            <div className="flex justify-center mt-4">
+              <div className="join">
+                <button
+                  className="join-item btn"
+                  disabled={loading || page === 1}
+                  onClick={() => setPage(p => p - 1)}
+                >
+                  «
+                </button>
+
+                <div className="hidden sm:flex join">
+                  {(() => {
+                    const pages = [];
+
+                    if (page > 2) {
+                      pages.push(1);
+                    }
+
+                    if (page > 3) {
+                      pages.push("start-ellipsis");
+                    }
+
+                    for (
+                      let p = Math.max(1, page - 1);
+                      p <= Math.min(totalPages, page + 1);
+                      p++
+                    ) {
+                      pages.push(p);
+                    }
+
+                    if (page < totalPages - 2) {
+                      pages.push("end-ellipsis");
+                    }
+
+                    if (page < totalPages - 1) {
+                      pages.push(totalPages);
+                    }
+
+                    return pages.map((p, i) =>
+                      typeof p === "number" ? (
+                        <button
+                          key={p}
+                          className={`join-item btn ${p === page ? "btn-active" : ""}`}
+                          onClick={() => setPage(p)}
+                        >
+                          {p}
+                        </button>
+                      ) : (
+                        <button
+                          key={p + i}
+                          className="join-item btn btn-disabled pointer-events-none"
+                        >
+                          …
+                        </button>
+                      )
+                    );
+                  })()}
+                </div>
+
+                <div className="sm:hidden join-item btn pointer-events-none">
+                  {page} / {totalPages}
+                </div>
+
+                <button
+                  className="join-item btn"
+                  disabled={loading || page === totalPages}
+                  onClick={() => setPage(p => p + 1)}
+                >
+                  »
+                </button>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </>
