@@ -68,7 +68,7 @@ export default function Home() {
       ([entry]) => {
         if (entry.isIntersecting) fetchImages();
       },
-      { rootMargin: "384px" }
+      { rootMargin: "1024px" }
     );
 
     observer.observe(observerRef.current);
