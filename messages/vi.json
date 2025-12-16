@@ -1,0 +1,22 @@
+{
+    "Home": {
+        "manage": "Quản lý",
+        "gallery": "Thư viện",
+        "loadingimages": "Đang tải hình ảnh",
+        "noimagesfound": "Không tìm thấy hình ảnh"
+    },
+    "Manage": {
+        "manage": "Quản lý",
+        "add": "Thêm",
+        "done": "Xong",
+        "edit": "Sửa",
+        "delete": "Xóa",
+        "loadingimages": "Đang tải hình ảnh",
+        "noimagesfound": "Không tìm thấy hình ảnh"
+    },
+    "Footer": {
+        "version": "Phiên bản",
+        "updated": "Đã cập nhật",
+        "unknown": "không rõ"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "Home": {
+        "manage": "Manage",
+        "gallery": "Gallery",
+        "loadingimages": "Loading images",
+        "noimagesfound": "No images found"
+    },
+    "Manage": {
+        "manage": "Manage",
+        "add": "Add",
+        "done": "Done",
+        "edit": "Edit",
+        "delete": "Delete",
+        "loadingimages": "Loading images",
+        "noimagesfound": "No images found"
+    },
+    "Footer": {
+        "version": "Version",
+        "updated": "Updated",
+        "unknown": "unknown"
+    }
+}

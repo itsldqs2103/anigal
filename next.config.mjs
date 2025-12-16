@@ -1,6 +1,9 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   reactCompiler: true,
   reactStrictMode: true,
   async headers() {
@@ -10,20 +13,20 @@ const nextConfig = {
         headers: [
           {
             key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload'
-          }
-        ]
-      }
-    ]
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+        ],
+      },
+    ];
   },
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "*",
+        protocol: 'https',
+        hostname: '*',
       },
     ],
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

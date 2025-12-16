@@ -1,14 +1,17 @@
 "use client";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
-import Link from "next/link";
+import { Link } from '@/i18n/navigation';
 import { useEffect, useState, useCallback, memo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, EllipsisIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
+  const t = useTranslations('Manage');
+
   return (
     <div className="card bg-base-100 rounded-default shadow-lg overflow-hidden flex flex-col">
       <Image
@@ -18,10 +21,10 @@ const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
       />
       <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
         <button className="btn btn-warning flex-1" onClick={() => onEdit(id)}>
-          <PencilIcon className="w-4 h-4" /> Edit
+          <PencilIcon className="w-4 h-4" /> {t('edit')}
         </button>
         <button className="btn btn-error flex-1" onClick={() => onDelete(id)}>
-          <Trash2Icon className="w-4 h-4" /> Delete
+          <Trash2Icon className="w-4 h-4" /> {t('delete')}
         </button>
       </div>
     </div>
@@ -164,27 +167,29 @@ export default function Manage() {
     }
   }, [fetchImages]);
 
+  const t = useTranslations('Manage');
+
   return (
     <>
       <ToastContainer theme="dark" position="bottom-right" />
 
       <div className="p-4">
         <div className="mb-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Manage</h1>
+          <h1 className="text-2xl font-bold">{t('manage')}</h1>
           <div className="gap-2 flex">
             <button className="btn btn-primary" onClick={addImage}>
-              <PlusIcon className="w-4 h-4" /> Add
+              <PlusIcon className="w-4 h-4" /> {t('add')}
             </button>
             <Link href="/" className="btn btn-accent">
-              <CheckIcon className="w-4 h-4" /> Done
+              <CheckIcon className="w-4 h-4" /> {t('done')}
             </Link>
           </div>
         </div>
 
         {loading ? (
-          <div className="text-center">Loading images</div>
+          <div className="text-center">{t('loadingimages')}</div>
         ) : images.length === 0 ? (
-          <div className="text-center">No images found</div>
+          <div className="text-center">{t('noimagesfound')}</div>
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
