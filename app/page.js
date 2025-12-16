@@ -109,7 +109,7 @@ export default function Home() {
           </div>
 
           {page <= totalPages && (
-            <div ref={observerRef} className="text-center">
+            <div ref={observerRef} className="text-center pt-4">
               {fetching && <span>Loading images</span>}
             </div>
           )}
