@@ -23,7 +23,7 @@ export default function Home() {
       {loading ? (
         <div className="text-center">Loading images</div>
       ) : images.length === 0 ? (
-        <div className="text-center">No images found!</div>
+        <div className="text-center">No images found</div>
       ) : (
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6">
           {images.map(({ id, path }) => (
