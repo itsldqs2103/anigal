@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+    themes: dark --default;
+    exclude: properties, rootscrolllock, rootscrollgutter;
+}
+
+@import "react-lazy-load-image-component/src/effects/opacity.css";
+@import "react-toastify/dist/ReactToastify.css";
+
+:root {
+    --default-transition-duration: .3s;
+    --default-transition-timing-function: cubic-bezier(0, 0, .2, 1);
+}
+
+.btn {
+    transition-duration: var(--default-transition-duration);
+    transition-timing-function: var(--default-transition-timing-function);
+}
+
+.lazy-load-image-background.opacity.lazy-load-image-loaded {
+    transition: var(--default-transition-duration) var(--default-transition-timing-function);
+}
+
+.rounded-default {
+    border-radius: var(--radius-field);
+}
