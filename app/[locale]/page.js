@@ -11,6 +11,7 @@ import { Link } from '@/i18n/navigation';
 import Image from "next/image";
 import { LanguagesIcon, ListCheckIcon } from "lucide-react";
 import { useLocale, useTranslations } from 'next-intl';
+import { toast } from "react-toastify";
 
 const LIMIT = 24;
 
@@ -46,8 +47,10 @@ export default function Home() {
 
       setTotalPages(newTotalPages);
       setPage(prev => prev + 1);
-    } catch (err) {
-      console.error("Failed to fetch images", err);
+    } catch {
+      toast.error("Failed to fetch images", {
+        autoClose: 5000
+      });
     } finally {
       setLoading(false);
       setFetching(false);

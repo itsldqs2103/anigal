@@ -91,7 +91,7 @@ export default function Manage() {
       });
     } catch {
       toast.update(toastId, {
-        render: "Failed",
+        render: "Add failed",
         type: "error",
         isLoading: false,
         autoClose: 5000,

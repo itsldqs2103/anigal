@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import { useTranslations, useLocale } from "next-intl";
+import { toast } from "react-toastify";
 
 function Footer() {
     const [commitId, setCommitId] = useState("");
@@ -26,8 +27,10 @@ function Footer() {
                         moment(latestCommit.commit.author.date).locale(locale).fromNow()
                     );
                 }
-            } catch (error) {
-                console.error("Error fetching latest commit:", error);
+            } catch {
+                toast.error("Error fetching latest commit", {
+                    autoClose: 5000
+                });
             }
         };
 
