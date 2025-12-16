@@ -16,8 +16,6 @@ import { toast } from "react-toastify";
 const LIMIT = 24;
 
 export default function Home() {
-  usePageTitle("Home");
-
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fetching, setFetching] = useState(false);
@@ -84,6 +82,8 @@ export default function Home() {
 
   const t = useTranslations('Home');
   const locale = useLocale();
+
+  usePageTitle(t('gallery'));
 
   return (
     <div className="p-4">

@@ -32,8 +32,6 @@ const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
 });
 
 export default function Manage() {
-  usePageTitle("Manage");
-
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -169,6 +167,8 @@ export default function Manage() {
 
   const t = useTranslations('Manage');
   const locale = useLocale();
+
+  usePageTitle(t('manage'));
 
   return (
     <>
