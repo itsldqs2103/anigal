@@ -6,9 +6,9 @@ export const runtime = 'nodejs';
 
 export async function GET() {
     const rows = await db`
-        SELECT id, path
+        SELECT id, path, created_at, updated_at
         FROM images
-        ORDER BY id
+        ORDER BY created_at DESC
     `;
 
     return new Response(JSON.stringify(rows), {
@@ -32,7 +32,7 @@ export async function POST(request) {
         const [row] = await db`
             INSERT INTO images (path)
             VALUES (${blobUrl})
-            RETURNING id, path
+            RETURNING id, path, created_at, updated_at
         `;
 
         return new Response(
@@ -76,14 +76,15 @@ export async function PUT(request) {
 
     const newBlobUrl = await download(url);
 
-    await db`
+    const [updated] = await db`
         UPDATE images
-        SET path = ${newBlobUrl}
+        SET path = ${newBlobUrl}, updated_at = now()
         WHERE id = ${id}
+        RETURNING id, path, created_at, updated_at
     `;
 
     return new Response(
-        JSON.stringify({ id, path: newBlobUrl }),
+        JSON.stringify(updated),
         { headers: { 'Content-Type': 'application/json' } }
     );
 }
