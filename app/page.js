@@ -3,12 +3,18 @@
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import Lightbox from "yet-another-react-lightbox";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Download from "yet-another-react-lightbox/plugins/download";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 export default function Home() {
   usePageTitle("Home");
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     fetch("/api/images")
@@ -26,19 +32,32 @@ export default function Home() {
         <div className="text-center">No images found</div>
       ) : (
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6">
-          {images.map(({ id, path }) => (
+          {images.map(({ id, path }, index) => (
             <div key={id} className="not-last:mb-4 break-inside-avoid">
               <LazyLoadImage
+                onClick={() => {
+                  setCurrentIndex(index);
+                  setOpen(true);
+                }}
                 src={path}
                 alt={`Image ${id}`}
                 effect="opacity"
                 wrapperProps={{ style: { display: "block" } }}
-                className="w-full rounded-default shadow-lg hover:brightness-75 transition-[filter]"
+                className="w-full cursor-pointer rounded-default shadow-lg hover:brightness-75 transition-[filter]"
               />
             </div>
           ))}
         </div>
       )}
+
+      <Lightbox
+        open={open}
+        plugins={[Fullscreen, Download, Zoom]}
+        close={() => setOpen(false)}
+        slides={images.map(img => ({ src: img.path }))}
+        index={currentIndex}
+        controller={{ closeOnBackdropClick: true }}
+      />
     </div>
   );
 }
