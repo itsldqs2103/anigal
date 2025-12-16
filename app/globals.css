@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: dark --default;
+  themes: sunset --default;
   exclude: properties, rootscrolllock, rootscrollgutter;
 }
 
