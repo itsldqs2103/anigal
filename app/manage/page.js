@@ -136,9 +136,7 @@ export default function Manage() {
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Preview</th>
-                <th>Path</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -146,13 +144,13 @@ export default function Manage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="text-center">
+                  <td colSpan={2} className="text-center">
                     Loading images…
                   </td>
                 </tr>
               ) : images.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="text-center">
+                  <td colSpan={2} className="text-center">
                     No images found!
                   </td>
                 </tr>
@@ -162,8 +160,6 @@ export default function Manage() {
                     key={id}
                     className="hover:bg-base-100 transition-[background-color]"
                   >
-                    <td className="align-middle">{id}</td>
-
                     <td className="align-middle">
                       <LazyLoadImage
                         src={path}
@@ -173,8 +169,6 @@ export default function Manage() {
                         className="h-32 rounded-default shadow-lg"
                       />
                     </td>
-
-                    <td className="align-middle">{path}</td>
 
                     <td className="align-middle">
                       <div className="flex gap-2 flex-wrap">
