@@ -1,6 +1,7 @@
 "use client";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ToastContainer, toast } from "react-toastify";
@@ -128,9 +129,14 @@ export default function Manage() {
       <div className="p-4">
         <div className="mb-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Manage</h1>
-          <button className="btn btn-primary" onClick={addImage}>
-            Add Image
-          </button>
+          <div className="gap-2 flex">
+            <button className="btn btn-primary" onClick={addImage}>
+              Add Image
+            </button>
+            <Link href="/" className="btn btn-accent">
+              Done
+            </Link>
+          </div>
         </div>
 
         {loading ? (

@@ -7,6 +7,7 @@ import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Download from "yet-another-react-lightbox/plugins/download";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Link from "next/link";
 
 export default function Home() {
   usePageTitle("Home");
@@ -26,6 +27,12 @@ export default function Home() {
 
   return (
     <div className="p-4">
+
+      <div className="mb-6 flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Gallery</h1>
+        <Link href="/manage" className="btn btn-primary">Manage</Link>
+      </div>
+
       {loading ? (
         <div className="text-center">Loading images</div>
       ) : images.length === 0 ? (
