@@ -12,9 +12,10 @@ import Counter from "yet-another-react-lightbox/plugins/counter";
 import { Link } from '@/i18n/navigation';
 import Image from "next/image";
 import { ListCheckIcon } from "lucide-react";
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { useSearchParams, useRouter } from "next/navigation";
 import Pagination from "@/components/Pagination";
+import LocaleSwitch from "@/components/LocaleSwitch";
 
 const limit = 18;
 
@@ -86,7 +87,6 @@ export default function Home() {
   }, [open]);
 
   const t = useTranslations('Home');
-  const locale = useLocale();
 
   usePageTitle(t('gallery'));
 
@@ -98,15 +98,7 @@ export default function Home() {
           <Link href="/manage" className="btn btn-accent">
             <ListCheckIcon className="w-4 h-4" /> {t('manage')}
           </Link>
-          {locale === 'en' ? (
-            <Link href="/manage" locale="vi" className="btn btn-primary">
-              <span class="fi fi-vn"></span> VI
-            </Link>
-          ) : (
-            <Link href="/manage" locale="en" className="btn btn-primary">
-              <span class="fi fi-us"></span> US
-            </Link>
-          )}
+          <LocaleSwitch />
         </div>
       </div>
 

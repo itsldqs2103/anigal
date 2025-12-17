@@ -7,8 +7,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CheckIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import Pagination from "@/components/Pagination";
+import LocaleSwitch from "@/components/LocaleSwitch";
 
 const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
   const t = useTranslations('Manage');
@@ -168,8 +169,6 @@ export default function Manage() {
     }
   }, [fetchImages, t]);
 
-  const locale = useLocale();
-
   usePageTitle(t('manage'));
 
   return (
@@ -186,15 +185,7 @@ export default function Manage() {
             <Link href="/" className="btn btn-accent">
               <CheckIcon className="w-4 h-4" /> {t('done')}
             </Link>
-            {locale === 'en' ? (
-              <Link href="/manage" locale="vi" className="btn btn-primary">
-                <span class="fi fi-vn"></span> VI
-              </Link>
-            ) : (
-              <Link href="/manage" locale="en" className="btn btn-primary">
-                <span class="fi fi-us"></span> US
-              </Link>
-            )}
+            <LocaleSwitch />
           </div>
         </div>
 
