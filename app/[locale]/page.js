@@ -60,14 +60,27 @@ export default function Home() {
   );
 
   useEffect(() => {
-    if (open) {
-      const timeout = setTimeout(() => {
-        const buttons = document.querySelectorAll(".yarl__button");
-        buttons.forEach((btn) => btn.removeAttribute("title"));
-      }, 50);
+    if (!open) return;
 
-      return () => clearTimeout(timeout);
-    }
+    const removeTitles = () => {
+      const buttons = document.querySelectorAll(".yarl__button");
+      buttons.forEach((btn) => btn.removeAttribute("title"));
+    };
+
+    removeTitles();
+
+    const observer = new MutationObserver(() => {
+      removeTitles();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      observer.disconnect();
+    };
   }, [open]);
 
   const t = useTranslations('Home');
