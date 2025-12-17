@@ -59,6 +59,17 @@ export default function Home() {
     [images]
   );
 
+  useEffect(() => {
+    if (open) {
+      const timeout = setTimeout(() => {
+        const buttons = document.querySelectorAll(".yarl__button");
+        buttons.forEach((btn) => btn.removeAttribute("title"));
+      }, 50);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [open]);
+
   const t = useTranslations('Home');
   const locale = useLocale();
 
