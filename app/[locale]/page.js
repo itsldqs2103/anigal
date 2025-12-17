@@ -7,6 +7,8 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Download from "yet-another-react-lightbox/plugins/download";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Share from "yet-another-react-lightbox/plugins/share";
+import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import Counter from "yet-another-react-lightbox/plugins/counter";
 import { Link } from '@/i18n/navigation';
 import Image from "next/image";
 import { LanguagesIcon, ListCheckIcon } from "lucide-react";
@@ -144,7 +146,7 @@ export default function Home() {
         close={() => setOpen(false)}
         index={currentIndex}
         slides={slides}
-        plugins={[Fullscreen, Download, Zoom, Share]}
+        plugins={[Fullscreen, Download, Zoom, Share, Slideshow, Counter]}
         controller={{ closeOnBackdropClick: true }}
       />
     </div>

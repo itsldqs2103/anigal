@@ -7,6 +7,8 @@
 
 @import "react-toastify/dist/ReactToastify.css";
 @import "yet-another-react-lightbox/styles.css";
+@import "yet-another-react-lightbox/plugins/counter.css";
+
 :root {
   --default-transition-duration: 0.3s;
   --default-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
