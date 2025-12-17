@@ -45,6 +45,8 @@ export default function Manage() {
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
 
+  const t = useTranslations('Manage');
+
   const fetchImages = useCallback(() => {
     setLoading(true);
     fetch(`/api/images?page=${page}&limit=${limit}`)
@@ -65,10 +67,10 @@ export default function Manage() {
   }, [page, router]);
 
   const addImage = useCallback(async () => {
-    const url = prompt("Enter image URL:");
+    const url = prompt(`${t('enterimageurl')}:`);
     if (!url) return;
 
-    const toastId = toast.loading("Adding image");
+    const toastId = toast.loading(t('addingimage'));
 
     try {
       const res = await fetch("/api/images", {
@@ -83,26 +85,26 @@ export default function Manage() {
       fetchImages();
 
       toast.update(toastId, {
-        render: "Image added",
+        render: t('imageadded'),
         type: "success",
         isLoading: false,
         autoClose: 5000,
       });
     } catch {
       toast.update(toastId, {
-        render: "Add failed",
+        render: t('addfailed'),
         type: "error",
         isLoading: false,
         autoClose: 5000,
       });
     }
-  }, [fetchImages]);
+  }, [fetchImages, t]);
 
   const editImage = useCallback(async (id) => {
-    const url = prompt("Enter NEW image URL:");
+    const url = prompt(`${t('enternewimageurl')}:`);
     if (!url) return;
 
-    const toastId = toast.loading("Updating image");
+    const toastId = toast.loading(t('updatingimage'));
 
     try {
       const res = await fetch("/api/images", {
@@ -118,25 +120,25 @@ export default function Manage() {
       );
 
       toast.update(toastId, {
-        render: "Image updated",
+        render: t('imageupdated'),
         type: "success",
         isLoading: false,
         autoClose: 5000,
       });
     } catch {
       toast.update(toastId, {
-        render: "Update failed",
+        render: t('updatefailed'),
         type: "error",
         isLoading: false,
         autoClose: 5000,
       });
     }
-  }, []);
+  }, [t]);
 
   const deleteImage = useCallback(async (id) => {
-    if (!confirm("Are you sure you want to delete this image?")) return;
+    if (!confirm(`${t('areyousure')}?`)) return;
 
-    const toastId = toast.loading("Deleting image");
+    const toastId = toast.loading(t('deletingimage'));
 
     try {
       const res = await fetch("/api/images", {
@@ -151,22 +153,21 @@ export default function Manage() {
       fetchImages();
 
       toast.update(toastId, {
-        render: "Image deleted",
+        render: t('imagedeleted'),
         type: "success",
         isLoading: false,
         autoClose: 5000,
       });
     } catch {
       toast.update(toastId, {
-        render: "Delete failed",
+        render: t('deletefailed'),
         type: "error",
         isLoading: false,
         autoClose: 5000,
       });
     }
-  }, [fetchImages]);
+  }, [fetchImages, t]);
 
-  const t = useTranslations('Manage');
   const locale = useLocale();
 
   usePageTitle(t('manage'));

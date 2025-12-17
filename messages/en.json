@@ -12,7 +12,19 @@
         "edit": "Edit",
         "delete": "Delete",
         "loadingimages": "Loading images",
-        "noimagesfound": "No images found"
+        "noimagesfound": "No images found",
+        "enterimageurl": "Enter image URL",
+        "addingimage": "Adding image",
+        "imageadded": "Image added",
+        "addfailed": "Add failed",
+        "enternewimageurl": "Enter new image URL",
+        "updatingimage": "Updating image",
+        "imageupdated": "Image updated",
+        "updatefailed": "Update failed",
+        "areyousure": "Are you sure",
+        "deletingimage": "Deleting image",
+        "imagedeleted": "Image deleted",
+        "deletefailed": "Delete failed"
     },
     "Footer": {
         "version": "Version",
