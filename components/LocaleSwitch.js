@@ -26,7 +26,7 @@ export default function LocaleSwitch() {
                 </Link>
             ) : (
                 <Link href={parentPath} locale="en" className="btn btn-primary">
-                    <span className="fi fi-us"></span> US
+                    <span className="fi fi-us"></span> EN
                 </Link>
             )}
         </>
