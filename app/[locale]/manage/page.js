@@ -5,9 +5,10 @@ import { Link } from '@/i18n/navigation';
 import { useEffect, useState, useCallback, memo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, EllipsisIcon, LanguagesIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import { CheckIcon, LanguagesIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
+import Pagination from "@/components/Pagination";
 
 const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
   const t = useTranslations('Manage');
@@ -214,77 +215,12 @@ export default function Manage() {
               ))}
             </div>
 
-            <div className="flex justify-center mt-4">
-              <div className="join">
-                <button
-                  className="join-item btn"
-                  disabled={loading || page === 1}
-                  onClick={() => setPage(p => p - 1)}
-                >
-                  <ChevronLeftIcon className="w-4 h-4" />
-                </button>
-
-                <div className="hidden sm:flex">
-                  {(() => {
-                    const pages = [];
-
-                    if (page > 2) {
-                      pages.push(1);
-                    }
-
-                    if (page > 3) {
-                      pages.push("start-ellipsis");
-                    }
-
-                    for (
-                      let p = Math.max(1, page - 1);
-                      p <= Math.min(totalPages, page + 1);
-                      p++
-                    ) {
-                      pages.push(p);
-                    }
-
-                    if (page < totalPages - 2) {
-                      pages.push("end-ellipsis");
-                    }
-
-                    if (page < totalPages - 1) {
-                      pages.push(totalPages);
-                    }
-
-                    return pages.map((p, i) =>
-                      typeof p === "number" ? (
-                        <button
-                          key={p} className="join-item btn" disabled={p === page}
-                          onClick={() => setPage(p)}
-                        >
-                          {p}
-                        </button>
-                      ) : (
-                        <button
-                          key={p + i}
-                          className="join-item btn btn-disabled pointer-events-none"
-                        >
-                          <EllipsisIcon className="w-4 h-4" />
-                        </button>
-                      )
-                    );
-                  })()}
-                </div>
-
-                <div className="sm:hidden join-item btn pointer-events-none">
-                  {page} / {totalPages}
-                </div>
-
-                <button
-                  className="join-item btn"
-                  disabled={loading || page === totalPages}
-                  onClick={() => setPage(p => p + 1)}
-                >
-                  <ChevronRightIcon className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              loading={loading}
+              setPage={setPage}
+            />
           </>
         )}
       </div>

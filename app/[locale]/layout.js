@@ -1,7 +1,7 @@
 import { Roboto_Flex } from "next/font/google";
-import "../globals.css";
+import "@/app/globals.css";
 import { NextIntlClientProvider } from 'next-intl';
-import Footer from "../../components/Footer";
+import Footer from "@/components/Footer";
 
 const robotoFlex = Roboto_Flex({
   subsets: ["latin", "vietnamese"],
