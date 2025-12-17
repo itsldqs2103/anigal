@@ -1,7 +1,7 @@
 "use client";
 
 import { usePageTitle } from "@/hooks/usePageTitle";
-import { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Download from "yet-another-react-lightbox/plugins/download";
@@ -9,71 +9,49 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Share from "yet-another-react-lightbox/plugins/share";
 import { Link } from '@/i18n/navigation';
 import Image from "next/image";
-import { LanguagesIcon, ListCheckIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, EllipsisIcon, LanguagesIcon, ListCheckIcon } from "lucide-react";
 import { useLocale, useTranslations } from 'next-intl';
-import { toast } from "react-toastify";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const LIMIT = 24;
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [fetching, setFetching] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [open, setOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const observerRef = useRef(null);
-  const didInit = useRef(false);
-
-  const fetchImages = useCallback(async () => {
-    if (fetching || page > totalPages) return;
-
-    setFetching(true);
-
-    try {
-      const res = await fetch(`/api/images?page=${page}&limit=${LIMIT}`);
-      const { data, totalPages: newTotalPages } = await res.json();
-
-      setImages(prev => {
-        const map = new Map(prev.map(img => [img.id, img]));
-        data.forEach(img => map.set(img.id, img));
-        return Array.from(map.values());
-      });
-
-      setTotalPages(newTotalPages);
-      setPage(prev => prev + 1);
-    } catch {
-      toast.error("Failed to fetch images", {
-        autoClose: 5000
-      });
-    } finally {
-      setLoading(false);
-      setFetching(false);
-    }
-  }, [fetching, page, totalPages]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialPage = Number(searchParams.get("page") ?? 1);
 
   useEffect(() => {
-    if (didInit.current) return;
-    didInit.current = true;
-    fetchImages();
-  }, [fetchImages]);
+    setPage(initialPage);
+  }, [initialPage]);
 
   useEffect(() => {
-    if (!observerRef.current) return;
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/images?page=${page}&limit=${LIMIT}`);
+        const data = await res.json();
+        setImages(data.data);
+        setTotalPages(data.totalPages);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) fetchImages();
-      },
-      { rootMargin: "1024px" }
-    );
+    fetchData();
+  }, [page]);
 
-    observer.observe(observerRef.current);
-    return () => observer.disconnect();
-  }, [fetchImages]);
+  useEffect(() => {
+    router.replace(`?page=${page}`, { scroll: false });
+  }, [page, router]);
 
   const slides = useMemo(
     () => images.map(img => ({ src: img.path })),
@@ -127,11 +105,62 @@ export default function Home() {
             ))}
           </div>
 
-          {page <= totalPages && (
-            <div ref={observerRef} className="text-center pt-4">
-              {fetching && <span>{t('loadingimages')}</span>}
+          <div className="flex justify-center mt-4">
+            <div className="join">
+              <button
+                className="join-item btn"
+                disabled={loading || page === 1}
+                onClick={() => setPage(p => p - 1)}
+              >
+                <ChevronLeftIcon className="w-4 h-4" />
+              </button>
+
+              <div className="hidden sm:flex">
+                {(() => {
+                  const pages = [];
+
+                  if (page > 2) pages.push(1);
+                  if (page > 3) pages.push("start-ellipsis");
+                  for (let p = Math.max(1, page - 1); p <= Math.min(totalPages, page + 1); p++) {
+                    pages.push(p);
+                  }
+                  if (page < totalPages - 2) pages.push("end-ellipsis");
+                  if (page < totalPages - 1) pages.push(totalPages);
+
+                  return pages.map((p, i) =>
+                    typeof p === "number" ? (
+                      <button
+                        key={p}
+                        className={`join-item btn ${p === page ? "btn-active" : ""}`}
+                        onClick={() => setPage(p)}
+                      >
+                        {p}
+                      </button>
+                    ) : (
+                      <button
+                        key={p + i}
+                        className="join-item btn btn-disabled pointer-events-none"
+                      >
+                        <EllipsisIcon className="w-4 h-4" />
+                      </button>
+                    )
+                  );
+                })()}
+              </div>
+
+              <div className="sm:hidden join-item btn pointer-events-none">
+                {page} / {totalPages}
+              </div>
+
+              <button
+                className="join-item btn"
+                disabled={loading || page === totalPages}
+                onClick={() => setPage(p => p + 1)}
+              >
+                <ChevronRightIcon className="w-4 h-4" />
+              </button>
             </div>
-          )}
+          </div>
         </>
       )}
 
