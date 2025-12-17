@@ -1,10 +1,10 @@
-import { Roboto_Flex } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "@/app/globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import Footer from "@/components/Footer";
 import LayoutScript from "@/components/LayoutScript";
 
-const robotoFlex = Roboto_Flex({
+const manrope = Manrope({
   subsets: ["latin", "vietnamese"],
 });
 
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${robotoFlex.className} antialiased bg-base-300 text-base-content`}
+      className={`${manrope.className} antialiased bg-base-300 text-base-content`}
     >
       <body>
         <LayoutScript />
