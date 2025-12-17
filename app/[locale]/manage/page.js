@@ -31,6 +31,8 @@ const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
   );
 });
 
+const LIMIT = 24;
+
 export default function Manage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -41,8 +43,6 @@ export default function Manage() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-
-  const LIMIT = 24;
 
   const fetchImages = useCallback(() => {
     setLoading(true);
