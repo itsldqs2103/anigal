@@ -11,7 +11,7 @@ import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import { Link } from '@/i18n/navigation';
 import Image from "next/image";
-import { LanguagesIcon, ListCheckIcon } from "lucide-react";
+import { ListCheckIcon } from "lucide-react";
 import { useLocale, useTranslations } from 'next-intl';
 import { useSearchParams, useRouter } from "next/navigation";
 import Pagination from "@/components/Pagination";
@@ -99,12 +99,12 @@ export default function Home() {
             <ListCheckIcon className="w-4 h-4" /> {t('manage')}
           </Link>
           {locale === 'en' ? (
-            <Link href="/" locale="vi" className="btn btn-primary">
-              <LanguagesIcon className="w-4 h-4" /> VI
+            <Link href="/manage" locale="vi" className="btn btn-primary">
+              <span class="fi fi-vn"></span> VI
             </Link>
           ) : (
-            <Link href="/" locale="en" className="btn btn-primary">
-              <LanguagesIcon className="w-4 h-4" /> ENG
+            <Link href="/manage" locale="en" className="btn btn-primary">
+              <span class="fi fi-us"></span> US
             </Link>
           )}
         </div>

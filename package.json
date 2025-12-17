@@ -20,6 +20,7 @@
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "daisyui": "^5.5.14",
+    "flag-icons": "^7.5.0",
     "lucide-react": "^0.561.0",
     "moment": "^2.30.1",
     "next": "16.0.10",

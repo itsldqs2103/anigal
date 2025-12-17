@@ -8,6 +8,7 @@
 @import "react-toastify/dist/ReactToastify.css";
 @import "yet-another-react-lightbox/styles.css";
 @import "yet-another-react-lightbox/plugins/counter.css";
+@import "flag-icons/css/flag-icons.min.css";
 
 :root {
   --default-transition-duration: 0.3s;

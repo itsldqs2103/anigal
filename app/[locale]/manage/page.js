@@ -5,7 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { useEffect, useState, useCallback, memo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CheckIcon, LanguagesIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import { CheckIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import Pagination from "@/components/Pagination";
@@ -188,11 +188,11 @@ export default function Manage() {
             </Link>
             {locale === 'en' ? (
               <Link href="/manage" locale="vi" className="btn btn-primary">
-                <LanguagesIcon className="w-4 h-4" /> VI
+                <span class="fi fi-vn"></span> VI
               </Link>
             ) : (
               <Link href="/manage" locale="en" className="btn btn-primary">
-                <LanguagesIcon className="w-4 h-4" /> ENG
+                <span class="fi fi-us"></span> US
               </Link>
             )}
           </div>
