@@ -130,8 +130,7 @@ export default function Home() {
                   return pages.map((p, i) =>
                     typeof p === "number" ? (
                       <button
-                        key={p}
-                        className={`join-item btn ${p === page ? "btn-active" : ""}`}
+                        key={p} className="join-item btn" disabled={p === page}
                         onClick={() => setPage(p)}
                       >
                         {p}
