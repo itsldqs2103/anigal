@@ -87,18 +87,18 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      <div className="mb-4 flex justify-between items-center">
+      <div className="mb-4 md:flex md:justify-between md:items-center space-y-2 md:space-y-0">
         <h1 className="text-2xl font-bold">{t('gallery')}</h1>
         <div className="flex gap-2 items-center">
-          <Link href="/manage" className="btn btn-primary">
+          <Link href="/manage" className="btn btn-accent">
             <ListCheckIcon className="w-4 h-4" /> {t('manage')}
           </Link>
           {locale === 'en' ? (
-            <Link href="/" locale="vi" className="btn btn-accent">
+            <Link href="/" locale="vi" className="btn btn-primary">
               <LanguagesIcon className="w-4 h-4" /> VI
             </Link>
           ) : (
-            <Link href="/" locale="en" className="btn btn-accent">
+            <Link href="/" locale="en" className="btn btn-primary">
               <LanguagesIcon className="w-4 h-4" /> ENG
             </Link>
           )}

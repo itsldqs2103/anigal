@@ -20,10 +20,10 @@ const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
         className="h-48 w-full object-cover"
       />
       <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
-        <button className="btn btn-warning flex-1" onClick={() => onEdit(id)}>
+        <button className="btn btn-warning w-full" onClick={() => onEdit(id)}>
           <PencilIcon className="w-4 h-4" /> {t('edit')}
         </button>
-        <button className="btn btn-error flex-1" onClick={() => onDelete(id)}>
+        <button className="btn btn-error w-full" onClick={() => onDelete(id)}>
           <Trash2Icon className="w-4 h-4" /> {t('delete')}
         </button>
       </div>
@@ -175,7 +175,7 @@ export default function Manage() {
       <ToastContainer theme="dark" position="bottom-right" />
 
       <div className="p-4">
-        <div className="mb-4 flex justify-between items-center">
+        <div className="mb-4 md:flex md:justify-between md:items-center space-y-2 md:space-y-0">
           <h1 className="text-2xl font-bold">{t('manage')}</h1>
           <div className="gap-2 flex">
             <button className="btn btn-primary" onClick={addImage}>
@@ -185,11 +185,11 @@ export default function Manage() {
               <CheckIcon className="w-4 h-4" /> {t('done')}
             </Link>
             {locale === 'en' ? (
-              <Link href="/manage" locale="vi" className="btn btn-accent">
+              <Link href="/manage" locale="vi" className="btn btn-primary">
                 <LanguagesIcon className="w-4 h-4" /> VI
               </Link>
             ) : (
-              <Link href="/manage" locale="en" className="btn btn-accent">
+              <Link href="/manage" locale="en" className="btn btn-primary">
                 <LanguagesIcon className="w-4 h-4" /> ENG
               </Link>
             )}
@@ -224,7 +224,7 @@ export default function Manage() {
                   <ChevronLeftIcon className="w-4 h-4" />
                 </button>
 
-                <div className="hidden sm:flex join">
+                <div className="hidden sm:flex">
                   {(() => {
                     const pages = [];
 
