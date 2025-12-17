@@ -119,8 +119,8 @@ export default function Home() {
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6">
             {images.map((img, index) => (
               <div key={img.id} className="not-last:mb-4 break-inside-avoid">
-                <Image width={256} height={256} loading="eager"
-                  src={img.path}
+                <Image width={img.width} height={img.height} loading="eager"
+                  src={img.path || img.url}
                   alt={`Image ${img.id}`}
                   onClick={() => {
                     setCurrentIndex(index);
