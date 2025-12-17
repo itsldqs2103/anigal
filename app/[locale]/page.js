@@ -13,7 +13,7 @@ import { ChevronLeftIcon, ChevronRightIcon, EllipsisIcon, LanguagesIcon, ListChe
 import { useLocale, useTranslations } from 'next-intl';
 import { useSearchParams, useRouter } from "next/navigation";
 
-const LIMIT = 24;
+const limit = 18;
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function Home() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/images?page=${page}&limit=${LIMIT}`);
+        const res = await fetch(`/api/images?page=${page}&limit=${limit}`);
         const data = await res.json();
         setImages(data.data);
         setTotalPages(data.totalPages);

@@ -31,7 +31,7 @@ const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
   );
 });
 
-const LIMIT = 24;
+const limit = 18;
 
 export default function Manage() {
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function Manage() {
 
   const fetchImages = useCallback(() => {
     setLoading(true);
-    fetch(`/api/images?page=${page}&limit=${LIMIT}`)
+    fetch(`/api/images?page=${page}&limit=${limit}`)
       .then(res => res.json())
       .then(res => {
         setImages(res.data);
