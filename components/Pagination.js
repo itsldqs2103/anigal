@@ -33,7 +33,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
   const pages = getPageNumbers();
 
   return (
-    <div className="flex justify-center mt-4">
+    <div className="flex justify-center mt-4 shadow-lg">
       <div className="join">
         <button
           type="button"
