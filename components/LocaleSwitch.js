@@ -25,11 +25,11 @@ export default function LocaleSwitch({ customClass }) {
     <>
       {locale === 'en' ? (
 
-        <Link href={parentPath} locale="en" className={customClass}>
+        <Link href={parentPath} locale="vi" className={customClass}>
           <span className="fi fi-us"></span>
         </Link>
       ) : (
-        <Link href={parentPath} locale="vi" className={customClass}>
+        <Link href={parentPath} locale="en" className={customClass}>
           <span className="fi fi-vn"></span>
         </Link>
       )}
