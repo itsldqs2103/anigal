@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${manrope.className} antialiased bg-base-300 text-base-content`}
     >
-      <body>
+      <body suppressHydrationWarning>
         <LayoutScript />
         <NextIntlClientProvider>
           {children}
