@@ -50,8 +50,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
               <button
                 type="button"
                 key={p}
-                className={`join-item btn ${p === page ? 'btn-active' : ''}`}
-                disabled={p === page}
+                className={`join-item btn ${p === page ? 'btn-primary pointer-events-none' : ''}`}
                 onClick={() => setPage(p)}
               >
                 {p}

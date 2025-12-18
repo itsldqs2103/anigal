@@ -1,16 +1,14 @@
 'use client';
 
-import { CheckIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react';
+import { PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 
-import LocaleSwitch from '@/components/LocaleSwitch';
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
-import { Link } from '@/i18n/navigation';
 
 const ImageCard = memo(function ImageCard({
   id,
@@ -202,8 +200,7 @@ export default function Manage() {
       <ToastContainer theme="dark" position="bottom-right" newestOnTop={true} />
 
       <div className="p-4">
-        <div className="mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0">
-          <h1 className="text-2xl font-bold">{t('manage')}</h1>
+        <div className="mb-4 space-y-2 md:flex md:items-center md:justify-end md:space-y-0">
           <div className="flex gap-2">
             <button
               className="btn btn-primary"
@@ -212,10 +209,6 @@ export default function Manage() {
             >
               <PlusIcon className="h-4 w-4" /> {t('add')}
             </button>
-            <Link href="/" className="btn btn-accent">
-              <CheckIcon className="h-4 w-4" /> {t('done')}
-            </Link>
-            <LocaleSwitch />
           </div>
         </div>
 

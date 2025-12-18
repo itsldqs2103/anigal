@@ -1,6 +1,5 @@
 {
   "Home": {
-    "manage": "Manage",
     "gallery": "Gallery",
     "loadingimages": "Loading images",
     "noimagesfound": "No images found"
@@ -8,7 +7,6 @@
   "Manage": {
     "manage": "Manage",
     "add": "Add",
-    "done": "Done",
     "edit": "Edit",
     "delete": "Delete",
     "loadingimages": "Loading images",
@@ -27,8 +25,19 @@
     "deletefailed": "Delete failed"
   },
   "Footer": {
+    "status": "Status"
+  },
+  "Status": {
     "version": "Version",
     "updated": "Updated",
-    "unknown": "unknown"
+    "unknown": "unknown",
+    "status": "Status",
+    "system": "System",
+    "browser": "Browser",
+    "platform": "Platform"
+  },
+  "Navigation": {
+    "home": "Home",
+    "manage": "Manage"
   }
 }

@@ -1,6 +1,5 @@
 'use client';
 
-import { ListCheckIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -13,10 +12,8 @@ import Share from 'yet-another-react-lightbox/plugins/share';
 import Slideshow from 'yet-another-react-lightbox/plugins/slideshow';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
-import LocaleSwitch from '@/components/LocaleSwitch';
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
-import { Link } from '@/i18n/navigation';
 
 const limit = 18;
 
@@ -93,16 +90,6 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      <div className="mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0">
-        <h1 className="text-2xl font-bold">{t('gallery')}</h1>
-        <div className="flex items-center gap-2">
-          <Link href="/manage" className="btn btn-accent">
-            <ListCheckIcon className="h-4 w-4" /> {t('manage')}
-          </Link>
-          <LocaleSwitch />
-        </div>
-      </div>
-
       {loading ? (
         <div className="text-center">{t('loadingimages')}</div>
       ) : images.length === 0 ? (

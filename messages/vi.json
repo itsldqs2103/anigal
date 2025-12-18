@@ -1,6 +1,5 @@
 {
   "Home": {
-    "manage": "Quản lý",
     "gallery": "Thư viện",
     "loadingimages": "Đang tải hình ảnh",
     "noimagesfound": "Không tìm thấy hình ảnh"
@@ -8,7 +7,6 @@
   "Manage": {
     "manage": "Quản lý",
     "add": "Thêm",
-    "done": "Xong",
     "edit": "Sửa",
     "delete": "Xóa",
     "loadingimages": "Đang tải hình ảnh",
@@ -27,8 +25,19 @@
     "deletefailed": "Xóa thật bại"
   },
   "Footer": {
+    "status": "Trạng thái"
+  },
+  "Status": {
     "version": "Phiên bản",
     "updated": "Đã cập nhật",
-    "unknown": "không rõ"
+    "unknown": "không rõ",
+    "status": "Trạng thái",
+    "system": "Hệ thống",
+    "browser": "Trình duyệt",
+    "platform": "Nền tảng"
+  },
+  "Navigation": {
+    "home": "Trang chủ",
+    "manage": "Quản lý"
   }
 }

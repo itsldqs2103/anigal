@@ -5,7 +5,7 @@ import { useLocale } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
 
-export default function LocaleSwitch() {
+export default function LocaleSwitch({ customClass }) {
   const pathname = usePathname();
   const locale = useLocale();
 
@@ -24,12 +24,12 @@ export default function LocaleSwitch() {
   return (
     <>
       {locale === 'en' ? (
-        <Link href={parentPath} locale="vi" className="btn btn-primary">
-          <span className="fi fi-vn"></span> VI
+        <Link href={parentPath} locale="vi" className={customClass}>
+          <span className="fi fi-vn"></span>
         </Link>
       ) : (
-        <Link href={parentPath} locale="en" className="btn btn-primary">
-          <span className="fi fi-us"></span> EN
+        <Link href={parentPath} locale="en" className={customClass}>
+          <span className="fi fi-us"></span>
         </Link>
       )}
     </>
