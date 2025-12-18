@@ -46,7 +46,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
     return (
         <div className="flex justify-center mt-4">
             <div className="join">
-                <button
+                <button type="button"
                     className="join-item btn"
                     disabled={loading || page === 1}
                     onClick={() => setPage(page - 1)}
@@ -57,7 +57,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
                 <div className="hidden sm:flex">
                     {pages.map((p, i) =>
                         typeof p === "number" ? (
-                            <button
+                            <button type="button"
                                 key={p}
                                 className={`join-item btn ${p === page ? 'btn-active' : ''}`}
                                 disabled={p === page}
@@ -66,7 +66,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
                                 {p}
                             </button>
                         ) : (
-                            <button
+                            <button type="button"
                                 key={p + i}
                                 className="join-item btn btn-disabled pointer-events-none"
                             >
@@ -80,7 +80,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
                     {page}/{totalPages}
                 </div>
 
-                <button
+                <button type="button"
                     className="join-item btn"
                     disabled={loading || page === totalPages}
                     onClick={() => setPage(page + 1)}

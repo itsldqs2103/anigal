@@ -22,10 +22,10 @@ const ImageCard = memo(function ImageCard({ id, path, width, height, onEdit, onD
         className="h-48 w-full object-cover"
       />
       <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
-        <button className="btn btn-warning w-full" onClick={() => onEdit(id)}>
+        <button className="btn btn-warning w-full" onClick={() => onEdit(id)} type="button">
           <PencilIcon className="w-4 h-4" /> {t('edit')}
         </button>
-        <button className="btn btn-error w-full" onClick={() => onDelete(id)}>
+        <button className="btn btn-error w-full" onClick={() => onDelete(id)} type="button">
           <Trash2Icon className="w-4 h-4" /> {t('delete')}
         </button>
       </div>
@@ -179,7 +179,7 @@ export default function Manage() {
         <div className="mb-4 md:flex md:justify-between md:items-center space-y-2 md:space-y-0">
           <h1 className="text-2xl font-bold">{t('manage')}</h1>
           <div className="gap-2 flex">
-            <button className="btn btn-primary" onClick={addImage}>
+            <button className="btn btn-primary" onClick={addImage} type="button">
               <PlusIcon className="w-4 h-4" /> {t('add')}
             </button>
             <Link href="/" className="btn btn-accent">
