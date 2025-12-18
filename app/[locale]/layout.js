@@ -1,6 +1,8 @@
-import { Manrope } from 'next/font/google';
 import '@/app/globals.css';
+
+import { Manrope } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
+
 import Footer from '@/components/Footer';
 import LayoutScript from '@/components/LayoutScript';
 
@@ -16,8 +18,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="en" translate="no"
-      className={`${manrope.className} antialiased bg-base-300 text-base-content`}
+      lang="en"
+      translate="no"
+      className={`${manrope.className} bg-base-300 text-base-content antialiased`}
     >
       <body suppressHydrationWarning>
         <LayoutScript />

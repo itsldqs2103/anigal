@@ -1,21 +1,22 @@
 'use client';
 
-import { usePageTitle } from '@/hooks/usePageTitle';
-import { useState, useMemo, useEffect } from 'react';
+import { ListCheckIcon } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useEffect, useMemo, useState } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
-import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen';
+import Counter from 'yet-another-react-lightbox/plugins/counter';
 import Download from 'yet-another-react-lightbox/plugins/download';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen';
 import Share from 'yet-another-react-lightbox/plugins/share';
 import Slideshow from 'yet-another-react-lightbox/plugins/slideshow';
-import Counter from 'yet-another-react-lightbox/plugins/counter';
-import { Link } from '@/i18n/navigation';
-import Image from 'next/image';
-import { ListCheckIcon } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { useSearchParams, useRouter } from 'next/navigation';
-import Pagination from '@/components/Pagination';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+
 import LocaleSwitch from '@/components/LocaleSwitch';
+import Pagination from '@/components/Pagination';
+import { usePageTitle } from '@/hooks/usePageTitle';
+import { Link } from '@/i18n/navigation';
 
 const limit = 18;
 
@@ -92,11 +93,11 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      <div className="mb-4 md:flex md:justify-between md:items-center space-y-2 md:space-y-0">
+      <div className="mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0">
         <h1 className="text-2xl font-bold">{t('gallery')}</h1>
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <Link href="/manage" className="btn btn-accent">
-            <ListCheckIcon className="w-4 h-4" /> {t('manage')}
+            <ListCheckIcon className="h-4 w-4" /> {t('manage')}
           </Link>
           <LocaleSwitch />
         </div>
@@ -110,7 +111,7 @@ export default function Home() {
         <>
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6">
             {images.map((img, index) => (
-              <div key={img.id} className="not-last:mb-4 break-inside-avoid">
+              <div key={img.id} className="break-inside-avoid not-last:mb-4">
                 <Image
                   width={img.width}
                   height={img.height}
@@ -122,7 +123,7 @@ export default function Home() {
                     setOpen(true);
                   }}
                   quality={70}
-                  className="w-full cursor-pointer rounded-default shadow-lg hover:brightness-75 transition-[filter]"
+                  className="rounded-default w-full cursor-pointer shadow-lg transition-[filter] hover:brightness-75"
                 />
               </div>
             ))}

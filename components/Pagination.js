@@ -33,7 +33,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
   const pages = getPageNumbers();
 
   return (
-    <div className="flex justify-center mt-4 shadow-lg">
+    <div className="mt-4 flex justify-center shadow-lg">
       <div className="join">
         <button
           type="button"
@@ -41,7 +41,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
           disabled={loading || page === 1}
           onClick={() => setPage(page - 1)}
         >
-          <ChevronLeftIcon className="w-4 h-4" />
+          <ChevronLeftIcon className="h-4 w-4" />
         </button>
 
         <div className="hidden sm:flex">
@@ -62,13 +62,13 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
                 key={p + i}
                 className="join-item btn btn-disabled pointer-events-none"
               >
-                <EllipsisIcon className="w-4 h-4" />
+                <EllipsisIcon className="h-4 w-4" />
               </button>
             )
           )}
         </div>
 
-        <div className="sm:hidden join-item btn pointer-events-none">
+        <div className="join-item btn pointer-events-none sm:hidden">
           {page}/{totalPages}
         </div>
 
@@ -78,7 +78,7 @@ const Pagination = ({ page, totalPages, loading, setPage }) => {
           disabled={loading || page === totalPages}
           onClick={() => setPage(page + 1)}
         >
-          <ChevronRightIcon className="w-4 h-4" />
+          <ChevronRightIcon className="h-4 w-4" />
         </button>
       </div>
     </div>

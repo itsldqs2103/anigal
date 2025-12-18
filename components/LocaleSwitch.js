@@ -1,8 +1,9 @@
 'use client';
 
-import { Link } from '@/i18n/navigation';
-import { useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
+
+import { Link } from '@/i18n/navigation';
 
 export default function LocaleSwitch() {
   const pathname = usePathname();

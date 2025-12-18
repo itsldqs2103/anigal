@@ -1,8 +1,8 @@
 'use client';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { useTranslations, useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 function Footer() {
@@ -38,7 +38,7 @@ function Footer() {
   }, [locale]);
 
   return (
-    <footer className="text-end px-4 pb-4">
+    <footer className="px-4 pb-4 text-end">
       {t('version')}:{' '}
       <a
         href={commitUrl || '#'}

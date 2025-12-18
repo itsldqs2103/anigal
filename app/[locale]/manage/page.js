@@ -1,15 +1,16 @@
 'use client';
 
-import { usePageTitle } from '@/hooks/usePageTitle';
-import { Link } from '@/i18n/navigation';
-import { useEffect, useState, useCallback, memo } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import Pagination from '@/components/Pagination';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+
 import LocaleSwitch from '@/components/LocaleSwitch';
+import Pagination from '@/components/Pagination';
+import { usePageTitle } from '@/hooks/usePageTitle';
+import { Link } from '@/i18n/navigation';
 
 const ImageCard = memo(function ImageCard({
   id,
@@ -22,30 +23,30 @@ const ImageCard = memo(function ImageCard({
   const t = useTranslations('Manage');
 
   return (
-    <div className="card bg-base-100 rounded-default shadow-lg overflow-hidden flex flex-col">
+    <div className="card bg-base-100 rounded-default flex flex-col overflow-hidden shadow-lg">
       <Image
         src={path}
         loading="eager"
         alt={`Image ${id}`}
         width={width}
         height={height}
-        className="h-48 w-full object-cover hover:brightness-75 transition-[filter]"
+        className="h-48 w-full object-cover transition-[filter] hover:brightness-75"
         quality={70}
       />
-      <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
+      <div className="flex flex-wrap items-center justify-between gap-2 p-4">
         <button
           className="btn btn-warning w-full"
           onClick={() => onEdit(id)}
           type="button"
         >
-          <PencilIcon className="w-4 h-4" /> {t('edit')}
+          <PencilIcon className="h-4 w-4" /> {t('edit')}
         </button>
         <button
           className="btn btn-error w-full"
           onClick={() => onDelete(id)}
           type="button"
         >
-          <Trash2Icon className="w-4 h-4" /> {t('delete')}
+          <Trash2Icon className="h-4 w-4" /> {t('delete')}
         </button>
       </div>
     </div>
@@ -201,18 +202,18 @@ export default function Manage() {
       <ToastContainer theme="dark" position="bottom-right" newestOnTop={true} />
 
       <div className="p-4">
-        <div className="mb-4 md:flex md:justify-between md:items-center space-y-2 md:space-y-0">
+        <div className="mb-4 space-y-2 md:flex md:items-center md:justify-between md:space-y-0">
           <h1 className="text-2xl font-bold">{t('manage')}</h1>
-          <div className="gap-2 flex">
+          <div className="flex gap-2">
             <button
               className="btn btn-primary"
               onClick={addImage}
               type="button"
             >
-              <PlusIcon className="w-4 h-4" /> {t('add')}
+              <PlusIcon className="h-4 w-4" /> {t('add')}
             </button>
             <Link href="/" className="btn btn-accent">
-              <CheckIcon className="w-4 h-4" /> {t('done')}
+              <CheckIcon className="h-4 w-4" /> {t('done')}
             </Link>
             <LocaleSwitch />
           </div>
@@ -224,7 +225,7 @@ export default function Manage() {
           <div className="text-center">{t('noimagesfound')}</div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
               {images.map(img => (
                 <ImageCard
                   key={img.id}
