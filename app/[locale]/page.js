@@ -117,7 +117,7 @@ export default function Home() {
                   onClick={() => {
                     setCurrentIndex(index);
                     setOpen(true);
-                  }}
+                  }} quality={70}
                   className="w-full cursor-pointer rounded-default shadow-lg hover:brightness-75 transition-[filter]"
                 />
               </div>
