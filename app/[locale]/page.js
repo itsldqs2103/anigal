@@ -86,7 +86,7 @@ export default function Home() {
 
   const t = useTranslations('Home');
 
-  usePageTitle(t('gallery'));
+  usePageTitle(t('home'));
 
   return (
     <div className="p-4">
