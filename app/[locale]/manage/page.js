@@ -19,7 +19,7 @@ const ImageCard = memo(function ImageCard({ id, path, width, height, onEdit, onD
       <Image
         src={path} loading="eager"
         alt={`Image ${id}`} width={width} height={height}
-        className="h-48 w-full object-cover" quality={70}
+        className="h-48 w-full object-cover hover:brightness-75 transition-[filter]" quality={70}
       />
       <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
         <button className="btn btn-warning w-full" onClick={() => onEdit(id)} type="button">
