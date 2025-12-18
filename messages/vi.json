@@ -31,10 +31,7 @@
     "version": "Phiên bản",
     "updated": "Đã cập nhật",
     "unknown": "không rõ",
-    "status": "Trạng thái",
-    "system": "Hệ thống",
-    "browser": "Trình duyệt",
-    "platform": "Nền tảng"
+    "status": "Trạng thái"
   },
   "Navigation": {
     "home": "Trang chủ",

@@ -31,10 +31,7 @@
     "version": "Version",
     "updated": "Updated",
     "unknown": "unknown",
-    "status": "Status",
-    "system": "System",
-    "browser": "Browser",
-    "platform": "Platform"
+    "status": "Status"
   },
   "Navigation": {
     "home": "Home",
