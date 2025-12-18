@@ -29,7 +29,7 @@ function Footer() {
                 }
             } catch {
                 toast.error("Error fetching latest commit", {
-                    autoClose: 5000
+                    autoClose: 2500
                 });
             }
         };

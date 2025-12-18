@@ -89,14 +89,14 @@ export default function Manage() {
         render: t('imageadded'),
         type: "success",
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     } catch {
       toast.update(toastId, {
         render: t('addfailed'),
         type: "error",
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     }
   }, [fetchImages, t]);
@@ -124,14 +124,14 @@ export default function Manage() {
         render: t('imageupdated'),
         type: "success",
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     } catch {
       toast.update(toastId, {
         render: t('updatefailed'),
         type: "error",
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     }
   }, [t]);
@@ -157,14 +157,14 @@ export default function Manage() {
         render: t('imagedeleted'),
         type: "success",
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     } catch {
       toast.update(toastId, {
         render: t('deletefailed'),
         type: "error",
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 2500,
       });
     }
   }, [fetchImages, t]);
