@@ -1,8 +1,8 @@
-"use client";
-import { useEffect } from "react";
+'use client';
+import { useEffect } from 'react';
 
 export function usePageTitle(title) {
-    useEffect(() => {
-        document.title = title ? `${title} | AniGal` : "AniGal";
-    }, [title]);
+  useEffect(() => {
+    document.title = title ? `${title} | AniGal` : 'AniGal';
+  }, [title]);
 }

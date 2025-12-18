@@ -1,10 +1,10 @@
 export default function robots() {
-    return {
-        rules: {
-            userAgent: '*',
-            allow: '/',
-            disallow: '/private/',
-        },
-        sitemap: 'https://anigal.vercel.app/sitemap.xml',
-    }
+  return {
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      disallow: '/private/',
+    },
+    sitemap: 'https://anigal.vercel.app/sitemap.xml',
+  };
 }

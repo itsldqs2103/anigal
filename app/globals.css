@@ -1,14 +1,14 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @plugin "daisyui" {
   themes: dark --default;
   exclude: properties, rootscrolllock, rootscrollgutter;
 }
 
-@import "react-toastify/dist/ReactToastify.css";
-@import "yet-another-react-lightbox/styles.css";
-@import "yet-another-react-lightbox/plugins/counter.css";
-@import "flag-icons/css/flag-icons.min.css";
+@import 'react-toastify/dist/ReactToastify.css';
+@import 'yet-another-react-lightbox/styles.css';
+@import 'yet-another-react-lightbox/plugins/counter.css';
+@import 'flag-icons/css/flag-icons.min.css';
 
 .rounded-default {
   border-radius: var(--radius-field);

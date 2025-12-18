@@ -1,34 +1,34 @@
 {
-    "Home": {
-        "manage": "Quản lý",
-        "gallery": "Thư viện",
-        "loadingimages": "Đang tải hình ảnh",
-        "noimagesfound": "Không tìm thấy hình ảnh"
-    },
-    "Manage": {
-        "manage": "Quản lý",
-        "add": "Thêm",
-        "done": "Xong",
-        "edit": "Sửa",
-        "delete": "Xóa",
-        "loadingimages": "Đang tải hình ảnh",
-        "noimagesfound": "Không tìm thấy hình ảnh",
-        "enterimageurl": "Nhập URL hình ảnh",
-        "addingimage": "Đang thêm hình ảnh",
-        "imageadded": "Hình ảnh đã thêm",
-        "addfailed": "Thêm thất bại",
-        "enternewimageurl": "Nhập URL hình ảnh mới",
-        "updatingimage": "Đang cập nhật hình ảnh",
-        "imageupdated": "Đã cập nhật hình ảnh",
-        "updatefailed": "Cập nhật thất bại",
-        "areyousure": "Bạn có chắc chắn",
-        "deletingimage": "Đang xóa hình ảnh",
-        "imagedeleted": "Đã xóa hình ảnh",
-        "deletefailed": "Xóa thật bại"
-    },
-    "Footer": {
-        "version": "Phiên bản",
-        "updated": "Đã cập nhật",
-        "unknown": "không rõ"
-    }
+  "Home": {
+    "manage": "Quản lý",
+    "gallery": "Thư viện",
+    "loadingimages": "Đang tải hình ảnh",
+    "noimagesfound": "Không tìm thấy hình ảnh"
+  },
+  "Manage": {
+    "manage": "Quản lý",
+    "add": "Thêm",
+    "done": "Xong",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "loadingimages": "Đang tải hình ảnh",
+    "noimagesfound": "Không tìm thấy hình ảnh",
+    "enterimageurl": "Nhập URL hình ảnh",
+    "addingimage": "Đang thêm hình ảnh",
+    "imageadded": "Hình ảnh đã thêm",
+    "addfailed": "Thêm thất bại",
+    "enternewimageurl": "Nhập URL hình ảnh mới",
+    "updatingimage": "Đang cập nhật hình ảnh",
+    "imageupdated": "Đã cập nhật hình ảnh",
+    "updatefailed": "Cập nhật thất bại",
+    "areyousure": "Bạn có chắc chắn",
+    "deletingimage": "Đang xóa hình ảnh",
+    "imagedeleted": "Đã xóa hình ảnh",
+    "deletefailed": "Xóa thật bại"
+  },
+  "Footer": {
+    "version": "Phiên bản",
+    "updated": "Đã cập nhật",
+    "unknown": "không rõ"
+  }
 }
