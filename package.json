@@ -21,7 +21,6 @@
     "@vercel/blob": "^2.0.0",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
-    "bowser": "^2.13.1",
     "daisyui": "^5.5.14",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

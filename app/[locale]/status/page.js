@@ -6,7 +6,6 @@ import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import Bowser from 'bowser';
 
 export default function Status() {
   const t = useTranslations('Status');
@@ -45,17 +44,6 @@ export default function Status() {
     return moment(commit.date).locale(locale).fromNow();
   }, [commit, locale]);
 
-  const browserInfo = useMemo(() => {
-    const parser = Bowser.getParser(window.navigator.userAgent);
-    const result = parser.getResult();
-
-    return {
-      browser: `${result.browser.name} ${result.browser.version}`,
-      os: `${result.os.name} ${result.os.version}`,
-      platform: result.platform.type || 'unknown',
-    };
-  }, []);
-
   return (
     <div className="p-4">
       <div className="mb-4 flex items-center justify-between">
@@ -86,21 +74,6 @@ export default function Status() {
           ) : (
             <span>{t('unknown')}</span>
           )}
-        </div>
-
-        <div className="bg-base-100 rounded-default p-4 shadow-lg">
-          <p className="text-accent text-lg font-bold">{t('system')}</p>
-          <div>
-            <div>
-              <strong>{t('browser')}:</strong> {browserInfo.browser}
-            </div>
-            <div>
-              <strong>OS:</strong> {browserInfo.os}
-            </div>
-            <div>
-              <strong>{t('platform')}:</strong> {browserInfo.platform}
-            </div>
-          </div>
         </div>
       </div>
     </div>
