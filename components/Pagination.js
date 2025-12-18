@@ -1,44 +1,33 @@
 import { ChevronLeftIcon, ChevronRightIcon, EllipsisIcon } from "lucide-react";
 
 const Pagination = ({ page, totalPages, loading, setPage }) => {
-    if (totalPages <= 1) {
-        return null;
-    }
+    if (totalPages <= 1) return null;
 
     const getPageNumbers = () => {
         const pages = [];
 
-        if (page > 2) {
-            pages.push(1);
-        }
+        const start = Math.max(2, page - 1);
+        const end = Math.min(totalPages - 1, page + 1);
 
-        if (page > 3) {
+        pages.push(1);
+
+        if (start > 2) {
             pages.push("start-ellipsis");
         }
 
-        for (
-            let p = Math.max(1, page - 1);
-            p <= Math.min(totalPages, page + 1);
-            p++
-        ) {
+        for (let p = start; p <= end; p++) {
             pages.push(p);
         }
 
-        if (page < totalPages - 2) {
+        if (end < totalPages - 1) {
             pages.push("end-ellipsis");
         }
 
-        if (page < totalPages - 1) {
-            if (pages[pages.length - 1] !== totalPages) {
-                pages.push(totalPages);
-            }
-        }
-
-        if (page === totalPages && !pages.includes(totalPages)) {
+        if (totalPages > 1) {
             pages.push(totalPages);
         }
 
-        return [...new Set(pages)];
+        return pages;
     };
 
     const pages = getPageNumbers();
