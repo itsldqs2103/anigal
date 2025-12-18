@@ -173,7 +173,7 @@ export default function Manage() {
 
   return (
     <>
-      <ToastContainer theme="dark" position="bottom-right" />
+      <ToastContainer theme="colored" position="bottom-right" newestOnTop={true} />
 
       <div className="p-4">
         <div className="mb-4 md:flex md:justify-between md:items-center space-y-2 md:space-y-0">
