@@ -16,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="en"
+      lang="en" translate="no"
       className={`${manrope.className} antialiased bg-base-300 text-base-content`}
     >
       <body suppressHydrationWarning>
