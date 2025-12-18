@@ -10,21 +10,6 @@
 @import "yet-another-react-lightbox/plugins/counter.css";
 @import "flag-icons/css/flag-icons.min.css";
 
-:root {
-  --default-transition-duration: 0.3s;
-  --default-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-}
-
-.btn {
-  transition-duration: var(--default-transition-duration);
-  transition-timing-function: var(--default-transition-timing-function);
-}
-
-.lazy-load-image-background.opacity.lazy-load-image-loaded {
-  transition: var(--default-transition-duration)
-    var(--default-transition-timing-function);
-}
-
 .rounded-default {
   border-radius: var(--radius-field);
 }

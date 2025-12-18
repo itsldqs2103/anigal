@@ -11,14 +11,14 @@ import { useTranslations } from "next-intl";
 import Pagination from "@/components/Pagination";
 import LocaleSwitch from "@/components/LocaleSwitch";
 
-const ImageCard = memo(function ImageCard({ id, path, onEdit, onDelete }) {
+const ImageCard = memo(function ImageCard({ id, path, width, height, onEdit, onDelete }) {
   const t = useTranslations('Manage');
 
   return (
     <div className="card bg-base-100 rounded-default shadow-lg overflow-hidden flex flex-col">
       <Image
         src={path} loading="eager"
-        alt={`Image ${id}`} width={256} height={256}
+        alt={`Image ${id}`} width={width} height={height}
         className="h-48 w-full object-cover"
       />
       <div className="p-4 flex justify-between items-center gap-2 flex-wrap">
@@ -200,7 +200,7 @@ export default function Manage() {
                 <ImageCard
                   key={img.id}
                   id={img.id}
-                  path={img.path}
+                  path={img.path} width={img.width} height={img.height}
                   onEdit={editImage}
                   onDelete={deleteImage}
                 />
