@@ -9,12 +9,12 @@ import Navigation from '@/components/Navigation';
 
 const robotoSans = Roboto({
   variable: "--font-roboto-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
 });
 
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
 });
 
 export const metadata = {
