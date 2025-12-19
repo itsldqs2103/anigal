@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       translate="no"
-      className={`${robotoSans.variable} ${robotoMono.variable} bg-base-300 text-base-content antialiased`}
+      className={`${robotoSans.variable} ${robotoMono.variable} font-sans bg-base-300 text-base-content antialiased`}
     >
       <body suppressHydrationWarning>
         <LayoutScript />
