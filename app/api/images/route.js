@@ -9,7 +9,7 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
   const page = Number(searchParams.get('page') ?? 1);
-  const limit = Number(searchParams.get('limit') ?? 18);
+  const limit = Number(searchParams.get('limit') ?? 12);
   const offset = (page - 1) * limit;
 
   const [images, [{ count }]] = await Promise.all([

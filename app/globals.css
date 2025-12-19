@@ -13,3 +13,9 @@
 .rounded-default {
   border-radius: var(--radius-field);
 }
+
+.btn {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: var(--font-weight-bold);
+}

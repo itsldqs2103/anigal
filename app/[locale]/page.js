@@ -15,7 +15,7 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
 
-const limit = 18;
+const limit = 12;
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -90,8 +90,12 @@ export default function Home() {
 
   return (
     <div className="p-4">
+
       {loading ? (
-        <div className="text-center">{t('loadingimages')}</div>
+        <div className="flex items-center justify-center gap-1">
+          <span className='loading loading-spinner loading-xs'></span>
+          {t('loadingimages')}
+        </div>
       ) : images.length === 0 ? (
         <div className="text-center">{t('noimagesfound')}</div>
       ) : (

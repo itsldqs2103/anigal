@@ -7,13 +7,45 @@ import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
+const STATUS = {
+  OPERATIONAL: 'operational',
+  DEGRADED: 'degraded',
+  OUTAGE: 'outage',
+};
+
+const getStatusStyles = (t) => ({
+  operational: {
+    label: t('statusLabels.operational'),
+    color: 'text-success',
+    bg: 'bg-success/10',
+    dot: 'bg-success',
+  },
+  degraded: {
+    label: t('statusLabels.degraded'),
+    color: 'text-warning',
+    bg: 'bg-warning/10',
+    dot: 'bg-warning',
+  },
+  outage: {
+    label: t('statusLabels.outage'),
+    color: 'text-error',
+    bg: 'bg-error/10',
+    dot: 'bg-error',
+  },
+});
+
 export default function Status() {
   const t = useTranslations('Status');
   const locale = useLocale();
 
   const [commit, setCommit] = useState(null);
+  const [systemStatus, setSystemStatus] = useState(STATUS.OPERATIONAL);
+  const [latency, setLatency] = useState(null);
 
   usePageTitle(t('status'));
+
+  const statusStyles = useMemo(() => getStatusStyles(t), [t]);
+  const status = statusStyles[systemStatus];
 
   useEffect(() => {
     const fetchLatestCommit = async () => {
@@ -31,12 +63,40 @@ export default function Status() {
           url: latest.html_url,
           date: latest.commit.author.date,
         });
-      } catch (error) {
-        toast.error('Error fetching latest commit', { autoClose: 2500 });
+      } catch {
+        toast.error(t('errors.fetchCommit'), { autoClose: 2500 });
       }
     };
 
     fetchLatestCommit();
+  }, [t]);
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      const start = performance.now();
+
+      try {
+        await axios.get('/api/health', { timeout: 4000 });
+        const duration = Math.round(performance.now() - start);
+
+        setLatency(duration);
+
+        if (duration < 800) {
+          setSystemStatus(STATUS.OPERATIONAL);
+        } else if (duration < 2000) {
+          setSystemStatus(STATUS.DEGRADED);
+        } else {
+          setSystemStatus(STATUS.OUTAGE);
+        }
+      } catch {
+        setLatency(null);
+        setSystemStatus(STATUS.OUTAGE);
+      }
+    };
+
+    checkHealth();
+    const interval = setInterval(checkHealth, 30_000);
+    return () => clearInterval(interval);
   }, []);
 
   const updatedAgo = useMemo(() => {
@@ -46,13 +106,51 @@ export default function Status() {
 
   return (
     <div className="p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-lg font-bold">{t('status')}</h1>
-      </div>
+      <div className="space-y-4">
+        <header className="text-center space-y-4">
+          <div
+            className={`inline-flex items-center gap-1 rounded-full px-4 py-2 ${status.bg}`}
+          >
+            <span
+              className={`h-3 w-3 rounded-full ${status.dot} animate-pulse`}
+            />
+            <span className={`${status.color}`}>
+              {status.label}
+            </span>
+          </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <h1 className="text-2xl font-bold">
+              {t('publicTitle')}
+            </h1>
+            <p>
+              {t('publicSubtitle')}
+            </p>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <StatusCard
+            title={t('application')}
+            status={status}
+            description={t('appDescription')}
+          />
+
+          <StatusCard
+            title={t('apiStatus')}
+            status={status}
+            description={
+              latency
+                ? t('latencyValue', { ms: latency })
+                : t('latencyUnknown')
+            }
+          />
+        </div>
+
         <div className="bg-base-100 rounded-default p-4 shadow-lg">
-          <p className="text-accent text-lg font-bold">{t('version')}</p>
+          <p className="text-lg font-bold">
+            {t('version')}
+          </p>
 
           {commit ? (
             <>
@@ -65,16 +163,34 @@ export default function Status() {
                 {commit.sha.substring(0, 7)}
               </a>
 
-              {updatedAgo && (
-                <p>
-                  {t('updated')} {updatedAgo}
-                </p>
-              )}
+              <p>
+                {t('updated')} {updatedAgo}
+              </p>
             </>
           ) : (
             <span>{t('unknown')}</span>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function StatusCard({ title, status, description }) {
+  return (
+    <div className="bg-base-100 rounded-default p-4 shadow-lg flex items-center justify-between">
+      <div>
+        <p className="text-lg font-bold">{title}</p>
+        <p>{description}</p>
+      </div>
+
+      <div className="flex items-center gap-1">
+        <span
+          className={`h-3 w-3 rounded-full ${status.dot} animate-pulse`}
+        />
+        <span className={`${status.color}`}>
+          {status.label}
+        </span>
       </div>
     </div>
   );

@@ -25,13 +25,31 @@
     "deletefailed": "Xóa thật bại"
   },
   "Footer": {
-    "status": "Trạng thái"
+    "status": "Trạng thái",
+    "allrightsreserved": "Mọi quyền được bảo lưu",
+    "terms": "Điều khoản",
+    "privacy": "Riêng tư"
   },
   "Status": {
-    "version": "Phiên bản",
-    "updated": "Đã cập nhật",
-    "unknown": "không rõ",
-    "status": "Trạng thái"
+    "status": "Trạng thái",
+    "publicTitle": "Trạng thái hệ thống",
+    "publicSubtitle": "Thông tin thời gian thực về tình trạng dịch vụ",
+    "version": "Phiên bản hiện tại",
+    "updated": "Cập nhật",
+    "unknown": "Không xác định",
+    "application": "Ứng dụng web",
+    "apiStatus": "API công khai",
+    "appDescription": "Ứng dụng chính dành cho người dùng",
+    "latencyValue": "Độ trễ phản hồi: {ms} ms",
+    "latencyUnknown": "Không đo được độ trễ",
+    "errors": {
+      "fetchCommit": "Không thể tải thông tin phiên bản"
+    },
+    "statusLabels": {
+      "operational": "Hoạt động bình thường",
+      "degraded": "Hiệu suất giảm",
+      "outage": "Gián đoạn"
+    }
   },
   "Navigation": {
     "home": "Trang chủ",

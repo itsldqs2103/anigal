@@ -51,7 +51,7 @@ const ImageCard = memo(function ImageCard({
   );
 });
 
-const limit = 18;
+const limit = 12;
 
 export default function Manage() {
   const router = useRouter();
@@ -213,7 +213,10 @@ export default function Manage() {
         </div>
 
         {loading ? (
-          <div className="text-center">{t('loadingimages')}</div>
+          <div className="flex items-center justify-center gap-1">
+            <span className='loading loading-spinner loading-xs'></span>
+            {t('loadingimages')}
+          </div>
         ) : images.length === 0 ? (
           <div className="text-center">{t('noimagesfound')}</div>
         ) : (

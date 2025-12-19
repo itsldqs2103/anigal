@@ -30,7 +30,7 @@ export default function Navigation() {
         </div>
 
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal gap-1">
+          <ul className="menu menu-horizontal gap-2">
             <li>
               <Link href="/" className={linkClass('/')}>
                 {t('home')}
@@ -44,7 +44,7 @@ export default function Navigation() {
           </ul>
         </div>
 
-        <div className="navbar-end flex items-center gap-1">
+        <div className="navbar-end flex items-center gap-2">
           <div className="hidden lg:flex">
             <LocaleSwitch customClass="btn btn-ghost btn-square" />
           </div>
@@ -63,7 +63,7 @@ export default function Navigation() {
         <input type="checkbox" id="mobile-nav" className="peer hidden" />
         <div className="bg-base-100 peer-checked:collapse-open collapse">
           <div className="collapse-content px-4">
-            <ul className="menu menu-vertical w-full gap-1">
+            <ul className="menu menu-vertical w-full gap-2">
               <li>
                 <Link href="/" className={linkClass('/')}>
                   {t('home')}

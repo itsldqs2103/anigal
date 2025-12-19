@@ -25,13 +25,31 @@
     "deletefailed": "Delete failed"
   },
   "Footer": {
-    "status": "Status"
+    "status": "Status",
+    "allrightsreserved": "All rights reserved",
+    "terms": "Terms",
+    "privacy": "Privacy"
   },
   "Status": {
-    "version": "Version",
+    "status": "Status",
+    "publicTitle": "System Status",
+    "publicSubtitle": "Real-time information about service availability",
+    "version": "Current Version",
     "updated": "Updated",
-    "unknown": "unknown",
-    "status": "Status"
+    "unknown": "Unknown",
+    "application": "Web Application",
+    "apiStatus": "Public API",
+    "appDescription": "Main user-facing application",
+    "latencyValue": "Response latency: {ms} ms",
+    "latencyUnknown": "Latency unavailable",
+    "errors": {
+      "fetchCommit": "Unable to fetch version information"
+    },
+    "statusLabels": {
+      "operational": "Operational",
+      "degraded": "Degraded performance",
+      "outage": "Outage"
+    }
   },
   "Navigation": {
     "home": "Home",
