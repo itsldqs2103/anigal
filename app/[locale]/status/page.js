@@ -69,31 +69,47 @@ export default function Status() {
   }, [t]);
 
   useEffect(() => {
+    let isMounted = true;
+
+    const getStatusFromLatency = (latency) => {
+      if (latency < 800) return STATUS.OPERATIONAL;
+      if (latency < 2000) return STATUS.DEGRADED;
+      return STATUS.OUTAGE;
+    };
+
     const checkHealth = async () => {
+      const controller = new AbortController();
       const start = performance.now();
 
       try {
-        await axios.get('/api/health', { timeout: 4000 });
+        await axios.get('/api/health', {
+          timeout: 5000,
+          signal: controller.signal,
+        });
+
         const duration = Math.round(performance.now() - start);
+        const nextStatus = getStatusFromLatency(duration);
 
-        setLatency(duration);
+        if (!isMounted) return;
 
-        if (duration < 800) {
-          setSystemStatus(STATUS.OPERATIONAL);
-        } else if (duration < 2000) {
-          setSystemStatus(STATUS.DEGRADED);
-        } else {
-          setSystemStatus(STATUS.OUTAGE);
-        }
+        setLatency(prev => (prev !== duration ? duration : prev));
+        setSystemStatus(prev => (prev !== nextStatus ? nextStatus : prev));
       } catch {
+        if (!isMounted) return;
         setLatency(null);
         setSystemStatus(STATUS.OUTAGE);
       }
+
+      return () => controller.abort();
     };
 
     checkHealth();
-    const interval = setInterval(checkHealth, 30_000);
-    return () => clearInterval(interval);
+    const intervalId = setInterval(checkHealth, 30_000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
   }, []);
 
   const updatedAgo = useMemo(() => {
