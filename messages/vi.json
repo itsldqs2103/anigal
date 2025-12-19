@@ -28,7 +28,7 @@
     "status": "Trạng thái",
     "allrightsreserved": "Mọi quyền được bảo lưu",
     "terms": "Điều khoản",
-    "privacy": "Riêng tư"
+    "privacy": "Bảo mật"
   },
   "Status": {
     "status": "Trạng thái",
@@ -54,5 +54,11 @@
   "Navigation": {
     "home": "Trang chủ",
     "manage": "Quản lý"
+  },
+  "Terms": {
+    "termsandconditions": "Điều khoản & Điều kiện"
+  },
+  "Privacy": {
+    "privacypolicy": "Chính sách Bảo mật"
   }
 }

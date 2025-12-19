@@ -54,5 +54,11 @@
   "Navigation": {
     "home": "Home",
     "manage": "Manage"
+  },
+  "Terms": {
+    "termsandconditions": "Terms & Conditions"
+  },
+  "Privacy": {
+    "privacypolicy": "Privacy Policy"
   }
 }

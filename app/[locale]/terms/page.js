@@ -1,13 +1,15 @@
 "use client";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export default function Terms() {
-    usePageTitle("Terms & Conditions");
+    const t = useTranslations('Terms');
+    usePageTitle(t('termsandconditions'));
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Terms & Conditions</h1>
+            <h1 className="text-2xl font-bold mb-4">{t('termsandconditions')}</h1>
 
             <section className="space-y-4 bg-base-100 p-4 rounded-default shadow-lg">
                 <p>

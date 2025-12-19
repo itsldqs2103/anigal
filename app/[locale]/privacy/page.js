@@ -1,13 +1,15 @@
 "use client";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "use-intl";
 
 export default function Privacy() {
-    usePageTitle("Privacy Policy");
+    const t = useTranslations('Privacy');
+    usePageTitle(t('privacypolicy'));
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
+            <h1 className="text-2xl font-bold mb-4">{t('privacypolicy')}</h1>
 
             <section className="space-y-4 bg-base-100 p-4 rounded-default shadow-lg">
                 <p>
