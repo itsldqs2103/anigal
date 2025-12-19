@@ -5,6 +5,11 @@
   exclude: properties, rootscrolllock, rootscrollgutter;
 }
 
+@theme inline {
+  --font-sans: var(--font-roboto-sans);
+  --font-mono: var(--font-roboto-mono);
+}
+
 @import 'react-toastify/dist/ReactToastify.css';
 @import 'yet-another-react-lightbox/styles.css';
 @import 'yet-another-react-lightbox/plugins/counter.css';

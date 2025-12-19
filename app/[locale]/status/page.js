@@ -147,7 +147,7 @@ export default function Status() {
                 href={commit.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-accent transition-[color]"
+                className="font-mono hover:text-accent transition-[color]"
               >
                 {commit.sha.substring(0, 7)}
               </a>

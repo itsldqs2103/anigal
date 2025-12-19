@@ -1,14 +1,20 @@
 import '@/app/globals.css';
 
-import { Manrope } from 'next/font/google';
+import { Roboto, Roboto_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 
 import Footer from '@/components/Footer';
 import LayoutScript from '@/components/LayoutScript';
 import Navigation from '@/components/Navigation';
 
-const manrope = Manrope({
-  subsets: ['latin', 'vietnamese'],
+const robotoSans = Roboto({
+  variable: "--font-roboto-sans",
+  subsets: ["latin"],
+});
+
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
+  subsets: ["latin"],
 });
 
 export const metadata = {
@@ -21,7 +27,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       translate="no"
-      className={`${manrope.className} bg-base-300 text-base-content antialiased`}
+      className={`${robotoSans.variable} ${robotoMono.variable} bg-base-300 text-base-content antialiased`}
     >
       <body suppressHydrationWarning>
         <LayoutScript />
