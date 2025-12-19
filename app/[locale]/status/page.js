@@ -107,18 +107,7 @@ export default function Status() {
   return (
     <div className="p-4">
       <div className="space-y-4">
-        <header className="text-center space-y-4">
-          <div
-            className={`inline-flex items-center gap-1 rounded-full px-4 py-2 ${status.bg}`}
-          >
-            <span
-              className={`h-3 w-3 rounded-full ${status.dot} animate-pulse`}
-            />
-            <span className={`${status.color}`}>
-              {status.label}
-            </span>
-          </div>
-
+        <header className="space-y-4">
           <div>
             <h1 className="text-2xl font-bold">
               {t('publicTitle')}
