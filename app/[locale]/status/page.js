@@ -70,6 +70,7 @@ export default function Status() {
 
   useEffect(() => {
     let isMounted = true;
+    let intervalId = null;
 
     const getStatusFromLatency = (latency) => {
       if (latency < 800) return STATUS.OPERATIONAL;
@@ -78,14 +79,10 @@ export default function Status() {
     };
 
     const checkHealth = async () => {
-      const controller = new AbortController();
       const start = performance.now();
 
       try {
-        await axios.get('/api/health', {
-          timeout: 5000,
-          signal: controller.signal,
-        });
+        await axios.get('/api/health', { timeout: 5000 });
 
         const duration = Math.round(performance.now() - start);
         const nextStatus = getStatusFromLatency(duration);
@@ -99,16 +96,40 @@ export default function Status() {
         setLatency(null);
         setSystemStatus(STATUS.OUTAGE);
       }
-
-      return () => controller.abort();
     };
 
-    checkHealth();
-    const intervalId = setInterval(checkHealth, 30_000);
+    const startPolling = () => {
+      if (intervalId == null) {
+        checkHealth();
+        intervalId = window.setInterval(checkHealth, 30_000);
+      }
+    };
+
+    const stopPolling = () => {
+      if (intervalId != null) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        stopPolling();
+      } else {
+        startPolling();
+      }
+    };
+
+    if (document.visibilityState === 'visible') {
+      startPolling();
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       isMounted = false;
-      clearInterval(intervalId);
+      stopPolling();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
