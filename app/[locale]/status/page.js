@@ -175,7 +175,7 @@ function StatusCard({ title, status, description }) {
 
       <div className="flex items-center gap-1">
         <span
-          className={`h-3 w-3 rounded-full ${status.dot} animate-pulse`}
+          className={`h-2 w-2 rounded-full ${status.dot} animate-pulse`}
         />
         <span className={`${status.color}`}>
           {status.label}

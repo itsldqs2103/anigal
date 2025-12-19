@@ -9,7 +9,7 @@ export default function Privacy() {
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
 
-            <section className="space-y-4">
+            <section className="space-y-4 bg-base-100 p-4 rounded-default shadow-lg">
                 <p>
                     At <span className="font-bold">AniGal</span>, your privacy matters.
                     This Privacy Policy explains how we handle information when you use our
