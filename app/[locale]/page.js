@@ -15,7 +15,7 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
 
-const limit = 12;
+const limit = 24;
 
 export default function Home() {
   const [open, setOpen] = useState(false);

@@ -51,7 +51,7 @@ const ImageCard = memo(function ImageCard({
   );
 });
 
-const limit = 12;
+const limit = 24;
 
 export default function Manage() {
   const router = useRouter();
