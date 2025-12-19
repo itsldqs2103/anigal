@@ -10,16 +10,30 @@
   --font-mono: var(--font-roboto-mono);
 }
 
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1400px;
+}
+
 @import 'react-toastify/dist/ReactToastify.css';
 @import 'yet-another-react-lightbox/styles.css';
 @import 'yet-another-react-lightbox/plugins/counter.css';
 @import 'flag-icons/css/flag-icons.min.css';
+
+html {
+  text-rendering: optimizeLegibility;
+}
 
 .rounded-default {
   border-radius: var(--radius-field);
 }
 
 .btn {
+  gap: 0.25rem;
   font-size: var(--text-base);
   line-height: var(--text-base--line-height);
   font-weight: var(--font-weight-bold);

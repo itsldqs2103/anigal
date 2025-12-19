@@ -17,20 +17,17 @@ const getStatusStyles = (t) => ({
   operational: {
     label: t('statusLabels.operational'),
     color: 'text-success',
-    bg: 'bg-success/10',
-    dot: 'bg-success',
+    dot: 'status-success',
   },
   degraded: {
     label: t('statusLabels.degraded'),
     color: 'text-warning',
-    bg: 'bg-warning/10',
-    dot: 'bg-warning',
+    dot: 'status-warning',
   },
   outage: {
     label: t('statusLabels.outage'),
     color: 'text-error',
-    bg: 'bg-error/10',
-    dot: 'bg-error',
+    dot: 'status-error',
   },
 });
 
@@ -175,7 +172,7 @@ function StatusCard({ title, status, description }) {
 
       <div className="flex items-center gap-1">
         <span
-          className={`h-2 w-2 rounded-full ${status.dot} animate-pulse`}
+          className={`status ${status.dot} animate-pulse`}
         />
         <span className={`${status.color}`}>
           {status.label}
