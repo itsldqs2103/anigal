@@ -70,7 +70,6 @@ export default function Status() {
 
   useEffect(() => {
     let isMounted = true;
-    let intervalId = null;
 
     const getStatusFromLatency = (latency) => {
       if (latency < 800) return STATUS.OPERATIONAL;
@@ -89,47 +88,20 @@ export default function Status() {
 
         if (!isMounted) return;
 
-        setLatency(prev => (prev !== duration ? duration : prev));
-        setSystemStatus(prev => (prev !== nextStatus ? nextStatus : prev));
+        setLatency(duration);
+        setSystemStatus(nextStatus);
       } catch {
         if (!isMounted) return;
+
         setLatency(null);
         setSystemStatus(STATUS.OUTAGE);
       }
     };
 
-    const startPolling = () => {
-      if (intervalId == null) {
-        checkHealth();
-        intervalId = window.setInterval(checkHealth, 30_000);
-      }
-    };
-
-    const stopPolling = () => {
-      if (intervalId != null) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        stopPolling();
-      } else {
-        startPolling();
-      }
-    };
-
-    if (document.visibilityState === 'visible') {
-      startPolling();
-    }
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    checkHealth();
 
     return () => {
       isMounted = false;
-      stopPolling();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
@@ -143,12 +115,8 @@ export default function Status() {
       <div className="space-y-4">
         <header className="space-y-4">
           <div>
-            <h1 className="text-2xl font-bold">
-              {t('publicTitle')}
-            </h1>
-            <p>
-              {t('publicSubtitle')}
-            </p>
+            <h1 className="text-2xl font-bold">{t('publicTitle')}</h1>
+            <p>{t('publicSubtitle')}</p>
           </div>
         </header>
 
@@ -171,9 +139,7 @@ export default function Status() {
         </div>
 
         <div className="bg-base-100 rounded-default p-4 shadow-lg">
-          <p className="text-lg font-bold">
-            {t('version')}
-          </p>
+          <p className="text-lg font-bold">{t('version')}</p>
 
           {commit ? (
             <>
@@ -208,12 +174,8 @@ function StatusCard({ title, status, description }) {
       </div>
 
       <div className="flex items-center gap-1">
-        <span
-          className={`status ${status.dot} animate-pulse`}
-        />
-        <span className={`${status.color}`}>
-          {status.label}
-        </span>
+        <span className={`status ${status.dot} animate-pulse`} />
+        <span className={status.color}>{status.label}</span>
       </div>
     </div>
   );
