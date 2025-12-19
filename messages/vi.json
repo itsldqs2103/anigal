@@ -56,9 +56,11 @@
     "manage": "Quản lý"
   },
   "Terms": {
-    "termsandconditions": "Điều khoản & Điều kiện"
+    "termsandconditions": "Điều khoản & Điều kiện",
+    "onlyavailableinenglish": "Chỉ khả dụng ở tiếng Anh"
   },
   "Privacy": {
-    "privacypolicy": "Chính sách Bảo mật"
+    "privacypolicy": "Chính sách Bảo mật",
+    "onlyavailableinenglish": "Chỉ khả dụng ở tiếng Anh"
   }
 }

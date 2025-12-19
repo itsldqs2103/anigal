@@ -9,7 +9,9 @@ export default function Privacy() {
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">{t('privacypolicy')}</h1>
+            <h1 className="text-2xl font-bold">{t('privacypolicy')}</h1>
+
+            <p className="mb-4">({t("onlyavailableinenglish")})</p>
 
             <section className="space-y-4 bg-base-100 p-4 rounded-default shadow-lg">
                 <p>

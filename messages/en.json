@@ -56,9 +56,11 @@
     "manage": "Manage"
   },
   "Terms": {
-    "termsandconditions": "Terms & Conditions"
+    "termsandconditions": "Terms & Conditions",
+    "onlyavailableinenglish": "Only available in English"
   },
   "Privacy": {
-    "privacypolicy": "Privacy Policy"
+    "privacypolicy": "Privacy Policy",
+    "onlyavailableinenglish": "Only available in English"
   }
 }
