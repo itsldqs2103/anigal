@@ -167,7 +167,7 @@ export default function Status() {
 
 function StatusCard({ title, status, description }) {
   return (
-    <div className="bg-base-100 rounded-default p-4 shadow-lg flex items-center justify-between">
+    <div className="bg-base-100 rounded-default p-4 shadow-lg lg:flex md:items-center lg:justify-between">
       <div>
         <p className="text-lg font-bold">{title}</p>
         <p>{description}</p>
