@@ -5,11 +5,6 @@
   exclude: properties, rootscrolllock, rootscrollgutter;
 }
 
-@theme inline {
-  --font-sans: var(--font-roboto-sans);
-  --font-mono: var(--font-roboto-mono);
-}
-
 @theme {
   --breakpoint-*: initial;
   --breakpoint-sm: 576px;
@@ -24,6 +19,7 @@
 @import 'yet-another-react-lightbox/plugins/counter.css';
 @import 'flag-icons/css/flag-icons.min.css';
 @import 'react-lazy-load-image-component/src/effects/opacity.css';
+
 html {
   text-rendering: optimizeLegibility;
 }
