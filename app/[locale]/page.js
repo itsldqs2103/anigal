@@ -14,6 +14,7 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { XCircleIcon } from 'lucide-react';
 
 const limit = 24;
 
@@ -96,7 +97,12 @@ export default function Home() {
           {t('loadingimages')}
         </div>
       ) : images.length === 0 ? (
-        <div className="text-center">{t('noimagesfound')}</div>
+        <div className="text-center">
+          <div className='rounded-default px-3 py-2 bg-error inline-flex items-center gap-1 text-error-content font-bold'>
+            <XCircleIcon className='w-4 h-4' />
+            {t('noimagesfound')}
+          </div>
+        </div>
       ) : (
         <>
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6">

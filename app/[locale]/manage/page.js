@@ -1,6 +1,6 @@
 'use client';
 
-import { PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react';
+import { PencilIcon, PlusIcon, Trash2Icon, XCircleIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -219,7 +219,12 @@ export default function Manage() {
             {t('loadingimages')}
           </div>
         ) : images.length === 0 ? (
-          <div className="text-center">{t('noimagesfound')}</div>
+          <div className="text-center">
+            <div className='rounded-default px-3 py-2 bg-error inline-flex items-center gap-1 text-error-content font-bold'>
+              <XCircleIcon className='w-4 h-4' />
+              {t('noimagesfound')}
+            </div>
+          </div>
         ) : (
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
