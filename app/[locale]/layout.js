@@ -8,13 +8,13 @@ import LayoutScript from '@/components/LayoutScript';
 import Navigation from '@/components/Navigation';
 
 const robotoSans = Roboto({
-  variable: "--font-roboto-sans",
-  subsets: ["latin", "vietnamese"],
+  variable: '--font-roboto-sans',
+  subsets: ['latin', 'vietnamese'],
 });
 
 const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
-  subsets: ["latin", "vietnamese"],
+  variable: '--font-roboto-mono',
+  subsets: ['latin', 'vietnamese'],
 });
 
 export const metadata = {
@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       translate="no"
-      className={`${robotoSans.variable} ${robotoMono.variable} font-sans bg-base-300 text-base-content antialiased`}
+      className={`${robotoSans.variable} ${robotoMono.variable} bg-base-300 text-base-content font-sans antialiased`}
     >
       <body suppressHydrationWarning>
         <LayoutScript />

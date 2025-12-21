@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
@@ -14,6 +13,7 @@ import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const limit = 24;
 
@@ -90,10 +90,9 @@ export default function Home() {
 
   return (
     <div className="p-4">
-
       {loading ? (
         <div className="flex items-center justify-center gap-1">
-          <span className='loading loading-spinner loading-xs'></span>
+          <span className="loading loading-spinner loading-xs"></span>
           {t('loadingimages')}
         </div>
       ) : images.length === 0 ? (
@@ -103,17 +102,19 @@ export default function Home() {
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6">
             {images.map((img, index) => (
               <div key={img.id} className="break-inside-avoid not-last:mb-4">
-                <Image
+                <LazyLoadImage
+                  effect="opacity"
+                  wrapperProps={{
+                    style: { display: 'block', color: 'transparent' },
+                  }}
                   width={img.width}
                   height={img.height}
-                  loading="eager"
                   src={img.path || img.url}
                   alt={`Image ${img.id}`}
                   onClick={() => {
                     setCurrentIndex(index);
                     setOpen(true);
                   }}
-                  quality={70}
                   className="rounded-default w-full cursor-pointer shadow-lg transition-[filter] hover:brightness-75"
                 />
               </div>

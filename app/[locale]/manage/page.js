@@ -1,7 +1,6 @@
 'use client';
 
 import { PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -9,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const ImageCard = memo(function ImageCard({
   id,
@@ -22,14 +22,15 @@ const ImageCard = memo(function ImageCard({
 
   return (
     <div className="card bg-base-100 rounded-default flex flex-col overflow-hidden shadow-lg">
-      <Image
+      <LazyLoadImage
+        wrapperProps={{
+          style: { display: 'block', color: 'transparent' },
+        }}
         src={path}
-        loading="eager"
         alt={`Image ${id}`}
         width={width}
         height={height}
         className="h-48 w-full object-cover transition-[filter] hover:brightness-75"
-        quality={70}
       />
       <div className="flex flex-wrap items-center justify-between gap-2 p-4">
         <button
@@ -214,7 +215,7 @@ export default function Manage() {
 
         {loading ? (
           <div className="flex items-center justify-center gap-1">
-            <span className='loading loading-spinner loading-xs'></span>
+            <span className="loading loading-spinner loading-xs"></span>
             {t('loadingimages')}
           </div>
         ) : images.length === 0 ? (

@@ -23,7 +23,7 @@
 @import 'yet-another-react-lightbox/styles.css';
 @import 'yet-another-react-lightbox/plugins/counter.css';
 @import 'flag-icons/css/flag-icons.min.css';
-
+@import 'react-lazy-load-image-component/src/effects/opacity.css';
 html {
   text-rendering: optimizeLegibility;
 }

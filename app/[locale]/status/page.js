@@ -13,7 +13,7 @@ const STATUS = {
   OUTAGE: 'outage',
 };
 
-const getStatusStyles = (t) => ({
+const getStatusStyles = t => ({
   operational: {
     label: t('statusLabels.operational'),
     color: 'text-success',
@@ -71,7 +71,7 @@ export default function Status() {
   useEffect(() => {
     let isMounted = true;
 
-    const getStatusFromLatency = (latency) => {
+    const getStatusFromLatency = latency => {
       if (latency < 800) return STATUS.OPERATIONAL;
       if (latency < 2000) return STATUS.DEGRADED;
       return STATUS.OUTAGE;
@@ -131,9 +131,7 @@ export default function Status() {
             title={t('apiStatus')}
             status={status}
             description={
-              latency
-                ? t('latencyValue', { ms: latency })
-                : t('latencyUnknown')
+              latency ? t('latencyValue', { ms: latency }) : t('latencyUnknown')
             }
           />
         </div>
@@ -147,7 +145,7 @@ export default function Status() {
                 href={commit.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono hover:text-accent transition-[color]"
+                className="hover:text-accent font-mono transition-[color]"
               >
                 {commit.sha.substring(0, 7)}
               </a>
@@ -167,7 +165,7 @@ export default function Status() {
 
 function StatusCard({ title, status, description }) {
   return (
-    <div className="bg-base-100 rounded-default p-4 shadow-lg lg:flex md:items-center lg:justify-between">
+    <div className="bg-base-100 rounded-default p-4 shadow-lg md:items-center lg:flex lg:justify-between">
       <div>
         <p className="text-lg font-bold">{title}</p>
         <p>{description}</p>
