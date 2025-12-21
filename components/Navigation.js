@@ -46,7 +46,7 @@ export default function Navigation() {
 
         <div className="navbar-end flex items-center gap-2">
           <div className="hidden lg:flex">
-            <LocaleSwitch customClass="btn btn-ghost btn-square" />
+            <LocaleSwitch />
           </div>
 
           <label
