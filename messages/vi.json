@@ -32,8 +32,8 @@
   },
   "Status": {
     "status": "Trạng thái",
-    "publicTitle": "Trạng thái hệ thống",
-    "publicSubtitle": "Thông tin thời gian thực về tình trạng dịch vụ",
+    "statusTitle": "Trạng thái hệ thống",
+    "statusSubtitle": "Thông tin thời gian thực về tình trạng dịch vụ",
     "version": "Phiên bản hiện tại",
     "updated": "Cập nhật",
     "unknown": "Không xác định",
@@ -54,13 +54,5 @@
   "Navigation": {
     "home": "Trang chủ",
     "manage": "Quản lý"
-  },
-  "Terms": {
-    "termsandconditions": "Điều khoản & Điều kiện",
-    "onlyavailableinenglish": "Chỉ khả dụng ở tiếng Anh"
-  },
-  "Privacy": {
-    "privacypolicy": "Chính sách Bảo mật",
-    "onlyavailableinenglish": "Chỉ khả dụng ở tiếng Anh"
   }
 }

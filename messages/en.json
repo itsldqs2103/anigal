@@ -32,8 +32,8 @@
   },
   "Status": {
     "status": "Status",
-    "publicTitle": "System Status",
-    "publicSubtitle": "Real-time information about service availability",
+    "statusTitle": "System Status",
+    "statusSubtitle": "Real-time information about service availability",
     "version": "Current Version",
     "updated": "Updated",
     "unknown": "Unknown",
@@ -54,13 +54,5 @@
   "Navigation": {
     "home": "Home",
     "manage": "Manage"
-  },
-  "Terms": {
-    "termsandconditions": "Terms & Conditions",
-    "onlyavailableinenglish": "Only available in English"
-  },
-  "Privacy": {
-    "privacypolicy": "Privacy Policy",
-    "onlyavailableinenglish": "Only available in English"
   }
 }

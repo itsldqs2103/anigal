@@ -21,15 +21,6 @@ function Footer() {
           <Link href="/status" className="hover:text-accent transition-[color]">
             {t('status')}
           </Link>
-          <Link
-            href="/privacy"
-            className="hover:text-accent transition-[color]"
-          >
-            {t('privacy')}
-          </Link>
-          <Link href="/terms" className="hover:text-accent transition-[color]">
-            {t('terms')}
-          </Link>
         </nav>
       </div>
     </footer>
