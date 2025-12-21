@@ -115,8 +115,8 @@ export default function Status() {
       <div className="space-y-4">
         <header className="space-y-4">
           <div>
-            <h1 className="text-2xl font-bold">{t('publicTitle')}</h1>
-            <p>{t('publicSubtitle')}</p>
+            <h1 className="text-2xl font-bold">{t('statusTitle')}</h1>
+            <p>{t('statusSubtitle')}</p>
           </div>
         </header>
 
