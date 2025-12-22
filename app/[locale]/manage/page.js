@@ -232,10 +232,9 @@ export default function Manage() {
 
       <Modal
         open={modal === 'delete'}
-        title={t('delete')}
+        title={`${t('areyousure')}?`}
         onClose={() => setModal(null)}
       >
-        <p className="mb-4">{t('areyousure')}?</p>
         <div className="flex justify-end gap-2">
           <button className="btn" onClick={() => setModal(null)}>
             {t('cancel')}
