@@ -264,9 +264,11 @@ export default function Manage() {
         </div>
 
         {loading ? (
-          <div className="flex items-center gap-2">
-            <span className="loading loading-spinner loading-xs" />
-            {t('loadingimages')}
+          <div className="text-center">
+            <div className="flex items-center gap-2">
+              <span className="loading loading-spinner loading-xs" />
+              {t('loadingimages')}
+            </div>
           </div>
         ) : images.length === 0 ? (
           <div className="text-center">
