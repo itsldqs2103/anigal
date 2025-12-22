@@ -22,7 +22,9 @@
     "areyousure": "Bạn có chắc chắn",
     "deletingimage": "Đang xóa hình ảnh",
     "imagedeleted": "Đã xóa hình ảnh",
-    "deletefailed": "Xóa thật bại"
+    "deletefailed": "Xóa thật bại",
+    "cancel": "Hủy bỏ",
+    "save": "Lưu"
   },
   "Footer": {
     "status": "Trạng thái",

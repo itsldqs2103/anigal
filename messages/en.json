@@ -22,7 +22,9 @@
     "areyousure": "Are you sure",
     "deletingimage": "Deleting image",
     "imagedeleted": "Image deleted",
-    "deletefailed": "Delete failed"
+    "deletefailed": "Delete failed",
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "Footer": {
     "status": "Status",
