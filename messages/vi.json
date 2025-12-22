@@ -27,34 +27,17 @@
     "save": "Lưu"
   },
   "Footer": {
-    "status": "Trạng thái",
     "allrightsreserved": "Mọi quyền được bảo lưu",
-    "terms": "Điều khoản",
-    "privacy": "Bảo mật"
-  },
-  "Status": {
-    "status": "Trạng thái",
-    "statusTitle": "Trạng thái hệ thống",
-    "statusSubtitle": "Thông tin thời gian thực về tình trạng dịch vụ",
-    "version": "Phiên bản hiện tại",
-    "updated": "Cập nhật",
-    "unknown": "Không xác định",
-    "application": "Ứng dụng web",
-    "apiStatus": "API công khai",
-    "appDescription": "Ứng dụng chính dành cho người dùng",
-    "latencyValue": "Độ trễ phản hồi: {ms} ms",
-    "latencyUnknown": "Không đo được độ trễ",
-    "errors": {
-      "fetchCommit": "Không thể tải thông tin phiên bản"
-    },
-    "statusLabels": {
-      "operational": "Hoạt động bình thường",
-      "degraded": "Hiệu suất giảm",
-      "outage": "Gián đoạn"
-    }
+    "aboutus": "Về chúng tôi"
   },
   "Navigation": {
     "home": "Trang chủ",
     "manage": "Quản lý"
+  },
+  "About": {
+    "aboutus": "Về chúng tôi",
+    "about": "Về",
+    "aboutParagraph1": "AniGal là một trang web thư viện anime, nơi bạn có thể khám phá và thưởng thức bộ sưu tập các hình ảnh minh họa anime.",
+    "aboutParagraph2": "Mục tiêu của chúng tôi là mang đến trải nghiệm lướt web đơn giản và thú vị cho những người yêu thích anime."
   }
 }

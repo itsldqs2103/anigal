@@ -250,7 +250,7 @@ export default function Manage() {
         </div>
       </Modal>
 
-      <div className="p-4">
+      <div className="py-4 px-8">
         <div className='text-end'>
           <button
             className="btn btn-primary mb-4"

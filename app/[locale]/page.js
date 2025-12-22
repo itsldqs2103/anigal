@@ -90,7 +90,7 @@ export default function Home() {
   usePageTitle(t('home'));
 
   return (
-    <div className="p-4">
+    <div className="py-4 px-8">
       {loading ? (
         <div className="flex items-center justify-center gap-1">
           <span className="loading loading-spinner loading-xs"></span>

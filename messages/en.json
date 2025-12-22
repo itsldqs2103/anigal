@@ -27,34 +27,17 @@
     "save": "Save"
   },
   "Footer": {
-    "status": "Status",
     "allrightsreserved": "All rights reserved",
-    "terms": "Terms",
-    "privacy": "Privacy"
-  },
-  "Status": {
-    "status": "Status",
-    "statusTitle": "System Status",
-    "statusSubtitle": "Real-time information about service availability",
-    "version": "Current Version",
-    "updated": "Updated",
-    "unknown": "Unknown",
-    "application": "Web Application",
-    "apiStatus": "Public API",
-    "appDescription": "Main user-facing application",
-    "latencyValue": "Response latency: {ms} ms",
-    "latencyUnknown": "Latency unavailable",
-    "errors": {
-      "fetchCommit": "Unable to fetch version information"
-    },
-    "statusLabels": {
-      "operational": "Operational",
-      "degraded": "Degraded performance",
-      "outage": "Outage"
-    }
+    "aboutus": "About us"
   },
   "Navigation": {
     "home": "Home",
     "manage": "Manage"
+  },
+  "About": {
+    "aboutus": "About us",
+    "about": "About",
+    "aboutParagraph1": "AniGal is an anime gallery website where you can explore and enjoy a collection of anime illustrations.",
+    "aboutParagraph2": "Our goal is to provide a simple and enjoyable browsing experience for anime fans."
   }
 }
