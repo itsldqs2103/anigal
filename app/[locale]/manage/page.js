@@ -251,9 +251,9 @@ export default function Manage() {
       </Modal>
 
       <div className="py-4 px-8">
-        <div className='text-end'>
+        <div className='text-end mb-4'>
           <button
-            className="btn btn-primary mb-4"
+            className="btn btn-primary"
             onClick={() => {
               setImageUrl('');
               setModal('add');
@@ -264,11 +264,9 @@ export default function Manage() {
         </div>
 
         {loading ? (
-          <div className="text-center">
-            <div className="flex items-center gap-2">
-              <span className="loading loading-spinner loading-xs" />
-              {t('loadingimages')}
-            </div>
+          <div className="flex items-center justify-center gap-1">
+            <span className="loading loading-spinner loading-xs" />
+            {t('loadingimages')}
           </div>
         ) : images.length === 0 ? (
           <div className="text-center">
