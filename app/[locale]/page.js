@@ -90,7 +90,7 @@ export default function Home() {
   usePageTitle(t('home'));
 
   return (
-    <div className="py-4 px-8">
+    <div className="px-8 py-4">
       {loading ? (
         <div className="flex items-center justify-center gap-1">
           <span className="loading loading-spinner loading-xs"></span>
@@ -98,8 +98,8 @@ export default function Home() {
         </div>
       ) : images.length === 0 ? (
         <div className="text-center">
-          <div className='rounded-default px-3 py-2 bg-error inline-flex items-center gap-1 text-error-content font-bold'>
-            <XCircleIcon className='w-4 h-4' />
+          <div className="rounded-default bg-error text-error-content inline-flex items-center gap-1 px-3 py-2 font-bold shadow-lg">
+            <XCircleIcon className="h-4 w-4" />
             {t('noimagesfound')}
           </div>
         </div>

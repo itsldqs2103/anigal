@@ -18,7 +18,10 @@ function Footer() {
         </div>
 
         <nav className="flex flex-col gap-2 md:flex-row md:justify-end md:gap-4">
-          <Link href="/about-us" className="hover:text-accent transition-[color]">
+          <Link
+            href="/about-us"
+            className="hover:text-accent transition-[color]"
+          >
             {t('aboutus')}
           </Link>
         </nav>

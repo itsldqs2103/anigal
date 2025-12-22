@@ -28,7 +28,7 @@ function Modal({ open, title, onClose, children }) {
     <dialog ref={dialogRef} className="modal">
       <div className="modal-box">
         <div className="mb-4">
-          <div className="font-bold text-lg">{title}</div>
+          <div className="text-lg font-bold">{title}</div>
         </div>
 
         {children}
@@ -204,8 +204,10 @@ export default function Manage() {
         onClose={() => setModal(null)}
       >
         <input
-          className="input w-full mb-4"
-          placeholder={modal === 'add' ? t('enterimageurl') : t('enternewimageurl')}
+          className="input mb-4 w-full"
+          placeholder={
+            modal === 'add' ? t('enterimageurl') : t('enternewimageurl')
+          }
           value={imageUrl}
           onChange={e => setImageUrl(e.target.value)}
         />
@@ -250,8 +252,8 @@ export default function Manage() {
         </div>
       </Modal>
 
-      <div className="py-4 px-8">
-        <div className='text-end mb-4'>
+      <div className="px-8 py-4">
+        <div className="mb-4 text-end">
           <button
             className="btn btn-primary"
             onClick={() => {
@@ -270,8 +272,8 @@ export default function Manage() {
           </div>
         ) : images.length === 0 ? (
           <div className="text-center">
-            <div className="inline-flex items-center gap-1 bg-error px-3 py-2 rounded-default text-error-content font-bold">
-              <XCircleIcon className="w-4 h-4" />
+            <div className="bg-error rounded-default text-error-content inline-flex items-center gap-1 px-3 py-2 font-bold shadow-lg">
+              <XCircleIcon className="h-4 w-4" />
               {t('noimagesfound')}
             </div>
           </div>
