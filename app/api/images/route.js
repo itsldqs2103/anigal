@@ -1,6 +1,6 @@
 import { del } from '@vercel/blob';
 
-import db from '@/lib/db';
+import database from '@/lib/database';
 import { download } from '@/lib/download';
 
 export const runtime = 'nodejs';
@@ -13,13 +13,13 @@ export async function GET(req) {
   const offset = (page - 1) * limit;
 
   const [images, [{ count }]] = await Promise.all([
-    db`
+    database`
       SELECT id, path, url, width, height, created_at, updated_at
       FROM images
       ORDER BY created_at DESC
       LIMIT ${limit} OFFSET ${offset}
     `,
-    db`SELECT COUNT(*)::int AS count FROM images`,
+    database`SELECT COUNT(*)::int AS count FROM images`,
   ]);
 
   return new Response(
@@ -43,7 +43,7 @@ export async function POST(req) {
 
     const { id, path, width, height } = await download(url);
 
-    const [row] = await db`
+    const [row] = await database`
       INSERT INTO images (id, path, url, width, height)
       VALUES (${id}, ${path}, ${url}, ${width}, ${height})
       RETURNING id, path, url, width, height, created_at, updated_at
@@ -68,7 +68,7 @@ export async function PUT(req) {
     });
   }
 
-  const [old] = await db`
+  const [old] = await database`
     SELECT id, path FROM images WHERE id = ${oldId}
   `;
   if (!old) {
@@ -81,7 +81,7 @@ export async function PUT(req) {
 
   const { id: newId, path, width, height } = await download(url);
 
-  const [updated] = await db`
+  const [updated] = await database`
     UPDATE images
     SET
       id = ${newId},
@@ -107,7 +107,7 @@ export async function DELETE(req) {
     });
   }
 
-  const [row] = await db`
+  const [row] = await database`
     SELECT path FROM images WHERE id = ${id}
   `;
   if (!row) {
@@ -118,7 +118,7 @@ export async function DELETE(req) {
 
   await del(row.path);
 
-  await db`DELETE FROM images WHERE id = ${id}`;
+  await database`DELETE FROM images WHERE id = ${id}`;
 
   return new Response(JSON.stringify({ id }), {
     headers: { 'Content-Type': 'application/json' },

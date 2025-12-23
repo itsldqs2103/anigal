@@ -6,7 +6,7 @@ import { Menu } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import LocaleSwitch from './LocaleSwitch';
 
-export default function Navigation() {
+export default function TopNav() {
   const pathname = usePathname();
   const locale = useLocale();
 

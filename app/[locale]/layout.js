@@ -5,7 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 
 import Footer from '@/components/Footer';
 import LayoutScript from '@/components/LayoutScript';
-import Navigation from '@/components/Navigation';
+import TopNav from '@/components/TopNav';
 
 const manrope = Manrope({
   subsets: ['latin', 'vietnamese'],
@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning>
         <LayoutScript />
         <NextIntlClientProvider>
-          <Navigation />
+          <TopNav />
           {children}
           <Footer />
         </NextIntlClientProvider>
