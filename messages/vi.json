@@ -28,15 +28,14 @@
   },
   "Footer": {
     "allrightsreserved": "Mọi quyền được bảo lưu",
-    "aboutus": "Về chúng tôi"
+    "about": "Về chúng tôi"
   },
   "Navigation": {
     "home": "Trang chủ",
     "manage": "Quản lý"
   },
   "About": {
-    "aboutus": "Về chúng tôi",
-    "about": "Về",
+    "about": "Về chúng tôi",
     "aboutParagraph1": "AniGal là một trang web thư viện anime, nơi bạn có thể khám phá và thưởng thức bộ sưu tập các hình ảnh minh họa anime.",
     "aboutParagraph2": "Mục tiêu của chúng tôi là mang đến trải nghiệm lướt web đơn giản và thú vị cho những người yêu thích anime."
   }

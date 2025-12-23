@@ -19,10 +19,10 @@ function Footer() {
 
         <nav className="flex flex-col gap-2 md:flex-row md:justify-end md:gap-4">
           <Link
-            href="/about-us"
+            href="/about"
             className="hover:text-accent transition-[color]"
           >
-            {t('aboutus')}
+            {t('about')}
           </Link>
         </nav>
       </div>

@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 
 export default function About() {
   const t = useTranslations('About');
-  usePageTitle(t('aboutus'));
+  usePageTitle(t('about'));
 
   return (
     <div className="px-8 py-4">
