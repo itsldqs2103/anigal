@@ -54,7 +54,7 @@ const ImageCard = memo(function ImageCard({
         alt={`Image ${id}`}
         width={width}
         height={height}
-        className="aspect-square w-full object-cover hover:brightness-75"
+        className="aspect-square w-full object-cover hover:brightness-75 transition-[filter]"
       />
       <div className="flex flex-col gap-2 p-4">
         <button className="btn btn-warning" onClick={() => onEdit(id, path)}>
