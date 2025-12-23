@@ -31,6 +31,10 @@ html {
 .btn {
   font-weight: var(--font-weight-normal);
   gap: var(--spacing);
+}
+
+.input,
+.btn {
   font-size: var(--text-base);
   line-height: var(--text-base--line-height);
 }
