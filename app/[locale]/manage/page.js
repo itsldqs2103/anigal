@@ -5,7 +5,6 @@ import {
   PlusIcon,
   Trash2Icon,
   XCircleIcon,
-  XIcon,
 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -30,10 +29,8 @@ function Modal({ open, title, onClose, children }) {
         <div className="mb-4">
           <div className="text-lg font-bold">{title}</div>
         </div>
-
         {children}
       </div>
-
       <form method="dialog" className="modal-backdrop">
         <button onClick={onClose}>close</button>
       </form>
@@ -87,7 +84,8 @@ export default function Manage() {
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [modal, setModal] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
 
@@ -199,28 +197,30 @@ export default function Manage() {
       <ToastContainer theme="dark" position="bottom-right" newestOnTop />
 
       <Modal
-        open={modal === 'add' || modal === 'edit'}
-        title={modal === 'add' ? t('add') : t('edit')}
-        onClose={() => setModal(null)}
+        open={modalOpen}
+        title={modalType === 'add' ? t('add') : t('edit')}
+        onClose={() => setModalOpen(false)}
       >
         <input
           className="input mb-4 w-full"
           placeholder={
-            modal === 'add' ? t('enterimageurl') : t('enternewimageurl')
+            modalType === 'add'
+              ? t('enterimageurl')
+              : t('enternewimageurl')
           }
           value={imageUrl}
           onChange={e => setImageUrl(e.target.value)}
         />
 
         <div className="flex justify-end gap-2">
-          <button className="btn" onClick={() => setModal(null)}>
+          <button className="btn" onClick={() => setModalOpen(false)}>
             {t('cancel')}
           </button>
           <button
             className="btn btn-primary"
             onClick={() => {
-              setModal(null);
-              modal === 'add'
+              setModalOpen(false);
+              modalType === 'add'
                 ? addImage(imageUrl)
                 : editImage(selectedId, imageUrl);
             }}
@@ -231,18 +231,18 @@ export default function Manage() {
       </Modal>
 
       <Modal
-        open={modal === 'delete'}
+        open={modalType === 'delete' && modalOpen}
         title={`${t('areyousure')}?`}
-        onClose={() => setModal(null)}
+        onClose={() => setModalOpen(false)}
       >
         <div className="flex justify-end gap-2">
-          <button className="btn" onClick={() => setModal(null)}>
+          <button className="btn" onClick={() => setModalOpen(false)}>
             {t('cancel')}
           </button>
           <button
             className="btn btn-error"
             onClick={() => {
-              setModal(null);
+              setModalOpen(false);
               deleteImage(selectedId);
             }}
           >
@@ -257,7 +257,8 @@ export default function Manage() {
             className="btn btn-primary"
             onClick={() => {
               setImageUrl('');
-              setModal('add');
+              setModalType('add');
+              setModalOpen(true);
             }}
           >
             <PlusIcon className="h-4 w-4" /> {t('add')}
@@ -271,7 +272,7 @@ export default function Manage() {
           </div>
         ) : images.length === 0 ? (
           <div className="text-center">
-            <div className="bg-error rounded-default text-error-content inline-flex items-center gap-1 px-3 py-2 font-bold shadow-lg">
+            <div className="bg-error rounded-default text-error-content inline-flex items-center gap-1 px-3 py-2 shadow-lg">
               <XCircleIcon className="h-4 w-4" />
               {t('noimagesfound')}
             </div>
@@ -286,11 +287,13 @@ export default function Manage() {
                   onEdit={(id, url) => {
                     setSelectedId(id);
                     setImageUrl(url);
-                    setModal('edit');
+                    setModalType('edit');
+                    setModalOpen(true);
                   }}
                   onDelete={id => {
                     setSelectedId(id);
-                    setModal('delete');
+                    setModalType('delete');
+                    setModalOpen(true);
                   }}
                 />
               ))}

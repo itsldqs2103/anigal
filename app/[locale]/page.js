@@ -98,7 +98,7 @@ export default function Home() {
         </div>
       ) : images.length === 0 ? (
         <div className="text-center">
-          <div className="rounded-default bg-error text-error-content inline-flex items-center gap-1 px-3 py-2 font-bold shadow-lg">
+          <div className="rounded-default bg-error text-error-content inline-flex items-center gap-1 px-3 py-2 shadow-lg">
             <XCircleIcon className="h-4 w-4" />
             {t('noimagesfound')}
           </div>

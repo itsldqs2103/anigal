@@ -29,8 +29,8 @@ html {
 }
 
 .btn {
-  gap: 0.25rem;
+  font-weight: var(--font-weight-normal);
+  gap: var(--spacing);
   font-size: var(--text-base);
   line-height: var(--text-base--line-height);
-  font-weight: var(--font-weight-bold);
 }
