@@ -38,3 +38,7 @@ html {
   font-size: var(--text-base);
   line-height: var(--text-base--line-height);
 }
+
+.modal-backdrop {
+  backdrop-filter: blur(var(--blur-xs));
+}
