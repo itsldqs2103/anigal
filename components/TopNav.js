@@ -24,7 +24,7 @@ export default function TopNav() {
     <div className="bg-base-100 rounded-default mx-4 mt-4 shadow-lg">
       <div className="navbar px-4">
         <div className="navbar-start">
-          <Link className="text-4xl font-bold" href="/">
+          <Link className="text-2xl font-black" href="/">
             A<span className="text-accent">G</span>
           </Link>
         </div>

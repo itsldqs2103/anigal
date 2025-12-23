@@ -26,9 +26,7 @@ function Modal({ open, title, onClose, children }) {
   return (
     <dialog ref={dialogRef} className="modal">
       <div className="modal-box">
-        <div className="mb-4">
-          <div className="text-lg font-bold">{title}</div>
-        </div>
+        <div className="mb-4 text-lg font-bold">{title}</div>
         {children}
       </div>
       <form method="dialog" className="modal-backdrop">
@@ -84,10 +82,17 @@ export default function Manage() {
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
+
+  const modalOpen = modalType !== null;
+
+  const closeModal = () => {
+    setModalType(null);
+    setSelectedId(null);
+    setImageUrl('');
+  };
 
   const fetchImages = useCallback(() => {
     setLoading(true);
@@ -197,9 +202,9 @@ export default function Manage() {
       <ToastContainer theme="dark" position="bottom-right" newestOnTop />
 
       <Modal
-        open={modalOpen}
+        open={modalOpen && (modalType === 'add' || modalType === 'edit')}
         title={modalType === 'add' ? t('add') : t('edit')}
-        onClose={() => setModalOpen(false)}
+        onClose={closeModal}
       >
         <input
           className="input mb-4 w-full"
@@ -211,15 +216,14 @@ export default function Manage() {
           value={imageUrl}
           onChange={e => setImageUrl(e.target.value)}
         />
-
         <div className="flex justify-end gap-2">
-          <button className="btn" onClick={() => setModalOpen(false)}>
+          <button className="btn" onClick={closeModal}>
             {t('cancel')}
           </button>
           <button
             className="btn btn-primary"
             onClick={() => {
-              setModalOpen(false);
+              closeModal();
               modalType === 'add'
                 ? addImage(imageUrl)
                 : editImage(selectedId, imageUrl);
@@ -231,18 +235,18 @@ export default function Manage() {
       </Modal>
 
       <Modal
-        open={modalType === 'delete' && modalOpen}
+        open={modalOpen && modalType === 'delete'}
         title={`${t('areyousure')}?`}
-        onClose={() => setModalOpen(false)}
+        onClose={closeModal}
       >
         <div className="flex justify-end gap-2">
-          <button className="btn" onClick={() => setModalOpen(false)}>
+          <button className="btn" onClick={closeModal}>
             {t('cancel')}
           </button>
           <button
             className="btn btn-error"
             onClick={() => {
-              setModalOpen(false);
+              closeModal();
               deleteImage(selectedId);
             }}
           >
@@ -258,7 +262,6 @@ export default function Manage() {
             onClick={() => {
               setImageUrl('');
               setModalType('add');
-              setModalOpen(true);
             }}
           >
             <PlusIcon className="h-4 w-4" /> {t('add')}
@@ -288,12 +291,10 @@ export default function Manage() {
                     setSelectedId(id);
                     setImageUrl(url);
                     setModalType('edit');
-                    setModalOpen(true);
                   }}
                   onDelete={id => {
                     setSelectedId(id);
                     setModalType('delete');
-                    setModalOpen(true);
                   }}
                 />
               ))}
