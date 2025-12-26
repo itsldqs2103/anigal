@@ -14,7 +14,15 @@ export async function GET(req) {
 
   const [images, [{ count }]] = await Promise.all([
     database`
-      SELECT id, path, url, width, height, created_at, updated_at
+      SELECT
+        id,
+        path,
+        preview_url,
+        url,
+        width,
+        height,
+        created_at,
+        updated_at
       FROM images
       ORDER BY created_at DESC
       LIMIT ${limit} OFFSET ${offset}
@@ -43,12 +51,20 @@ export async function POST(req) {
       });
     }
 
-    const { id, path, width, height } = await download(url);
+    const { id, path, preview_url, width, height } = await download(url);
 
     const [row] = await database`
-      INSERT INTO images (id, path, url, width, height)
-      VALUES (${id}, ${path}, ${url}, ${width}, ${height})
-      RETURNING id, path, url, width, height, created_at, updated_at
+      INSERT INTO images (id, path, preview_url, url, width, height)
+      VALUES (${id}, ${path}, ${preview_url}, ${url}, ${width}, ${height})
+      RETURNING
+        id,
+        path,
+        preview_url,
+        url,
+        width,
+        height,
+        created_at,
+        updated_at
     `;
 
     return new Response(JSON.stringify(row), {
@@ -71,7 +87,7 @@ export async function PUT(req) {
   }
 
   const [old] = await database`
-    SELECT id, path FROM images WHERE id = ${oldId}
+    SELECT path, preview_url FROM images WHERE id = ${oldId}
   `;
   if (!old) {
     return new Response(JSON.stringify({ error: 'Not found' }), {
@@ -79,21 +95,33 @@ export async function PUT(req) {
     });
   }
 
-  await del(old.path);
+  await Promise.all([
+    del(old.path),
+    del(old.preview_url),
+  ]);
 
-  const { id: newId, path, width, height } = await download(url);
+  const { id: newId, path, preview_url, width, height } = await download(url);
 
   const [updated] = await database`
     UPDATE images
     SET
       id = ${newId},
       path = ${path},
+      preview_url = ${preview_url},
       url = ${url},
       width = ${width},
       height = ${height},
       updated_at = now()
     WHERE id = ${oldId}
-    RETURNING id, path, url, width, height, created_at, updated_at
+    RETURNING
+      id,
+      path,
+      preview_url,
+      url,
+      width,
+      height,
+      created_at,
+      updated_at
   `;
 
   return new Response(JSON.stringify(updated), {
@@ -110,7 +138,7 @@ export async function DELETE(req) {
   }
 
   const [row] = await database`
-    SELECT path FROM images WHERE id = ${id}
+    SELECT path, preview_url FROM images WHERE id = ${id}
   `;
   if (!row) {
     return new Response(JSON.stringify({ error: 'Not found' }), {
@@ -118,7 +146,10 @@ export async function DELETE(req) {
     });
   }
 
-  await del(row.path);
+  await Promise.all([
+    del(row.path),
+    del(row.preview_url),
+  ]);
 
   await database`DELETE FROM images WHERE id = ${id}`;
 
