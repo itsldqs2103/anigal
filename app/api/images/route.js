@@ -38,7 +38,9 @@ export async function POST(req) {
   try {
     const { url } = await req.json();
     if (!url) {
-      return new Response(JSON.stringify({ error: 'Missing URL' }), { status: 400 });
+      return new Response(JSON.stringify({ error: 'Missing URL' }), {
+        status: 400,
+      });
     }
 
     const { id, path, width, height } = await download(url);

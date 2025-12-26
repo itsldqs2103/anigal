@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  PencilIcon,
-  PlusIcon,
-  Trash2Icon,
-  XCircleIcon,
-} from 'lucide-react';
+import { PencilIcon, PlusIcon, Trash2Icon, XCircleIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
@@ -54,7 +49,7 @@ const ImageCard = memo(function ImageCard({
         alt={`Image ${id}`}
         width={width}
         height={height}
-        className="aspect-square w-full object-cover hover:brightness-75 transition-[filter]"
+        className="aspect-square w-full object-cover transition-[filter] hover:brightness-75"
       />
       <div className="flex flex-col gap-2 p-4">
         <button className="btn btn-warning" onClick={() => onEdit(id, path)}>
@@ -209,9 +204,7 @@ export default function Manage() {
         <input
           className="input mb-4 w-full"
           placeholder={
-            modalType === 'add'
-              ? t('enterimageurl')
-              : t('enternewimageurl')
+            modalType === 'add' ? t('enterimageurl') : t('enternewimageurl')
           }
           value={imageUrl}
           onChange={e => setImageUrl(e.target.value)}
