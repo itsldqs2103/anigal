@@ -33,6 +33,7 @@ function Modal({ open, title, onClose, children }) {
 
 const ImageCard = memo(function ImageCard({
   id,
+  path,
   preview_url,
   width,
   height,
