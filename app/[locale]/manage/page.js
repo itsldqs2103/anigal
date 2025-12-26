@@ -33,7 +33,7 @@ function Modal({ open, title, onClose, children }) {
 
 const ImageCard = memo(function ImageCard({
   id,
-  path,
+  preview_url,
   width,
   height,
   onEdit,
@@ -45,7 +45,7 @@ const ImageCard = memo(function ImageCard({
     <div className="card bg-base-100 rounded-default flex flex-col overflow-hidden shadow-lg">
       <LazyLoadImage
         wrapperProps={{ style: { display: 'block', color: 'transparent' } }}
-        src={path}
+        src={preview_url}
         alt={`Image ${id}`}
         width={width}
         height={height}

@@ -115,7 +115,7 @@ export default function Home() {
                   }}
                   width={img.width}
                   height={img.height}
-                  src={img.path || img.url}
+                  src={img.preview_url}
                   alt={`Image ${img.id}`}
                   onClick={() => {
                     setCurrentIndex(index);
