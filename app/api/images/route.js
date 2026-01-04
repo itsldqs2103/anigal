@@ -36,18 +36,11 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-  try {
-    const { url } = await req.json();
+  const { url } = await req.json();
 
-    if (!url) {
-      return new Response(JSON.stringify({ error: 'Missing URL' }), {
-        status: 400,
-      });
-    }
+  const image = await download(url);
 
-    const image = await download(url);
-
-    const [saved] = await database`
+  const [saved] = await database`
       INSERT INTO images (id, path, preview_url, url, width, height)
       VALUES (
         ${image.id},
@@ -60,36 +53,17 @@ export async function POST(req) {
       RETURNING *
     `;
 
-    return new Response(JSON.stringify(saved), {
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    console.error(error);
-    return new Response(
-      JSON.stringify({ error: 'Failed to process image' }),
-      { status: 500 }
-    );
-  }
+  return new Response(JSON.stringify(saved), {
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
 
 export async function PUT(req) {
   const { id, url } = await req.json();
 
-  if (!id || !url) {
-    return new Response(JSON.stringify({ error: 'Missing id or url' }), {
-      status: 400,
-    });
-  }
-
   const [oldImage] = await database`
     SELECT path, preview_url FROM images WHERE id = ${id}
   `;
-
-  if (!oldImage) {
-    return new Response(JSON.stringify({ error: 'Not found' }), {
-      status: 404,
-    });
-  }
 
   await Promise.all([
     del(oldImage.path),
@@ -120,21 +94,9 @@ export async function PUT(req) {
 export async function DELETE(req) {
   const { id } = await req.json();
 
-  if (!id) {
-    return new Response(JSON.stringify({ error: 'Missing id' }), {
-      status: 400,
-    });
-  }
-
   const [image] = await database`
     SELECT path, preview_url FROM images WHERE id = ${id}
   `;
-
-  if (!image) {
-    return new Response(JSON.stringify({ error: 'Not found' }), {
-      status: 404,
-    });
-  }
 
   await Promise.all([
     del(image.path),
