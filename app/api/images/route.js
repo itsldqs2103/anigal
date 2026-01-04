@@ -95,10 +95,7 @@ export async function PUT(req) {
     });
   }
 
-  await Promise.all([
-    del(old.path),
-    del(old.preview_url),
-  ]);
+  await Promise.all([del(old.path), del(old.preview_url)]);
 
   const { id: newId, path, preview_url, width, height } = await download(url);
 
@@ -146,10 +143,7 @@ export async function DELETE(req) {
     });
   }
 
-  await Promise.all([
-    del(row.path),
-    del(row.preview_url),
-  ]);
+  await Promise.all([del(row.path), del(row.preview_url)]);
 
   await database`DELETE FROM images WHERE id = ${id}`;
 
