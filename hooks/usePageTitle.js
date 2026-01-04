@@ -3,6 +3,10 @@ import { useEffect } from 'react';
 
 export function usePageTitle(title) {
   useEffect(() => {
-    document.title = title ? `${title} | AniGal` : 'AniGal';
+    if (title) {
+      document.title = `${title} | AniGal`;
+    } else {
+      document.title = 'AniGal';
+    }
   }, [title]);
 }
