@@ -10,7 +10,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
 
-function Modal({ open, title, onClose, children }) {
+function BaseModal({ open, title, onClose, children }) {
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -28,6 +28,91 @@ function Modal({ open, title, onClose, children }) {
         <button onClick={onClose}>close</button>
       </form>
     </dialog>
+  );
+}
+
+function AddImageModal({ open, onClose, onSave }) {
+  const t = useTranslations('Manage');
+  const [url, setUrl] = useState('');
+
+  return (
+    <BaseModal open={open} title={t('add')} onClose={onClose}>
+      <input
+        className="input mb-4 w-full"
+        placeholder={t('enterimageurl')}
+        value={url}
+        onChange={e => setUrl(e.target.value)}
+      />
+      <div className="flex justify-end gap-2">
+        <button className="btn" onClick={onClose}>
+          {t('cancel')}
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            onClose();
+            onSave(url);
+            setUrl('');
+          }}
+        >
+          {t('save')}
+        </button>
+      </div>
+    </BaseModal>
+  );
+}
+
+function EditImageModal({ open, image, onClose, onSave }) {
+  const t = useTranslations('Manage');
+  const [url, setUrl] = useState(image?.path ?? '');
+
+  return (
+    <BaseModal open={open} title={t('edit')} onClose={onClose} key={image?.id}>
+      <input
+        className="input mb-4 w-full"
+        placeholder={t('enternewimageurl')}
+        value={url}
+        onChange={e => setUrl(e.target.value)}
+      />
+      <div className="flex justify-end gap-2">
+        <button className="btn" onClick={onClose}>
+          {t('cancel')}
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            onClose();
+            if (image) onSave(image.id, url);
+          }}
+        >
+          {t('save')}
+        </button>
+      </div>
+    </BaseModal>
+  );
+}
+
+function DeleteImageModal({ open, imageId, onClose, onConfirm }) {
+  const t = useTranslations('Manage');
+
+  return (
+    <BaseModal open={open} title={`${t('areyousure')}?`} onClose={onClose}>
+      <div className="flex justify-end gap-2">
+        <button className="btn" onClick={onClose}>
+          {t('cancel')}
+        </button>
+        <button
+          className="btn btn-error"
+          disabled={!imageId}
+          onClick={() => {
+            onClose();
+            if (imageId) onConfirm(imageId);
+          }}
+        >
+          {t('delete')}
+        </button>
+      </div>
+    </BaseModal>
   );
 }
 
@@ -78,17 +163,10 @@ export default function Manage() {
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [modalType, setModalType] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
-  const [imageUrl, setImageUrl] = useState('');
-
-  const modalOpen = modalType !== null;
-
-  const closeModal = () => {
-    setModalType(null);
-    setSelectedId(null);
-    setImageUrl('');
-  };
+  const [addOpen, setAddOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const fetchImages = useCallback(() => {
     setLoading(true);
@@ -197,67 +275,29 @@ export default function Manage() {
     <>
       <ToastContainer theme="dark" position="bottom-right" newestOnTop />
 
-      <Modal
-        open={modalOpen && (modalType === 'add' || modalType === 'edit')}
-        title={modalType === 'add' ? t('add') : t('edit')}
-        onClose={closeModal}
-      >
-        <input
-          className="input mb-4 w-full"
-          placeholder={
-            modalType === 'add' ? t('enterimageurl') : t('enternewimageurl')
-          }
-          value={imageUrl}
-          onChange={e => setImageUrl(e.target.value)}
-        />
-        <div className="flex justify-end gap-2">
-          <button className="btn" onClick={closeModal}>
-            {t('cancel')}
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              closeModal();
-              modalType === 'add'
-                ? addImage(imageUrl)
-                : editImage(selectedId, imageUrl);
-            }}
-          >
-            {t('save')}
-          </button>
-        </div>
-      </Modal>
+      <AddImageModal
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        onSave={addImage}
+      />
 
-      <Modal
-        open={modalOpen && modalType === 'delete'}
-        title={`${t('areyousure')}?`}
-        onClose={closeModal}
-      >
-        <div className="flex justify-end gap-2">
-          <button className="btn" onClick={closeModal}>
-            {t('cancel')}
-          </button>
-          <button
-            className="btn btn-error"
-            onClick={() => {
-              closeModal();
-              deleteImage(selectedId);
-            }}
-          >
-            {t('delete')}
-          </button>
-        </div>
-      </Modal>
+      <EditImageModal
+        open={editOpen}
+        image={selectedImage}
+        onClose={() => setEditOpen(false)}
+        onSave={editImage}
+      />
+
+      <DeleteImageModal
+        open={deleteOpen}
+        imageId={selectedImage?.id}
+        onClose={() => setDeleteOpen(false)}
+        onConfirm={deleteImage}
+      />
 
       <div className="px-8 py-4">
         <div className="mb-4 text-end">
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              setImageUrl('');
-              setModalType('add');
-            }}
-          >
+          <button className="btn btn-primary" onClick={() => setAddOpen(true)}>
             <PlusIcon className="h-4 w-4" /> {t('add')}
           </button>
         </div>
@@ -281,14 +321,13 @@ export default function Manage() {
                 <ImageCard
                   key={img.id}
                   {...img}
-                  onEdit={(id, url) => {
-                    setSelectedId(id);
-                    setImageUrl(url);
-                    setModalType('edit');
+                  onEdit={(id, path) => {
+                    setSelectedImage({ id, path });
+                    setEditOpen(true);
                   }}
                   onDelete={id => {
-                    setSelectedId(id);
-                    setModalType('delete');
+                    setSelectedImage({ id });
+                    setDeleteOpen(true);
                   }}
                 />
               ))}
