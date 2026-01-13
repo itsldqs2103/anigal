@@ -11,7 +11,20 @@ import Share from 'yet-another-react-lightbox/plugins/share';
 import Slideshow from 'yet-another-react-lightbox/plugins/slideshow';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { XCircleIcon } from 'lucide-react';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  DownloadIcon,
+  MaximizeIcon,
+  MinimizeIcon,
+  PauseIcon,
+  PlayIcon,
+  ShareIcon,
+  XCircleIcon,
+  XIcon,
+  ZoomInIcon,
+  ZoomOutIcon,
+} from 'lucide-react';
 
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
@@ -96,6 +109,17 @@ export default function Home() {
         render={{
           buttonPrev: slides.length <= 1 ? () => null : undefined,
           buttonNext: slides.length <= 1 ? () => null : undefined,
+          iconPrev: () => <ArrowLeftIcon className="h-6 w-6" />,
+          iconNext: () => <ArrowRightIcon className="h-6 w-6" />,
+          iconClose: () => <XIcon className="h-6 w-6" />,
+          iconEnterFullscreen: () => <MaximizeIcon className="h-6 w-6" />,
+          iconExitFullscreen: () => <MinimizeIcon className="h-6 w-6" />,
+          iconDownload: () => <DownloadIcon className="h-6 w-6" />,
+          iconShare: () => <ShareIcon className="h-6 w-6" />,
+          iconSlideshowPlay: () => <PlayIcon className="h-6 w-6" />,
+          iconSlideshowPause: () => <PauseIcon className="h-6 w-6" />,
+          iconZoomIn: () => <ZoomInIcon className="h-6 w-6" />,
+          iconZoomOut: () => <ZoomOutIcon className="h-6 w-6" />,
         }}
       />
     </div>
