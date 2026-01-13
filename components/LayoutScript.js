@@ -13,9 +13,9 @@ function preventDefault(event) {
 function toggleGlobalDragPrevention(enable) {
   const method = enable ? 'addEventListener' : 'removeEventListener';
 
-  DRAG_EVENTS.forEach(event =>
-    document[method](event, preventDefault, { passive: false })
-  );
+  DRAG_EVENTS.forEach(event => {
+    document[method](event, preventDefault, { passive: false });
+  });
 }
 
 export default function LayoutScript() {
@@ -45,7 +45,9 @@ export default function LayoutScript() {
     root.classList.add(NO_POINTER_CLASS);
 
     requestAnimationFrame(() => {
-      root.classList.remove(NO_POINTER_CLASS);
+      requestAnimationFrame(() => {
+        root.classList.remove(NO_POINTER_CLASS);
+      });
     });
   }, [pathname, searchKey]);
 
