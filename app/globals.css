@@ -76,3 +76,24 @@ html {
 .modal-backdrop {
   backdrop-filter: blur(var(--blur-xs));
 }
+
+.yarl__container {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(var(--blur-xs));
+}
+
+.yarl__toolbar {
+  margin: calc(var(--spacing) * 2);
+  border-radius: var(--radius-field);
+  background-color: var(--color-base-100);
+  box-shadow: var(--shadow-lg);
+}
+
+.yarl__icon {
+  height: var(--yarl__icon_size, calc(var(--spacing) * 6));
+  width: var(--yarl__icon_size, calc(var(--spacing) * 6));
+}
+
+.fi {
+  width: calc(var(--spacing) * 6);
+}

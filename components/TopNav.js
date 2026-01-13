@@ -88,7 +88,7 @@ function MobileToggle() {
       aria-label="Open navigation menu"
       className="btn btn-square btn-ghost flex lg:hidden"
     >
-      <Menu className="h-4 w-4" />
+      <Menu className="h-6 w-6" />
     </label>
   );
 }

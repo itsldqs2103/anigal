@@ -18,14 +18,6 @@ import { usePageTitle } from '@/hooks/usePageTitle';
 import axios from 'axios';
 
 const PAGE_LIMIT = 24;
-const LIGHTBOX_PLUGINS = [
-  Fullscreen,
-  Download,
-  Zoom,
-  Share,
-  Slideshow,
-  Counter,
-];
 
 export default function Home() {
   const t = useTranslations('Home');
@@ -61,6 +53,12 @@ export default function Home() {
     [images]
   );
 
+  const LIGHTBOX_PLUGINS = useMemo(() => {
+    const plugins = [Fullscreen, Download, Zoom, Share, Counter];
+    if (slides.length > 1) plugins.push(Slideshow);
+    return plugins;
+  }, [slides.length]);
+
   useRemoveLightboxTitles(lightboxOpen);
 
   return (
@@ -95,6 +93,10 @@ export default function Home() {
         slides={slides}
         plugins={LIGHTBOX_PLUGINS}
         controller={{ closeOnBackdropClick: true }}
+        render={{
+          buttonPrev: slides.length <= 1 ? () => null : undefined,
+          buttonNext: slides.length <= 1 ? () => null : undefined,
+        }}
       />
     </div>
   );
@@ -119,9 +121,10 @@ function useRemoveLightboxTitles(enabled) {
     if (!enabled) return;
 
     const removeTitles = () => {
-      document
-        .querySelectorAll('.yarl__button')
-        .forEach(btn => btn.removeAttribute('title'));
+      document.querySelectorAll('.yarl__button').forEach(btn => {
+        btn.removeAttribute('title');
+        btn.removeAttribute('aria-label');
+      });
     };
 
     removeTitles();
