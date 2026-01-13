@@ -136,10 +136,12 @@ function ModalActions({
   danger = false,
   disabled = false,
 }) {
+  const t = useTranslations('Manage');
+
   return (
     <div className="flex justify-end gap-2">
       <button className="btn" onClick={onCancel}>
-        Cancel
+        {t('cancel')}
       </button>
       <button
         className={`btn ${danger ? 'btn-error' : 'btn-primary'}`}
