@@ -15,6 +15,7 @@ import { XCircleIcon } from 'lucide-react';
 
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import axios from 'axios';
 
 const PAGE_LIMIT = 24;
 const LIGHTBOX_PLUGINS = [
@@ -102,12 +103,12 @@ export default function Home() {
 async function fetchImages(page, setImages, setTotalPages, setLoading) {
   setLoading(true);
   try {
-    const res = await fetch(`/api/images?page=${page}&limit=${PAGE_LIMIT}`);
-    const data = await res.json();
-    setImages(data.data);
-    setTotalPages(data.totalPages);
-  } catch (error) {
-    console.error(error);
+    const res = await axios.get('/api/images', {
+      params: { page, limit: PAGE_LIMIT },
+    });
+
+    setImages(res.data.data);
+    setTotalPages(res.data.totalPages);
   } finally {
     setLoading(false);
   }

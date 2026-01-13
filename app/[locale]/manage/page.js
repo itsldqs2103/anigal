@@ -9,6 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import axios from 'axios';
 
 const PAGE_LIMIT = 24;
 
@@ -189,10 +190,15 @@ export default function Manage() {
   const fetchImages = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/images?page=${page}&limit=${PAGE_LIMIT}`);
-      const data = await res.json();
-      setImages(data.data);
-      setTotalPages(data.totalPages);
+      const res = await axios.get('/api/images', {
+        params: {
+          page,
+          limit: PAGE_LIMIT,
+        },
+      });
+
+      setImages(res.data.data);
+      setTotalPages(res.data.totalPages);
     } finally {
       setLoading(false);
     }
@@ -228,11 +234,10 @@ export default function Manage() {
 
   const addImage = url =>
     withToast(t('addingimage'), t('imageadded'), t('addfailed'), async () => {
-      await fetch('/api/images', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+      await axios.post('/api/images', {
+        url,
       });
+
       setPage(1);
       fetchImages();
     });
@@ -243,11 +248,11 @@ export default function Manage() {
       t('imageupdated'),
       t('updatefailed'),
       async () => {
-        await fetch('/api/images', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id, url }),
+        await axios.put('/api/images', {
+          id,
+          url,
         });
+
         setImages(prev =>
           prev.map(img => (img.id === id ? { ...img, path: url } : img))
         );
@@ -260,11 +265,10 @@ export default function Manage() {
       t('imagedeleted'),
       t('deletefailed'),
       async () => {
-        await fetch('/api/images', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id }),
+        await axios.delete('/api/images', {
+          data: { id },
         });
+
         setPage(1);
         fetchImages();
       }
