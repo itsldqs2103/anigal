@@ -6,7 +6,6 @@ import { NextIntlClientProvider } from 'next-intl';
 import Footer from '@/components/Footer';
 import LayoutScript from '@/components/LayoutScript';
 import TopNav from '@/components/TopNav';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const manrope = Manrope({
   subsets: ['latin', 'vietnamese'],
@@ -25,13 +24,12 @@ export default function RootLayout({ children }) {
       className={`${manrope.className} bg-base-300 text-base-content font-sans antialiased`}
     >
       <body suppressHydrationWarning>
-        <SpeedInsights />
-        <LayoutScript />
         <NextIntlClientProvider>
           <TopNav />
           {children}
           <Footer />
         </NextIntlClientProvider>
+        <LayoutScript />
       </body>
     </html>
   );
