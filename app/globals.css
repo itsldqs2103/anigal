@@ -83,7 +83,7 @@ html {
 }
 
 .yarl__toolbar {
-  margin: calc(var(--spacing) * 2);
+  margin: calc(var(--spacing) * 4);
   border-radius: var(--radius-field);
   background-color: var(--color-base-100);
   box-shadow: var(--shadow-lg);
