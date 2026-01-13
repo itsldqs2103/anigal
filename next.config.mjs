@@ -18,16 +18,7 @@ const nextConfig = {
         ],
       },
     ];
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '*',
-      },
-    ],
-    qualities: [70],
-  },
+  }
 };
 
 export default withNextIntl(nextConfig);

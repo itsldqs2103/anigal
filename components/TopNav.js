@@ -1,11 +1,12 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
-import LocaleSwitch from './LocaleSwitch';
+import LocaleSwitch from '@/components/LocaleSwitch';
 
 export default function TopNav() {
   const t = useTranslations('Navigation');
@@ -17,19 +18,18 @@ export default function TopNav() {
   const isActive = href =>
     normalizedPath === href || normalizedPath.startsWith(`${href}/`);
 
-  const linkClass = href =>
+  const getLinkClass = href =>
     `btn ${isActive(href) ? 'btn-primary' : 'btn-ghost'}`;
 
-  const navLinks = [
+  const links = [
     { href: '/', label: t('home') },
     { href: '/manage', label: t('manage') },
   ];
 
   return (
     <div className="bg-base-100 rounded-default mx-4 mt-4 shadow-lg">
-      <Navbar links={navLinks} linkClass={linkClass} />
-
-      <MobileMenu links={navLinks} linkClass={linkClass} />
+      <Navbar links={links} linkClass={getLinkClass} />
+      <MobileMenu links={links} linkClass={getLinkClass} />
     </div>
   );
 }
@@ -38,9 +38,7 @@ function Navbar({ links, linkClass }) {
   return (
     <div className="navbar px-4">
       <Brand />
-
       <DesktopNav links={links} linkClass={linkClass} />
-
       <NavbarActions />
     </div>
   );
@@ -49,7 +47,7 @@ function Navbar({ links, linkClass }) {
 function Brand() {
   return (
     <div className="navbar-start">
-      <Link className="text-3xl font-black" href="/">
+      <Link href="/" className="text-2xl font-black">
         A<span className="text-accent">G</span>
       </Link>
     </div>
@@ -60,10 +58,10 @@ function DesktopNav({ links, linkClass }) {
   return (
     <div className="navbar-center hidden lg:flex">
       <ul className="menu menu-horizontal gap-2">
-        {links.map(link => (
-          <li key={link.href}>
-            <Link href={link.href} className={linkClass(link.href)}>
-              {link.label}
+        {links.map(({ href, label }) => (
+          <li key={href}>
+            <Link href={href} className={linkClass(href)}>
+              {label}
             </Link>
           </li>
         ))}
@@ -78,7 +76,6 @@ function NavbarActions() {
       <div className="hidden lg:flex">
         <LocaleSwitch />
       </div>
-
       <MobileToggle />
     </div>
   );
@@ -88,8 +85,8 @@ function MobileToggle() {
   return (
     <label
       htmlFor="mobile-nav"
-      className="btn btn-square btn-ghost flex lg:hidden"
       aria-label="Open navigation menu"
+      className="btn btn-square btn-ghost flex lg:hidden"
     >
       <Menu className="h-4 w-4" />
     </label>
@@ -97,6 +94,13 @@ function MobileToggle() {
 }
 
 function MobileMenu({ links, linkClass }) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const checkbox = document.getElementById('mobile-nav');
+    if (checkbox) checkbox.checked = false;
+  }, [pathname]);
+
   return (
     <div className="lg:hidden">
       <input type="checkbox" id="mobile-nav" className="peer hidden" />
@@ -104,10 +108,10 @@ function MobileMenu({ links, linkClass }) {
       <div className="bg-base-100 peer-checked:collapse-open collapse">
         <div className="collapse-content px-4">
           <ul className="menu menu-vertical w-full gap-2">
-            {links.map(link => (
-              <li key={link.href}>
-                <Link href={link.href} className={linkClass(link.href)}>
-                  {link.label}
+            {links.map(({ href, label }) => (
+              <li key={href}>
+                <Link href={href} className={linkClass(href)}>
+                  {label}
                 </Link>
               </li>
             ))}
