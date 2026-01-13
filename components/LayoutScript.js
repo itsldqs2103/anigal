@@ -1,63 +1,65 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const DRAG_EVENTS = ['dragstart', 'dragover', 'drop'];
 const NO_POINTER_CLASS = 'pointer-events-none';
 
-function disableEvent(event) {
+function preventDefault(event) {
   event.preventDefault();
 }
 
-function lockPointerEvents() {
-  document.documentElement.classList.add(NO_POINTER_CLASS);
-}
+function toggleGlobalDragPrevention(enable) {
+  const method = enable ? 'addEventListener' : 'removeEventListener';
 
-function unlockPointerEvents() {
-  document.documentElement.classList.remove(NO_POINTER_CLASS);
+  DRAG_EVENTS.forEach(event =>
+    document[method](event, preventDefault, { passive: false })
+  );
 }
 
 export default function LayoutScript() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const isInitialRender = useRef(true);
+  const isFirstRender = useRef(true);
+
+  const searchKey = useMemo(
+    () => searchParams?.toString() ?? '',
+    [searchParams]
+  );
 
   useEffect(() => {
-    if (!document) return;
-
-    DRAG_EVENTS.forEach(eventType => {
-      document.addEventListener(eventType, disableEvent, { passive: false });
-    });
-
-    return () => {
-      DRAG_EVENTS.forEach(eventType => {
-        document.removeEventListener(eventType, disableEvent);
-      });
-    };
+    toggleGlobalDragPrevention(true);
+    return () => toggleGlobalDragPrevention(false);
   }, []);
 
   useEffect(() => {
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
       return;
     }
 
-    if (!document) return;
+    if (document.visibilityState !== 'visible') return;
 
-    lockPointerEvents();
+    const root = document.documentElement;
+    root.classList.add(NO_POINTER_CLASS);
 
-    if (document.startViewTransition) {
-      const transition = document.startViewTransition(unlockPointerEvents);
+    if ('startViewTransition' in document) {
+      const transition = document.startViewTransition(() => {
+        root.classList.remove(NO_POINTER_CLASS);
+      });
 
       return () => {
-        transition?.finished?.finally(unlockPointerEvents);
+        transition.finished.finally(() => {
+          root.classList.remove(NO_POINTER_CLASS);
+        });
       };
     }
 
-    queueMicrotask(unlockPointerEvents);
-    return unlockPointerEvents;
-  }, [pathname, searchParams]);
+    queueMicrotask(() => {
+      root.classList.remove(NO_POINTER_CLASS);
+    });
+  }, [pathname, searchKey]);
 
   return null;
 }
