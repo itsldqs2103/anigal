@@ -44,19 +44,7 @@ export default function LayoutScript() {
     const root = document.documentElement;
     root.classList.add(NO_POINTER_CLASS);
 
-    if ('startViewTransition' in document) {
-      const transition = document.startViewTransition(() => {
-        root.classList.remove(NO_POINTER_CLASS);
-      });
-
-      return () => {
-        transition.finished.finally(() => {
-          root.classList.remove(NO_POINTER_CLASS);
-        });
-      };
-    }
-
-    queueMicrotask(() => {
+    requestAnimationFrame(() => {
       root.classList.remove(NO_POINTER_CLASS);
     });
   }, [pathname, searchKey]);
