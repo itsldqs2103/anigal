@@ -18,11 +18,7 @@ export default function LocaleSwitch({ customClass }) {
   const { next, flag } = LOCALES[locale];
 
   return (
-    <Link
-      href={targetPath}
-      locale={next}
-      className={customClass}
-    >
+    <Link href={targetPath} locale={next} className={customClass}>
       <span className={`fi ${flag}`} />
     </Link>
   );
@@ -31,8 +27,7 @@ export default function LocaleSwitch({ customClass }) {
 function getParentPath(pathname = '/', locale) {
   const segments = pathname.split('/').filter(Boolean);
 
-  const withoutLocale =
-    segments[0] === locale ? segments.slice(1) : segments;
+  const withoutLocale = segments[0] === locale ? segments.slice(1) : segments;
 
   if (withoutLocale.length === 0) return '/';
 

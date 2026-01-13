@@ -1,15 +1,6 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisIcon,
-} from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, EllipsisIcon } from 'lucide-react';
 
-export default function Pagination({
-  page,
-  totalPages,
-  loading,
-  setPage,
-}) {
+export default function Pagination({ page, totalPages, loading, setPage }) {
   if (totalPages <= 1) return null;
 
   const pages = getPageNumbers(page, totalPages);
@@ -22,11 +13,7 @@ export default function Pagination({
           onClick={() => setPage(page - 1)}
         />
 
-        <DesktopPages
-          pages={pages}
-          currentPage={page}
-          onSelect={setPage}
-        />
+        <DesktopPages pages={pages} currentPage={page} onSelect={setPage} />
 
         <MobileIndicator page={page} totalPages={totalPages} />
 
@@ -107,8 +94,9 @@ function PageButton({ page, active, onClick }) {
   return (
     <button
       type="button"
-      className={`join-item btn ${active ? 'btn-primary pointer-events-none' : ''
-        }`}
+      className={`join-item btn ${
+        active ? 'btn-primary pointer-events-none' : ''
+      }`}
       onClick={onClick}
     >
       {page}

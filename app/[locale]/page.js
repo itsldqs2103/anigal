@@ -72,7 +72,7 @@ export default function Home() {
         <>
           <ImageMasonry
             images={images}
-            onImageClick={(index) => {
+            onImageClick={index => {
               setLightboxIndex(index);
               setLightboxOpen(true);
             }}
@@ -102,9 +102,7 @@ export default function Home() {
 async function fetchImages(page, setImages, setTotalPages, setLoading) {
   setLoading(true);
   try {
-    const res = await fetch(
-      `/api/images?page=${page}&limit=${PAGE_LIMIT}`
-    );
+    const res = await fetch(`/api/images?page=${page}&limit=${PAGE_LIMIT}`);
     const data = await res.json();
     setImages(data.data);
     setTotalPages(data.totalPages);

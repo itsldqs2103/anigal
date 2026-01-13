@@ -27,15 +27,9 @@ export default function TopNav() {
 
   return (
     <div className="bg-base-100 rounded-default mx-4 mt-4 shadow-lg">
-      <Navbar
-        links={navLinks}
-        linkClass={linkClass}
-      />
+      <Navbar links={navLinks} linkClass={linkClass} />
 
-      <MobileMenu
-        links={navLinks}
-        linkClass={linkClass}
-      />
+      <MobileMenu links={navLinks} linkClass={linkClass} />
     </div>
   );
 }
@@ -68,10 +62,7 @@ function DesktopNav({ links, linkClass }) {
       <ul className="menu menu-horizontal gap-2">
         {links.map(link => (
           <li key={link.href}>
-            <Link
-              href={link.href}
-              className={linkClass(link.href)}
-            >
+            <Link href={link.href} className={linkClass(link.href)}>
               {link.label}
             </Link>
           </li>
@@ -108,21 +99,14 @@ function MobileToggle() {
 function MobileMenu({ links, linkClass }) {
   return (
     <div className="lg:hidden">
-      <input
-        type="checkbox"
-        id="mobile-nav"
-        className="peer hidden"
-      />
+      <input type="checkbox" id="mobile-nav" className="peer hidden" />
 
       <div className="bg-base-100 peer-checked:collapse-open collapse">
         <div className="collapse-content px-4">
           <ul className="menu menu-vertical w-full gap-2">
             {links.map(link => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={linkClass(link.href)}
-                >
+                <Link href={link.href} className={linkClass(link.href)}>
                   {link.label}
                 </Link>
               </li>
@@ -139,8 +123,5 @@ function MobileMenu({ links, linkClass }) {
 }
 
 function removeLocalePrefix(pathname, locale) {
-  return pathname.replace(
-    new RegExp(`^/${locale}(/|$)`),
-    '/'
-  );
+  return pathname.replace(new RegExp(`^/${locale}(/|$)`), '/');
 }

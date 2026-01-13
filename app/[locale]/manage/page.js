@@ -1,20 +1,9 @@
 'use client';
 
-import {
-  PencilIcon,
-  PlusIcon,
-  Trash2Icon,
-  XCircleIcon,
-} from 'lucide-react';
+import { PencilIcon, PlusIcon, Trash2Icon, XCircleIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -82,12 +71,7 @@ function EditImageModal({ open, image, onClose, onSave }) {
   };
 
   return (
-    <BaseModal
-      key={image?.id}
-      open={open}
-      title={t('edit')}
-      onClose={onClose}
-    >
+    <BaseModal key={image?.id} open={open} title={t('edit')} onClose={onClose}>
       <input
         className="input mb-4 w-full"
         placeholder={t('enternewimageurl')}
@@ -113,11 +97,7 @@ function DeleteImageModal({ open, imageId, onClose, onConfirm }) {
   };
 
   return (
-    <BaseModal
-      open={open}
-      title={`${t('areyousure')}?`}
-      onClose={onClose}
-    >
+    <BaseModal open={open} title={`${t('areyousure')}?`} onClose={onClose}>
       <ModalActions
         danger
         disabled={!imageId}
@@ -176,16 +156,10 @@ const ImageCard = memo(function ImageCard({
         className="aspect-square w-full object-cover transition hover:brightness-75"
       />
       <div className="flex flex-col gap-2 p-4">
-        <button
-          className="btn btn-warning"
-          onClick={() => onEdit(id, path)}
-        >
+        <button className="btn btn-warning" onClick={() => onEdit(id, path)}>
           <PencilIcon className="h-4 w-4" /> {t('edit')}
         </button>
-        <button
-          className="btn btn-error"
-          onClick={() => onDelete(id)}
-        >
+        <button className="btn btn-error" onClick={() => onDelete(id)}>
           <Trash2Icon className="h-4 w-4" /> {t('delete')}
         </button>
       </div>
@@ -215,9 +189,7 @@ export default function Manage() {
   const fetchImages = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(
-        `/api/images?page=${page}&limit=${PAGE_LIMIT}`
-      );
+      const res = await fetch(`/api/images?page=${page}&limit=${PAGE_LIMIT}`);
       const data = await res.json();
       setImages(data.data);
       setTotalPages(data.totalPages);
@@ -255,20 +227,15 @@ export default function Manage() {
   };
 
   const addImage = url =>
-    withToast(
-      t('addingimage'),
-      t('imageadded'),
-      t('addfailed'),
-      async () => {
-        await fetch('/api/images', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url }),
-        });
-        setPage(1);
-        fetchImages();
-      }
-    );
+    withToast(t('addingimage'), t('imageadded'), t('addfailed'), async () => {
+      await fetch('/api/images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url }),
+      });
+      setPage(1);
+      fetchImages();
+    });
 
   const editImage = (id, url) =>
     withToast(
@@ -282,9 +249,7 @@ export default function Manage() {
           body: JSON.stringify({ id, url }),
         });
         setImages(prev =>
-          prev.map(img =>
-            img.id === id ? { ...img, path: url } : img
-          )
+          prev.map(img => (img.id === id ? { ...img, path: url } : img))
         );
       }
     );
@@ -331,10 +296,7 @@ export default function Manage() {
 
       <div className="px-8 py-4">
         <div className="mb-4 text-end">
-          <button
-            className="btn btn-primary"
-            onClick={() => setAddOpen(true)}
-          >
+          <button className="btn btn-primary" onClick={() => setAddOpen(true)}>
             <PlusIcon className="h-4 w-4" /> {t('add')}
           </button>
         </div>

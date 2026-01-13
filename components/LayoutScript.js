@@ -8,14 +8,10 @@ export default function LayoutScript() {
 
     const events = ['dragstart', 'dragover', 'drop'];
 
-    events.forEach(type =>
-      document.addEventListener(type, prevent)
-    );
+    events.forEach(type => document.addEventListener(type, prevent));
 
     return () => {
-      events.forEach(type =>
-        document.removeEventListener(type, prevent)
-      );
+      events.forEach(type => document.removeEventListener(type, prevent));
     };
   }, []);
 

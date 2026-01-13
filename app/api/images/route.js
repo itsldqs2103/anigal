@@ -140,8 +140,5 @@ async function getImageFiles(id) {
 async function deleteImageFiles(image) {
   if (!image) return;
 
-  await Promise.all([
-    del(image.path),
-    del(image.preview_url),
-  ]);
+  await Promise.all([del(image.path), del(image.preview_url)]);
 }

@@ -9,17 +9,12 @@ export default function Footer() {
   const t = useTranslations('Footer');
   const year = getCurrentYear();
 
-  const links = [
-    { href: '/about', label: t('about') },
-  ];
+  const links = [{ href: '/about', label: t('about') }];
 
   return (
     <footer className="bg-base-100 rounded-default mx-4 mb-4 p-4">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <Copyright
-          year={year}
-          text={t('allrightsreserved')}
-        />
+        <Copyright year={year} text={t('allrightsreserved')} />
 
         <FooterLinks links={links} />
       </div>
@@ -45,7 +40,7 @@ function FooterLinks({ links }) {
         <Link
           key={link.href}
           href={link.href}
-          className="transition hover:text-accent"
+          className="hover:text-accent transition"
         >
           {link.label}
         </Link>
