@@ -1,14 +1,27 @@
 'use client';
 
-import { PencilIcon, PlusIcon, Trash2Icon, XCircleIcon } from 'lucide-react';
+import {
+  PencilIcon,
+  PlusIcon,
+  Trash2Icon,
+  XCircleIcon,
+} from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { toast, ToastContainer } from 'react-toastify';
 
 import Pagination from '@/components/Pagination';
 import { usePageTitle } from '@/hooks/usePageTitle';
+
+const PAGE_LIMIT = 24;
 
 function BaseModal({ open, title, onClose, children }) {
   const dialogRef = useRef(null);
@@ -35,6 +48,12 @@ function AddImageModal({ open, onClose, onSave }) {
   const t = useTranslations('Manage');
   const [url, setUrl] = useState('');
 
+  const handleSave = () => {
+    onClose();
+    onSave(url);
+    setUrl('');
+  };
+
   return (
     <BaseModal open={open} title={t('add')} onClose={onClose}>
       <input
@@ -43,21 +62,11 @@ function AddImageModal({ open, onClose, onSave }) {
         value={url}
         onChange={e => setUrl(e.target.value)}
       />
-      <div className="flex justify-end gap-2">
-        <button className="btn" onClick={onClose}>
-          {t('cancel')}
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            onClose();
-            onSave(url);
-            setUrl('');
-          }}
-        >
-          {t('save')}
-        </button>
-      </div>
+      <ModalActions
+        onCancel={onClose}
+        onConfirm={handleSave}
+        confirmLabel={t('save')}
+      />
     </BaseModal>
   );
 }
@@ -66,28 +75,30 @@ function EditImageModal({ open, image, onClose, onSave }) {
   const t = useTranslations('Manage');
   const [url, setUrl] = useState(image?.path ?? '');
 
+  const handleSave = () => {
+    if (!image) return;
+    onClose();
+    onSave(image.id, url);
+  };
+
   return (
-    <BaseModal open={open} title={t('edit')} onClose={onClose} key={image?.id}>
+    <BaseModal
+      key={image?.id}
+      open={open}
+      title={t('edit')}
+      onClose={onClose}
+    >
       <input
         className="input mb-4 w-full"
         placeholder={t('enternewimageurl')}
         value={url}
         onChange={e => setUrl(e.target.value)}
       />
-      <div className="flex justify-end gap-2">
-        <button className="btn" onClick={onClose}>
-          {t('cancel')}
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            onClose();
-            if (image) onSave(image.id, url);
-          }}
-        >
-          {t('save')}
-        </button>
-      </div>
+      <ModalActions
+        onCancel={onClose}
+        onConfirm={handleSave}
+        confirmLabel={t('save')}
+      />
     </BaseModal>
   );
 }
@@ -95,24 +106,49 @@ function EditImageModal({ open, image, onClose, onSave }) {
 function DeleteImageModal({ open, imageId, onClose, onConfirm }) {
   const t = useTranslations('Manage');
 
+  const handleDelete = () => {
+    if (!imageId) return;
+    onClose();
+    onConfirm(imageId);
+  };
+
   return (
-    <BaseModal open={open} title={`${t('areyousure')}?`} onClose={onClose}>
-      <div className="flex justify-end gap-2">
-        <button className="btn" onClick={onClose}>
-          {t('cancel')}
-        </button>
-        <button
-          className="btn btn-error"
-          disabled={!imageId}
-          onClick={() => {
-            onClose();
-            if (imageId) onConfirm(imageId);
-          }}
-        >
-          {t('delete')}
-        </button>
-      </div>
+    <BaseModal
+      open={open}
+      title={`${t('areyousure')}?`}
+      onClose={onClose}
+    >
+      <ModalActions
+        danger
+        disabled={!imageId}
+        onCancel={onClose}
+        onConfirm={handleDelete}
+        confirmLabel={t('delete')}
+      />
     </BaseModal>
+  );
+}
+
+function ModalActions({
+  onCancel,
+  onConfirm,
+  confirmLabel,
+  danger = false,
+  disabled = false,
+}) {
+  return (
+    <div className="flex justify-end gap-2">
+      <button className="btn" onClick={onCancel}>
+        Cancel
+      </button>
+      <button
+        className={`btn ${danger ? 'btn-error' : 'btn-primary'}`}
+        disabled={disabled}
+        onClick={onConfirm}
+      >
+        {confirmLabel}
+      </button>
+    </div>
   );
 }
 
@@ -130,18 +166,24 @@ const ImageCard = memo(function ImageCard({
   return (
     <div className="card bg-base-100 rounded-default flex flex-col overflow-hidden shadow-lg">
       <LazyLoadImage
-        wrapperProps={{ style: { display: 'block', color: 'transparent' } }}
         src={preview_url}
         alt={`Image ${id}`}
         width={width}
         height={height}
-        className="aspect-square w-full object-cover transition-[filter] hover:brightness-75"
+        wrapperProps={{ style: { display: 'block', color: 'transparent' } }}
+        className="aspect-square w-full object-cover transition hover:brightness-75"
       />
       <div className="flex flex-col gap-2 p-4">
-        <button className="btn btn-warning" onClick={() => onEdit(id, path)}>
+        <button
+          className="btn btn-warning"
+          onClick={() => onEdit(id, path)}
+        >
           <PencilIcon className="h-4 w-4" /> {t('edit')}
         </button>
-        <button className="btn btn-error" onClick={() => onDelete(id)}>
+        <button
+          className="btn btn-error"
+          onClick={() => onDelete(id)}
+        >
           <Trash2Icon className="h-4 w-4" /> {t('delete')}
         </button>
       </div>
@@ -149,12 +191,10 @@ const ImageCard = memo(function ImageCard({
   );
 });
 
-const limit = 24;
-
 export default function Manage() {
+  const t = useTranslations('Manage');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const t = useTranslations('Manage');
 
   const initialPage = Number(searchParams.get('page') ?? 1);
 
@@ -163,20 +203,25 @@ export default function Manage() {
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
 
+  const [selectedImage, setSelectedImage] = useState(null);
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
 
-  const fetchImages = useCallback(() => {
+  usePageTitle(t('manage'));
+
+  const fetchImages = useCallback(async () => {
     setLoading(true);
-    fetch(`/api/images?page=${page}&limit=${limit}`)
-      .then(res => res.json())
-      .then(res => {
-        setImages(res.data);
-        setTotalPages(res.totalPages);
-      })
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(
+        `/api/images?page=${page}&limit=${PAGE_LIMIT}`
+      );
+      const data = await res.json();
+      setImages(data.data);
+      setTotalPages(data.totalPages);
+    } finally {
+      setLoading(false);
+    }
   }, [page]);
 
   useEffect(() => {
@@ -187,26 +232,19 @@ export default function Manage() {
     router.replace(`?page=${page}`, { scroll: false });
   }, [page, router]);
 
-  const addImage = async url => {
-    const toastId = toast.loading(t('addingimage'));
+  const withToast = async (loadingMsg, successMsg, errorMsg, action) => {
+    const id = toast.loading(loadingMsg);
     try {
-      const res = await fetch('/api/images', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
-      });
-      if (!res.ok) throw new Error();
-      setPage(1);
-      fetchImages();
-      toast.update(toastId, {
-        render: t('imageadded'),
+      await action();
+      toast.update(id, {
+        render: successMsg,
         type: 'success',
         isLoading: false,
         autoClose: 2500,
       });
     } catch {
-      toast.update(toastId, {
-        render: t('addfailed'),
+      toast.update(id, {
+        render: errorMsg,
         type: 'error',
         isLoading: false,
         autoClose: 2500,
@@ -214,62 +252,56 @@ export default function Manage() {
     }
   };
 
-  const editImage = async (id, url) => {
-    const toastId = toast.loading(t('updatingimage'));
-    try {
-      const res = await fetch('/api/images', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, url }),
-      });
-      if (!res.ok) throw new Error();
-      setImages(prev =>
-        prev.map(img => (img.id === id ? { ...img, path: url } : img))
-      );
-      toast.update(toastId, {
-        render: t('imageupdated'),
-        type: 'success',
-        isLoading: false,
-        autoClose: 2500,
-      });
-    } catch {
-      toast.update(toastId, {
-        render: t('updatefailed'),
-        type: 'error',
-        isLoading: false,
-        autoClose: 2500,
-      });
-    }
-  };
+  const addImage = url =>
+    withToast(
+      t('addingimage'),
+      t('imageadded'),
+      t('addfailed'),
+      async () => {
+        await fetch('/api/images', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url }),
+        });
+        setPage(1);
+        fetchImages();
+      }
+    );
 
-  const deleteImage = async id => {
-    const toastId = toast.loading(t('deletingimage'));
-    try {
-      const res = await fetch('/api/images', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id }),
-      });
-      if (!res.ok) throw new Error();
-      setPage(1);
-      fetchImages();
-      toast.update(toastId, {
-        render: t('imagedeleted'),
-        type: 'success',
-        isLoading: false,
-        autoClose: 2500,
-      });
-    } catch {
-      toast.update(toastId, {
-        render: t('deletefailed'),
-        type: 'error',
-        isLoading: false,
-        autoClose: 2500,
-      });
-    }
-  };
+  const editImage = (id, url) =>
+    withToast(
+      t('updatingimage'),
+      t('imageupdated'),
+      t('updatefailed'),
+      async () => {
+        await fetch('/api/images', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, url }),
+        });
+        setImages(prev =>
+          prev.map(img =>
+            img.id === id ? { ...img, path: url } : img
+          )
+        );
+      }
+    );
 
-  usePageTitle(t('manage'));
+  const deleteImage = id =>
+    withToast(
+      t('deletingimage'),
+      t('imagedeleted'),
+      t('deletefailed'),
+      async () => {
+        await fetch('/api/images', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id }),
+        });
+        setPage(1);
+        fetchImages();
+      }
+    );
 
   return (
     <>
@@ -297,42 +329,31 @@ export default function Manage() {
 
       <div className="px-8 py-4">
         <div className="mb-4 text-end">
-          <button className="btn btn-primary" onClick={() => setAddOpen(true)}>
+          <button
+            className="btn btn-primary"
+            onClick={() => setAddOpen(true)}
+          >
             <PlusIcon className="h-4 w-4" /> {t('add')}
           </button>
         </div>
 
         {loading ? (
-          <div className="flex items-center justify-center gap-1">
-            <span className="loading loading-spinner loading-xs" />
-            {t('loadingimages')}
-          </div>
+          <LoadingState text={t('loadingimages')} />
         ) : images.length === 0 ? (
-          <div className="text-center">
-            <div className="bg-error rounded-default text-error-content inline-flex items-center gap-1 px-3 py-2 shadow-lg">
-              <XCircleIcon className="h-4 w-4" />
-              {t('noimagesfound')}
-            </div>
-          </div>
+          <EmptyState text={t('noimagesfound')} />
         ) : (
           <>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-              {images.map(img => (
-                <ImageCard
-                  key={img.id}
-                  {...img}
-                  onEdit={(id, path) => {
-                    setSelectedImage({ id, path });
-                    setEditOpen(true);
-                  }}
-                  onDelete={id => {
-                    setSelectedImage({ id });
-                    setDeleteOpen(true);
-                  }}
-                />
-              ))}
-            </div>
-
+            <ImageGrid
+              images={images}
+              onEdit={img => {
+                setSelectedImage(img);
+                setEditOpen(true);
+              }}
+              onDelete={id => {
+                setSelectedImage({ id });
+                setDeleteOpen(true);
+              }}
+            />
             <Pagination
               page={page}
               totalPages={totalPages}
@@ -343,5 +364,40 @@ export default function Manage() {
         )}
       </div>
     </>
+  );
+}
+
+function LoadingState({ text }) {
+  return (
+    <div className="flex items-center justify-center gap-1">
+      <span className="loading loading-spinner loading-xs" />
+      {text}
+    </div>
+  );
+}
+
+function EmptyState({ text }) {
+  return (
+    <div className="text-center">
+      <div className="bg-error rounded-default text-error-content inline-flex items-center gap-1 px-3 py-2 shadow-lg">
+        <XCircleIcon className="h-4 w-4" />
+        {text}
+      </div>
+    </div>
+  );
+}
+
+function ImageGrid({ images, onEdit, onDelete }) {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+      {images.map(img => (
+        <ImageCard
+          key={img.id}
+          {...img}
+          onEdit={(id, path) => onEdit({ id, path })}
+          onDelete={onDelete}
+        />
+      ))}
+    </div>
   );
 }

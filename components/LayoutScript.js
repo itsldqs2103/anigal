@@ -1,21 +1,21 @@
 'use client';
+
 import { useEffect } from 'react';
 
 export default function LayoutScript() {
   useEffect(() => {
-    const preventDefault = e => {
-      e.preventDefault();
-    };
+    const prevent = event => event.preventDefault();
 
-    document.addEventListener('dragstart', preventDefault);
+    const events = ['dragstart', 'dragover', 'drop'];
 
-    document.addEventListener('dragover', preventDefault);
-    document.addEventListener('drop', preventDefault);
+    events.forEach(type =>
+      document.addEventListener(type, prevent)
+    );
 
     return () => {
-      document.removeEventListener('dragstart', preventDefault);
-      document.removeEventListener('dragover', preventDefault);
-      document.removeEventListener('drop', preventDefault);
+      events.forEach(type =>
+        document.removeEventListener(type, prevent)
+      );
     };
   }, []);
 
