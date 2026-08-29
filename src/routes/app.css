@@ -26,6 +26,7 @@
 }
 
 html {
+	user-select: none;
 	font-family: 'Manrope Variable', sans-serif;
 	text-rendering: optimizeLegibility;
 }
