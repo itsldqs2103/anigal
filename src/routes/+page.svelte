@@ -215,7 +215,7 @@
 									class="sr-only"
 									type="file"
 									name="file"
-									accept="image/*"
+									accept=".jpg,.jpeg,.png,.webp"
 									required
 									disabled={isSubmitting}
 									onchange={handleFileChange}
