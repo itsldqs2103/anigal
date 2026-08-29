@@ -33,6 +33,15 @@
 			return;
 		}
 
+		const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+		if (!allowedTypes.includes(file.type)) {
+			fileError = 'Only JPG, JPEG, PNG, and WebP images are allowed.';
+			selectedFile = null;
+			input.value = '';
+			return;
+		}
+
 		if (file.size > MAX_FILE_SIZE) {
 			fileError = 'Image must be 1 MB or smaller.';
 			selectedFile = null;
