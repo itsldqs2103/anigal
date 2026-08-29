@@ -309,7 +309,7 @@
 					>
 						<div class="relative aspect-square overflow-hidden bg-base-200">
 							<img
-								src={`${image.thumbnail}?v=${new Date(image.updatedAt).getTime()}`}
+								src={image.thumbnail}
 								alt="Image {image.id}"
 								loading="lazy"
 								class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
