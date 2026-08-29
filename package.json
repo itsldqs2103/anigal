@@ -42,6 +42,7 @@
 		"dotenv": "^17.4.2",
 		"lazysizes": "^5.3.2",
 		"lucide-svelte": "^1.0.1",
-		"sharp": "^0.35.4"
+		"sharp": "^0.35.4",
+		"svelte-lightbox": "^1.1.9"
 	}
 }
