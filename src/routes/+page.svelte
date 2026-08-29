@@ -19,14 +19,34 @@
 	let selectedFile = $state<File | null>(null);
 	let updateModal: HTMLDialogElement;
 	let deleteModal: HTMLDialogElement;
+	let fileError = $state('');
+	const MAX_FILE_SIZE = 1 * 1024 * 1024;
 
 	function handleFileChange(event: Event) {
 		const input = event.currentTarget as HTMLInputElement;
-		selectedFile = input.files?.[0] ?? null;
+		const file = input.files?.[0] ?? null;
+
+		fileError = '';
+
+		if (!file) {
+			selectedFile = null;
+			return;
+		}
+
+		if (file.size > MAX_FILE_SIZE) {
+			fileError = 'Image must be 1 MB or smaller.';
+			selectedFile = null;
+			input.value = '';
+			return;
+		}
+
+		selectedFile = file;
 	}
 
 	function resetFile() {
 		selectedFile = null;
+		fileError = '';
+
 		const input = document.getElementById('image-file') as HTMLInputElement | null;
 		if (input) input.value = '';
 	}
@@ -164,8 +184,11 @@
 							<label
 								for="image-file"
 								class="mb-1.5 block text-xs font-semibold tracking-wide text-base-content/50 uppercase"
-								>Image file</label
 							>
+								Image file <span class="font-normal text-base-content/40 normal-case">
+									(max 1 MB)
+								</span>
+							</label>
 							<div
 								class="flex h-12 items-center rounded-xl border border-base-300 bg-base-100 transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10"
 							>
@@ -204,6 +227,14 @@
 										<Check class="h-3.5 w-3.5" strokeWidth={2.5} />
 									</div>
 								{/if}
+								{#if fileError}
+									<div
+										class="mt-3 flex items-center gap-3 rounded-xl border border-error/20 bg-error/5 px-4 py-3 text-error"
+									>
+										<TriangleAlert class="h-4 w-4 shrink-0" strokeWidth={2} />
+										<span class="text-sm">{fileError}</span>
+									</div>
+								{/if}
 							</div>
 						</div>
 						<div class="flex gap-2">
@@ -212,7 +243,7 @@
 									type="button"
 									class="btn h-12 rounded-xl btn-primary"
 									onclick={openUpdateModal}
-									disabled={isSubmitting || !selectedFile}
+									disabled={isSubmitting || !selectedFile || !!fileError}
 								>
 									{#if isSubmitting}
 										<span class="loading loading-sm loading-spinner"></span>
@@ -230,7 +261,7 @@
 								<button
 									type="submit"
 									class="btn h-12 rounded-xl btn-primary"
-									disabled={isSubmitting || !selectedFile}
+									disabled={isSubmitting || !selectedFile || !!fileError}
 								>
 									{#if isSubmitting}
 										<span class="loading loading-sm loading-spinner"></span>
