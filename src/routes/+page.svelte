@@ -11,20 +11,6 @@
 		Images,
 		Check
 	} from 'lucide-svelte';
-	import { onMount } from 'svelte';
-
-	onMount(async () => {
-		const { default: simpleParallax } = await import('simple-parallax-js');
-
-		const images = document.querySelectorAll('img[data-parallax]');
-		if (images.length > 0) {
-			new simpleParallax(images, {
-				scale: 1.25,
-				delay: 0,
-				customWrapper: '.parallax-wrapper'
-			});
-		}
-	});
 
 	let { data, form } = $props();
 	let editingId = $state('');
