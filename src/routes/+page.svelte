@@ -11,6 +11,24 @@
 		Images,
 		Check
 	} from 'lucide-svelte';
+	import simpleParallax from 'simple-parallax-js/vanilla';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		const images = document.querySelectorAll('img[data-parallax]');
+
+		if (images.length === 0) return;
+
+		const parallax = new simpleParallax(images, {
+			scale: 1.25,
+			delay: 0,
+			customWrapper: '.parallax-wrapper'
+		});
+
+		return () => {
+			parallax.destroy();
+		};
+	});
 
 	let { data, form } = $props();
 	let editingId = $state('');
@@ -303,7 +321,8 @@
 							<img
 								data-lazyload-src={image.thumbnail}
 								alt="Image {image.id}"
-								class="lazyload h-full w-full object-cover group-hover:scale-[1.02]"
+								class="lazyload h-full w-full object-cover"
+								data-parallax
 							/>
 							<div
 								class="absolute inset-x-0 bottom-0 hidden items-end justify-end bg-linear-to-t from-black/60 to-transparent p-3 pt-10 opacity-0 transition group-hover:opacity-100 sm:flex"
