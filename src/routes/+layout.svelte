@@ -4,6 +4,12 @@
 	import '$lib/lazysizes';
 
 	let { children } = $props();
+
+	document.addEventListener('dragstart', (e: DragEvent) => {
+		if (e.target instanceof Element && e.target.closest('a, img')) {
+			e.preventDefault();
+		}
+	});
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
