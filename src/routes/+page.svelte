@@ -20,7 +20,7 @@
 	let updateModal: HTMLDialogElement;
 	let deleteModal: HTMLDialogElement;
 	let fileError = $state('');
-	const MAX_FILE_SIZE = 1 * 1024 * 1024;
+	const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 	function handleFileChange(event: Event) {
 		const input = event.currentTarget as HTMLInputElement;
@@ -43,7 +43,7 @@
 		}
 
 		if (file.size > MAX_FILE_SIZE) {
-			fileError = 'Image must be 1 MB or smaller.';
+			fileError = 'Image must be 10 MB or smaller.';
 			selectedFile = null;
 			input.value = '';
 			return;
@@ -195,7 +195,7 @@
 								class="mb-1.5 block text-xs font-semibold tracking-wide text-base-content/50 uppercase"
 							>
 								Image file <span class="font-normal text-base-content/40 normal-case">
-									(max 1 MB)
+									(max 10 MB)
 								</span>
 							</label>
 							<div
@@ -236,14 +236,6 @@
 										<Check class="h-3.5 w-3.5" strokeWidth={2.5} />
 									</div>
 								{/if}
-								{#if fileError}
-									<div
-										class="mt-3 flex items-center gap-3 rounded-xl border border-error/20 bg-error/5 px-4 py-3 text-error"
-									>
-										<TriangleAlert class="h-4 w-4 shrink-0" strokeWidth={2} />
-										<span class="text-sm">{fileError}</span>
-									</div>
-								{/if}
 							</div>
 						</div>
 						<div class="flex gap-2">
@@ -282,12 +274,12 @@
 						</div>
 					</div>
 				</form>
-				{#if form?.error}
+				{#if fileError || form?.error}
 					<div
 						class="mt-4 flex items-center gap-3 rounded-xl border border-error/20 bg-error/5 px-4 py-3 text-error"
 					>
 						<TriangleAlert class="h-4 w-4 shrink-0" strokeWidth={2} />
-						<span class="text-sm">{form.error}</span>
+						<span class="text-sm">{fileError || form?.error}</span>
 					</div>
 				{/if}
 			</div>

@@ -26,6 +26,7 @@
 }
 
 html {
+	user-select: none;
 	font-family: 'Manrope Variable', sans-serif;
 	text-rendering: optimizeLegibility;
 }
@@ -36,7 +37,9 @@ img.lazyloading {
 }
 img.lazyloaded {
 	opacity: 1;
-	transition: opacity 300ms, scale 300ms;
+	transition:
+		opacity 300ms,
+		scale 300ms;
 }
 
 img.lazyload:not([src]) {
