@@ -20,7 +20,7 @@
 	let updateModal: HTMLDialogElement;
 	let deleteModal: HTMLDialogElement;
 	let fileError = $state('');
-	const MAX_FILE_SIZE = 10 * 1024 * 1024;
+	const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 	function handleFileChange(event: Event) {
 		const input = event.currentTarget as HTMLInputElement;
@@ -43,7 +43,7 @@
 		}
 
 		if (file.size > MAX_FILE_SIZE) {
-			fileError = 'Image must be 10 MB or smaller.';
+			fileError = 'Image must be 5 MB or smaller.';
 			selectedFile = null;
 			input.value = '';
 			return;
@@ -195,7 +195,7 @@
 								class="mb-1.5 block text-xs font-semibold tracking-wide text-base-content/50 uppercase"
 							>
 								Image file <span class="font-normal text-base-content/40 normal-case">
-									(max 10 MB)
+									(max 5 MB)
 								</span>
 							</label>
 							<div
