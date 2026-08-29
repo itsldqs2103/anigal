@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { Lightbox } from 'svelte-lightbox';
+    import '@fancyapps/ui/dist/fancybox/fancybox.css';
 	import {
 		TriangleAlert,
 		Image,
@@ -301,17 +301,15 @@
 						class="group overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 shadow-sm transition hover:shadow-md"
 					>
 						<div class="relative aspect-square overflow-hidden bg-base-200">
-							<Lightbox title="Image {image.id}">
-								<img
-									src={image.thumbnail}
-									alt="Image {image.id}"
-									class="h-full w-full cursor-pointer object-cover transition group-hover:scale-[1.02]"
-								/>
-							</Lightbox>
+							<img
+								data-lazyload-src={image.thumbnail}
+								alt="Image {image.id}"
+								class="lazyload h-full w-full object-cover group-hover:scale-[1.02]"
+							/>
 							<div
 								class="absolute inset-x-0 bottom-0 hidden items-end justify-end bg-linear-to-t from-black/60 to-transparent p-3 pt-10 opacity-0 transition group-hover:opacity-100 sm:flex"
 							>
-								<div class="pointer-events-auto flex gap-2">
+								<div class="flex gap-2">
 									<button
 										type="button"
 										class="btn btn-circle btn-sm"
