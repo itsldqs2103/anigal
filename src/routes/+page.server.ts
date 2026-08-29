@@ -4,6 +4,11 @@ import { put, del } from '@vercel/blob';
 import sharp from 'sharp';
 import { sql } from '$lib/db';
 
+type StoredImage = {
+	file: string;
+	thumbnail: string;
+};
+
 export const load: PageServerLoad = async () => {
 	const images = await sql`
 		SELECT
@@ -21,7 +26,7 @@ export const load: PageServerLoad = async () => {
 	};
 };
 
-async function storeImage(file: File, id: string) {
+async function storeImage(file: File, id: string): Promise<StoredImage> {
 	const buffer = Buffer.from(await file.arrayBuffer());
 
 	const image = sharp(buffer).rotate();
@@ -52,14 +57,17 @@ async function storeImage(file: File, id: string) {
 		})
 		.toBuffer();
 
+	const mainPath = `images/${id}/${id}.jpg`;
+	const thumbnailPath = `images/${id}/${id}_thumb.webp`;
+
 	const [mainBlob, thumbnailBlob] = await Promise.all([
-		put(`images/${id}/${id}.jpg`, mainBuffer, {
+		put(mainPath, mainBuffer, {
 			access: 'public',
 			contentType: 'image/jpeg',
 			allowOverwrite: true
 		}),
 
-		put(`images/${id}/${id}_thumb.webp`, thumbnailBuffer, {
+		put(thumbnailPath, thumbnailBuffer, {
 			access: 'public',
 			contentType: 'image/webp',
 			allowOverwrite: true
@@ -72,7 +80,7 @@ async function storeImage(file: File, id: string) {
 	};
 }
 
-async function deleteImageFiles(image: { file: string; thumbnail: string }) {
+async function deleteImageFiles(image: StoredImage) {
 	const urls = [image.file, image.thumbnail].filter(Boolean);
 
 	if (urls.length > 0) {
@@ -84,97 +92,127 @@ export const actions: Actions = {
 	save: async ({ request }) => {
 		const data = await request.formData();
 
-		const id = data.get('id')?.toString();
+		const id = data.get('id')?.toString() || null;
 		const file = data.get('file');
 
-		if (!(file instanceof File) || !file.size) {
+		if (!(file instanceof File) || file.size === 0) {
 			return fail(400, {
 				error: 'Please select an image'
 			});
 		}
 
-		if (!file.type.startsWith('image/')) {
+		if (file.size > 10 * 1024 * 1024) {
 			return fail(400, {
-				error: 'File must be an image'
+				error: 'Image must be smaller than 10 MB'
+			});
+		}
+
+		try {
+			const buffer = Buffer.from(await file.arrayBuffer());
+
+			const metadata = await sharp(buffer).metadata();
+
+			if (!metadata.format) {
+				return fail(400, {
+					error: 'Invalid image file'
+				});
+			}
+		} catch {
+			return fail(400, {
+				error: 'Invalid image file'
 			});
 		}
 
 		try {
 			if (id) {
-				const existing = await sql`
+				const existingResult = await sql`
 					SELECT
 						id,
 						file,
-						thumbnail,
-						"createdAt",
-						"updatedAt"
+						thumbnail
 					FROM image
 					WHERE id = ${id}
 					LIMIT 1
 				`;
 
-				if (existing.length === 0) {
+				if (existingResult.length === 0) {
 					return fail(404, {
 						error: 'Image not found'
 					});
 				}
 
+				const existing = existingResult[0];
+				
 				const stored = await storeImage(file, id);
 
-				await sql`
-					UPDATE image
-					SET
-						file = ${stored.file},
-						thumbnail = ${stored.thumbnail},
-						"updatedAt" = CURRENT_TIMESTAMP
-					WHERE id = ${id}
-				`;
+				try {
+					await sql`
+						UPDATE image
+						SET
+							file = ${stored.file},
+							thumbnail = ${stored.thumbnail},
+							"updatedAt" = CURRENT_TIMESTAMP
+						WHERE id = ${id}
+					`;
+				} catch (dbError) {
+					await deleteImageFiles(stored).catch((cleanupError) => {
+						console.error(
+							'Failed to clean up new blobs:',
+							cleanupError
+						);
+					});
+
+					throw dbError;
+				}
+				
+				await deleteImageFiles({
+					file: existing.file,
+					thumbnail: existing.thumbnail
+				}).catch((cleanupError) => {
+					console.error(
+						'Failed to delete old image blobs:',
+						cleanupError
+					);
+				});
 
 				return {
 					success: true,
 					action: 'updated'
 				};
 			}
-
+			
 			const newId = crypto.randomUUID();
 
-			await sql`
-				INSERT INTO image (
-					id,
-					file,
-					thumbnail
-				)
-				VALUES (
-					${newId},
-					'',
-					''
-				)
-			`;
+			const stored = await storeImage(file, newId);
 
 			try {
-				const stored = await storeImage(file, newId);
-
 				await sql`
-					UPDATE image
-					SET
-						file = ${stored.file},
-						thumbnail = ${stored.thumbnail},
-						"updatedAt" = CURRENT_TIMESTAMP
-					WHERE id = ${newId}
+					INSERT INTO image (
+						id,
+						file,
+						thumbnail
+					)
+					VALUES (
+						${newId},
+						${stored.file},
+						${stored.thumbnail}
+					)
 				`;
+			} catch (dbError) {
+				await deleteImageFiles(stored).catch((cleanupError) => {
+					console.error(
+						'Failed to clean up uploaded blobs:',
+						cleanupError
+					);
+				});
 
-				return {
-					success: true,
-					action: 'created'
-				};
-			} catch (error) {
-				await sql`
-					DELETE FROM image
-					WHERE id = ${newId}
-				`;
-
-				throw error;
+				throw dbError;
 			}
+
+			return {
+				success: true,
+				action: 'created'
+			};
 		} catch (error) {
 			console.error('Failed to save image:', error);
 
@@ -218,7 +256,7 @@ export const actions: Actions = {
 				file: image.file,
 				thumbnail: image.thumbnail
 			});
-
+			
 			await sql`
 				DELETE FROM image
 				WHERE id = ${id}
