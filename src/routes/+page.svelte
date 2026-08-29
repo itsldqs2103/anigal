@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-    import '@fancyapps/ui/dist/fancybox/fancybox.css';
 	import {
 		TriangleAlert,
 		Image,
