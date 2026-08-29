@@ -311,7 +311,7 @@
 							<img
 								data-lazyload-src={image.thumbnail}
 								alt="Image {image.id}"
-								class="lazyload h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+								class="lazyload h-full w-full object-cover group-hover:scale-[1.02]"
 							/>
 							<div
 								class="absolute inset-x-0 bottom-0 hidden items-end justify-end bg-linear-to-t from-black/60 to-transparent p-3 pt-10 opacity-0 transition group-hover:opacity-100 sm:flex"
