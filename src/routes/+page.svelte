@@ -15,7 +15,8 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-		const images = document.querySelectorAll('img[data-parallax]');
+		const images =
+			typeof document !== 'undefined' ? document.querySelectorAll('img[data-parallax]') : [];
 
 		if (images.length === 0) return;
 
