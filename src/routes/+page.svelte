@@ -11,24 +11,19 @@
 		Images,
 		Check
 	} from 'lucide-svelte';
-	import simpleParallax from 'simple-parallax-js/vanilla';
 	import { onMount } from 'svelte';
 
-	onMount(() => {
-		const images =
-			typeof document !== 'undefined' ? document.querySelectorAll('img[data-parallax]') : [];
+	onMount(async () => {
+		const { default: simpleParallax } = await import('simple-parallax-js');
 
-		if (images.length === 0) return;
-
-		const parallax = new simpleParallax(images, {
-			scale: 1.25,
-			delay: 0,
-			customWrapper: '.parallax-wrapper'
-		});
-
-		return () => {
-			parallax.destroy();
-		};
+		const images = document.querySelectorAll('img[data-parallax]');
+		if (images.length > 0) {
+			new simpleParallax(images, {
+				scale: 1.25,
+				delay: 0,
+				customWrapper: '.parallax-wrapper'
+			});
+		}
 	});
 
 	let { data, form } = $props();
