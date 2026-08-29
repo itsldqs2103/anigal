@@ -28,9 +28,7 @@ export const load: PageServerLoad = async () => {
 
 async function storeImage(file: File, id: string): Promise<StoredImage> {
 	const buffer = Buffer.from(await file.arrayBuffer());
-
 	const image = sharp(buffer).rotate();
-
 	const metadata = await image.metadata();
 
 	if (!metadata.format) {
@@ -57,20 +55,16 @@ async function storeImage(file: File, id: string): Promise<StoredImage> {
 		})
 		.toBuffer();
 
-	const mainPath = `images/${id}/${id}.jpg`;
-	const thumbnailPath = `images/${id}/${id}_thumb.webp`;
+	const uploadId = crypto.randomUUID();
 
 	const [mainBlob, thumbnailBlob] = await Promise.all([
-		put(mainPath, mainBuffer, {
+		put(`images/${id}/${uploadId}.jpg`, mainBuffer, {
 			access: 'public',
-			contentType: 'image/jpeg',
-			allowOverwrite: true
+			contentType: 'image/jpeg'
 		}),
-
-		put(thumbnailPath, thumbnailBuffer, {
+		put(`images/${id}/${uploadId}_thumb.webp`, thumbnailBuffer, {
 			access: 'public',
-			contentType: 'image/webp',
-			allowOverwrite: true
+			contentType: 'image/webp'
 		})
 	]);
 
@@ -101,6 +95,12 @@ export const actions: Actions = {
 			});
 		}
 
+		if (!file.type.startsWith('image/')) {
+			return fail(400, {
+				error: 'File must be an image'
+			});
+		}
+
 		if (file.size > 10 * 1024 * 1024) {
 			return fail(400, {
 				error: 'Image must be smaller than 10 MB'
@@ -109,7 +109,6 @@ export const actions: Actions = {
 
 		try {
 			const buffer = Buffer.from(await file.arrayBuffer());
-
 			const metadata = await sharp(buffer).metadata();
 
 			if (!metadata.format) {
@@ -117,13 +116,7 @@ export const actions: Actions = {
 					error: 'Invalid image file'
 				});
 			}
-		} catch {
-			return fail(400, {
-				error: 'Invalid image file'
-			});
-		}
 
-		try {
 			if (id) {
 				const existingResult = await sql`
 					SELECT
@@ -142,7 +135,7 @@ export const actions: Actions = {
 				}
 
 				const existing = existingResult[0];
-				
+
 				const stored = await storeImage(file, id);
 
 				try {
@@ -154,24 +147,24 @@ export const actions: Actions = {
 							"updatedAt" = CURRENT_TIMESTAMP
 						WHERE id = ${id}
 					`;
-				} catch (dbError) {
+				} catch (error) {
 					await deleteImageFiles(stored).catch((cleanupError) => {
 						console.error(
-							'Failed to clean up new blobs:',
+							'Failed to cleanup new blobs:',
 							cleanupError
 						);
 					});
 
-					throw dbError;
+					throw error;
 				}
-				
+
 				await deleteImageFiles({
 					file: existing.file,
 					thumbnail: existing.thumbnail
-				}).catch((cleanupError) => {
+				}).catch((error) => {
 					console.error(
-						'Failed to delete old image blobs:',
-						cleanupError
+						'Failed to delete old blobs:',
+						error
 					);
 				});
 
@@ -180,9 +173,8 @@ export const actions: Actions = {
 					action: 'updated'
 				};
 			}
-			
-			const newId = crypto.randomUUID();
 
+			const newId = crypto.randomUUID();
 			const stored = await storeImage(file, newId);
 
 			try {
@@ -198,15 +190,15 @@ export const actions: Actions = {
 						${stored.thumbnail}
 					)
 				`;
-			} catch (dbError) {
+			} catch (error) {
 				await deleteImageFiles(stored).catch((cleanupError) => {
 					console.error(
-						'Failed to clean up uploaded blobs:',
+						'Failed to cleanup uploaded blobs:',
 						cleanupError
 					);
 				});
 
-				throw dbError;
+				throw error;
 			}
 
 			return {
@@ -224,7 +216,6 @@ export const actions: Actions = {
 
 	delete: async ({ request }) => {
 		const data = await request.formData();
-
 		const id = data.get('id')?.toString();
 
 		if (!id) {
@@ -256,7 +247,7 @@ export const actions: Actions = {
 				file: image.file,
 				thumbnail: image.thumbnail
 			});
-			
+
 			await sql`
 				DELETE FROM image
 				WHERE id = ${id}
