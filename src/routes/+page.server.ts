@@ -10,7 +10,8 @@ export const load: PageServerLoad = async () => {
 			id,
 			file,
 			thumbnail,
-			"createdAt"
+			"createdAt",
+			"updatedAt"
 		FROM image
 		ORDER BY "createdAt" DESC
 	`;
@@ -105,7 +106,8 @@ export const actions: Actions = {
 						id,
 						file,
 						thumbnail,
-						"createdAt"
+						"createdAt",
+						"updatedAt"
 					FROM image
 					WHERE id = ${id}
 					LIMIT 1
@@ -123,7 +125,8 @@ export const actions: Actions = {
 					UPDATE image
 					SET
 						file = ${stored.file},
-						thumbnail = ${stored.thumbnail}
+						thumbnail = ${stored.thumbnail},
+						"updatedAt" = CURRENT_TIMESTAMP
 					WHERE id = ${id}
 				`;
 
@@ -155,7 +158,8 @@ export const actions: Actions = {
 					UPDATE image
 					SET
 						file = ${stored.file},
-						thumbnail = ${stored.thumbnail}
+						thumbnail = ${stored.thumbnail},
+						"updatedAt" = CURRENT_TIMESTAMP
 					WHERE id = ${newId}
 				`;
 
