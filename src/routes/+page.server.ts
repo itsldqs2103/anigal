@@ -20,6 +20,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 			id,
 			file,
 			thumbnail,
+			uploader,
 			"createdAt",
 			"updatedAt"
 		FROM image
@@ -182,7 +183,8 @@ export const actions: Actions = {
 					INSERT INTO image (
 						id,
 						file,
-						thumbnail
+						thumbnail,
+						uploader
 					)
 					VALUES (
 						${newId},
