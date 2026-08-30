@@ -87,7 +87,6 @@
 									value={form?.email ?? ''}
 									placeholder="you@example.com"
 									class="h-full min-w-0 flex-1 bg-transparent pr-3 text-sm outline-none placeholder:text-base-content/30"
-									required
 								/>
 							</div>
 						</div>
@@ -115,7 +114,6 @@
 									minlength="8"
 									placeholder="At least 8 characters"
 									class="h-full min-w-0 flex-1 bg-transparent pr-3 text-sm outline-none placeholder:text-base-content/30"
-									required
 								/>
 							</div>
 
