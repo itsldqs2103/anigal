@@ -9,7 +9,7 @@
 		Upload,
 		X,
 		Images,
-		Check,
+		Check
 	} from 'lucide-svelte';
 
 	let { data, form } = $props();
@@ -27,23 +27,28 @@
 		const input = event.currentTarget as HTMLInputElement;
 		const file = input.files?.[0] ?? null;
 		fileError = '';
+
 		if (!file) {
 			selectedFile = null;
 			return;
 		}
+
 		const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
 		if (!allowedTypes.includes(file.type)) {
 			fileError = 'Only JPG, JPEG, PNG, and WebP images are allowed.';
 			selectedFile = null;
 			input.value = '';
 			return;
 		}
+
 		if (file.size > MAX_FILE_SIZE) {
 			fileError = 'Image must be 5 MB or smaller.';
 			selectedFile = null;
 			input.value = '';
 			return;
 		}
+
 		selectedFile = file;
 	}
 
@@ -51,11 +56,15 @@
 		selectedFile = null;
 		fileError = '';
 		const input = document.getElementById('image-file') as HTMLInputElement | null;
-		if (input) input.value = '';
+
+		if (input) {
+			input.value = '';
+		}
 	}
 
 	function edit(id: string) {
 		if (isSubmitting) return;
+
 		editingId = id;
 		resetFile();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -63,22 +72,26 @@
 
 	function cancel() {
 		if (isSubmitting) return;
+
 		editingId = '';
 		resetFile();
 	}
 
 	function openUpdateModal() {
 		if (isSubmitting || !selectedFile) return;
+
 		updateModal?.showModal();
 	}
 
 	function closeUpdateModal() {
 		if (isSubmitting) return;
+
 		updateModal?.close();
 	}
 
 	function openDeleteModal(id: string) {
 		if (isSubmitting) return;
+
 		editingId = '';
 		resetFile();
 		deleteId = id;
@@ -87,6 +100,7 @@
 
 	function closeDeleteModal() {
 		if (isSubmitting) return;
+
 		deleteModal?.close();
 	}
 </script>
@@ -95,6 +109,7 @@
 	<title>Media Library</title>
 	<meta name="description" content="Media Library built with SvelteKit" />
 </svelte:head>
+
 <div class="min-h-screen bg-base-200/30">
 	<header class="border-b border-base-300/60 bg-base-100">
 		<div
@@ -106,28 +121,34 @@
 				>
 					<Images class="h-5 w-5" strokeWidth={1.8} />
 				</div>
+
 				<div class="min-w-0">
 					<h1 class="truncate text-lg font-semibold tracking-tight">Media Library</h1>
 					<p class="text-xs text-base-content/50">Manage your images</p>
 				</div>
 			</div>
+
 			<div
 				class="flex w-fit items-center gap-2 rounded-full border border-base-300/70 bg-base-100 px-3 py-1.5"
 			>
 				<div class="h-1.5 w-1.5 shrink-0 rounded-full bg-success"></div>
+
 				<span class="text-xs font-medium text-base-content/60">
 					{data.images?.length ?? 0} images
 				</span>
 			</div>
 		</div>
 	</header>
+
 	<main class="mx-auto max-w-6xl px-4 py-6 sm:px-5 sm:py-8">
 		<div class="mb-6 sm:mb-7">
 			<h2 class="text-xl font-semibold tracking-tight sm:text-2xl">Your collection</h2>
+
 			<p class="mt-1.5 text-sm leading-5 text-base-content/50">
 				Upload and manage the images in your library.
 			</p>
 		</div>
+
 		<section
 			class="mb-8 overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 shadow-sm sm:mb-10"
 		>
@@ -144,8 +165,12 @@
 							<Upload class="h-4 w-4" strokeWidth={1.8} />
 						{/if}
 					</div>
+
 					<div class="min-w-0">
-						<h3 class="text-sm font-semibold">{editingId ? 'Replace image' : 'Upload image'}</h3>
+						<h3 class="text-sm font-semibold">
+							{editingId ? 'Replace image' : 'Upload image'}
+						</h3>
+
 						<p class="mt-0.5 truncate text-xs text-base-content/45">
 							{editingId
 								? `Choose a new file for image ${editingId}`
@@ -153,6 +178,7 @@
 						</p>
 					</div>
 				</div>
+
 				{#if editingId}
 					<button
 						type="button"
@@ -165,6 +191,7 @@
 					</button>
 				{/if}
 			</div>
+
 			<div class="p-4 sm:p-5">
 				<form
 					method="POST"
@@ -173,9 +200,11 @@
 					id="image-form"
 					use:enhance={() => {
 						isSubmitting = true;
+
 						return async ({ update }) => {
 							await update();
 							isSubmitting = false;
+
 							if (!form?.error) {
 								editingId = '';
 								resetFile();
@@ -185,16 +214,17 @@
 					}}
 				>
 					<input type="hidden" name="id" value={editingId} />
+
 					<div class="flex flex-col gap-3">
 						<div class="w-full">
 							<label
 								for="image-file"
 								class="mb-1.5 block text-xs font-semibold tracking-wide text-base-content/50 uppercase"
 							>
-								Image file <span class="font-normal text-base-content/40 normal-case">
-									(max 5 MB)
-								</span>
+								Image file
+								<span class="font-normal text-base-content/40 normal-case"> (max 5 MB) </span>
 							</label>
+
 							<div
 								class="flex min-h-12 w-full items-center overflow-hidden rounded-xl border border-base-300 bg-base-100 transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10"
 							>
@@ -203,10 +233,13 @@
 									class="flex h-12 shrink-0 cursor-pointer items-center gap-2 px-3 text-sm font-medium hover:bg-base-200/50 sm:px-4"
 								>
 									<Upload class="h-4 w-4 shrink-0 text-base-content/50" strokeWidth={1.8} />
-									<span class="xs:inline hidden sm:inline"> Choose file </span>
-									<span class="xs:hidden"> Choose </span>
+
+									<span class="hidden sm:inline">Choose file</span>
+									<span class="sm:hidden">Choose</span>
 								</label>
+
 								<div class="h-6 w-px shrink-0 bg-base-300"></div>
+
 								<p
 									class="min-w-0 flex-1 truncate px-2.5 text-xs text-base-content/50 sm:px-3 sm:text-sm"
 								>
@@ -217,10 +250,11 @@
 											{selectedFile.name}
 										{/if}
 									{:else}
-										<span class="hidden sm:inline"> No file selected </span>
-										<span class="sm:hidden"> No file </span>
+										<span class="hidden sm:inline">No file selected</span>
+										<span class="sm:hidden">No file</span>
 									{/if}
 								</p>
+
 								<input
 									id="image-file"
 									class="sr-only"
@@ -231,6 +265,7 @@
 									disabled={isSubmitting}
 									onchange={handleFileChange}
 								/>
+
 								{#if selectedFile}
 									<div
 										class="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-success/10 text-success sm:mr-3"
@@ -240,6 +275,7 @@
 								{/if}
 							</div>
 						</div>
+
 						<div class="flex w-full flex-col gap-2 sm:flex-row sm:justify-end">
 							{#if editingId}
 								<button
@@ -252,8 +288,11 @@
 										<span class="loading loading-sm loading-spinner"></span>
 									{:else}
 										<RefreshCw class="h-4 w-4" strokeWidth={1.8} />
-									{/if} Update
+									{/if}
+
+									Update
 								</button>
+
 								<button
 									type="button"
 									class="btn h-11 w-full rounded-xl sm:w-auto sm:min-w-24"
@@ -272,17 +311,21 @@
 										<span class="loading loading-sm loading-spinner"></span>
 									{:else}
 										<Upload class="h-4 w-4" strokeWidth={1.8} />
-									{/if} Upload
+									{/if}
+
+									Upload
 								</button>
 							{/if}
 						</div>
 					</div>
 				</form>
+
 				{#if fileError || form?.error}
 					<div
 						class="mt-4 flex items-start gap-3 rounded-xl border border-error/20 bg-error/5 px-3 py-3 text-error sm:px-4"
 					>
 						<TriangleAlert class="mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
+
 						<span class="min-w-0 text-sm leading-5 wrap-break-word">
 							{fileError || form?.error}
 						</span>
@@ -290,17 +333,22 @@
 				{/if}
 			</div>
 		</section>
+
 		<div class="mb-4 flex items-end justify-between gap-3">
 			<div class="min-w-0">
 				<h2 class="text-base font-semibold">Images</h2>
 				<p class="mt-0.5 text-xs text-base-content/45">All uploaded images</p>
 			</div>
+
 			{#if data.images?.length > 0}
-				<span class="shrink-0 text-xs text-base-content/40"> {data.images.length} total </span>
+				<span class="shrink-0 text-xs text-base-content/40">
+					{data.images.length} total
+				</span>
 			{/if}
 		</div>
+
 		{#if data.images?.length > 0}
-			<div class="xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+			<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
 				{#each data.images as image (image.id)}
 					<article
 						class="group overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 shadow-sm transition hover:shadow-md"
@@ -312,6 +360,7 @@
 								class="lazyload h-full w-full object-cover"
 								data-parallax
 							/>
+
 							<div
 								class="absolute inset-x-0 bottom-0 hidden items-end justify-end bg-linear-to-t from-black/60 to-transparent p-3 pt-10 opacity-0 transition group-hover:opacity-100 sm:flex"
 							>
@@ -325,6 +374,7 @@
 									>
 										<Pencil class="h-3.5 w-3.5" strokeWidth={1.8} />
 									</button>
+
 									<button
 										type="button"
 										class="btn btn-circle btn-error btn-sm"
@@ -337,6 +387,7 @@
 								</div>
 							</div>
 						</div>
+
 						<div class="flex min-w-0 items-center justify-between gap-2 px-3 py-3 sm:px-3.5">
 							<div class="flex min-w-0 items-center gap-2">
 								<div
@@ -344,13 +395,16 @@
 								>
 									<Image class="h-3.5 w-3.5" strokeWidth={1.8} />
 								</div>
+
 								<div class="min-w-0">
 									<p class="truncate text-xs font-semibold">{image.id}</p>
+
 									<p class="truncate text-[10px] text-base-content/40 sm:text-[11px]">
 										{new Date(image.createdAt).toLocaleString()}
 									</p>
 								</div>
 							</div>
+
 							<div class="flex shrink-0 gap-0.5 sm:hidden">
 								<button
 									type="button"
@@ -361,6 +415,7 @@
 								>
 									<Pencil class="h-3.5 w-3.5" />
 								</button>
+
 								<button
 									type="button"
 									class="btn btn-circle btn-square btn-ghost text-error btn-sm"
@@ -384,7 +439,9 @@
 				>
 					<Image class="h-6 w-6" strokeWidth={1.5} />
 				</div>
+
 				<h3 class="mt-4 text-sm font-semibold">No images yet</h3>
+
 				<p class="mx-auto mt-1 max-w-xs text-xs leading-5 text-base-content/45">
 					Upload an image above to start building your collection.
 				</p>
@@ -392,6 +449,7 @@
 		{/if}
 	</main>
 </div>
+
 <dialog bind:this={updateModal} class="modal">
 	<div class="modal-box mx-3 w-auto max-w-sm rounded-2xl sm:mx-auto">
 		<div class="flex items-start gap-3">
@@ -400,13 +458,16 @@
 			>
 				<RefreshCw class="h-5 w-5" strokeWidth={1.8} />
 			</div>
+
 			<div class="min-w-0">
 				<h3 class="font-semibold">Update image?</h3>
+
 				<p class="mt-1 text-sm leading-5 text-base-content/50">
 					The current image will be replaced with the selected file.
 				</p>
 			</div>
 		</div>
+
 		<div class="modal-action flex-col gap-2 sm:flex-row">
 			<button
 				type="button"
@@ -416,6 +477,7 @@
 			>
 				Cancel
 			</button>
+
 			<button
 				type="submit"
 				form="image-form"
@@ -430,8 +492,12 @@
 			</button>
 		</div>
 	</div>
-	<form method="dialog" class="modal-backdrop"><button disabled={isSubmitting}>close</button></form>
+
+	<form method="dialog" class="modal-backdrop">
+		<button disabled={isSubmitting}>close</button>
+	</form>
 </dialog>
+
 <dialog bind:this={deleteModal} class="modal">
 	<div class="modal-box mx-3 w-auto max-w-sm rounded-2xl sm:mx-auto">
 		<div class="flex items-start gap-3">
@@ -440,13 +506,16 @@
 			>
 				<TriangleAlert class="h-5 w-5" strokeWidth={1.8} />
 			</div>
+
 			<div class="min-w-0">
 				<h3 class="font-semibold">Delete image?</h3>
+
 				<p class="mt-1 text-sm leading-5 text-base-content/50">
 					Image {deleteId} will be permanently deleted. This cannot be undone.
 				</p>
 			</div>
 		</div>
+
 		<div class="modal-action flex-col gap-2 sm:flex-row">
 			<button
 				type="button"
@@ -456,15 +525,18 @@
 			>
 				Cancel
 			</button>
+
 			<form
 				method="POST"
 				action="?/delete"
 				class="w-full sm:w-auto"
 				use:enhance={() => {
 					isSubmitting = true;
+
 					return async ({ update }) => {
 						await update();
 						isSubmitting = false;
+
 						if (!form?.error) {
 							closeDeleteModal();
 							deleteId = '';
@@ -473,6 +545,7 @@
 				}}
 			>
 				<input type="hidden" name="id" value={deleteId} />
+
 				<button
 					type="submit"
 					class="btn w-full btn-error sm:w-auto"
@@ -481,11 +554,15 @@
 					{#if isSubmitting}
 						<span class="loading loading-sm loading-spinner"></span>
 					{:else}
-						<Trash2 class="h-4 w-4" strokeWidth={1.8} /> Delete
+						<Trash2 class="h-4 w-4" strokeWidth={1.8} />
+						Delete
 					{/if}
 				</button>
 			</form>
 		</div>
 	</div>
-	<form method="dialog" class="modal-backdrop"><button disabled={isSubmitting}>close</button></form>
+
+	<form method="dialog" class="modal-backdrop">
+		<button disabled={isSubmitting}>close</button>
+	</form>
 </dialog>
