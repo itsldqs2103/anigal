@@ -463,6 +463,16 @@
 								<button
 									type="button"
 									class="btn btn-circle btn-square btn-ghost btn-sm"
+									onclick={() => openLightbox(image.file, image.id)}
+									disabled={isUploading || isUpdating || isDeleting}
+									aria-label="View image {image.id}"
+								>
+									<Eye class="h-3.5 w-3.5" />
+								</button>
+
+								<button
+									type="button"
+									class="btn btn-circle btn-square btn-ghost btn-sm"
 									onclick={() => edit(image.id)}
 									disabled={isUploading || isUpdating || isDeleting}
 									aria-label="Edit image {image.id}"
