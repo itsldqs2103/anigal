@@ -197,7 +197,7 @@
 						</div>
 
 						<span class="hidden max-w-32 truncate text-xs font-medium sm:block">
-							{data.user?.email ?? 'User'}
+							{data.user?.email?.split('@')[0] ?? 'User'}
 						</span>
 
 						<ChevronDown class="hidden h-3.5 w-3.5 text-base-content/40 sm:block" strokeWidth={2} />
