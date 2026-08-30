@@ -8,6 +8,9 @@
 	import { Images } from 'lucide-svelte';
 	import { resolve } from '$app/paths';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
+
+	injectAnalytics({ mode: dev ? 'development' : 'production' });
 
 	injectSpeedInsights();
 
