@@ -543,13 +543,15 @@
 						<div class="flex min-w-0 items-center justify-between gap-2 px-3 py-3 sm:px-3.5">
 							<div class="flex min-w-0 items-center gap-2">
 								<div
-									class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-base-200 text-base-content/50"
+									class="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-content"
 								>
-									<Image class="h-3.5 w-3.5" strokeWidth={1.8} />
+									{(data.user?.email?.[0] ?? 'U').toUpperCase()}
 								</div>
 
 								<div class="min-w-0">
-									<p class="truncate text-xs font-semibold">{image.id}</p>
+									<p class="truncate text-xs font-semibold">
+										{image.uploader.split('@')[0] ?? 'User'}
+									</p>
 
 									<p class="truncate text-[10px] text-base-content/40 sm:text-[11px]">
 										{new Date(image.createdAt).toLocaleString()}
