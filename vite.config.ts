@@ -22,9 +22,10 @@ export default defineConfig({
 				short_name: 'Media Library',
 				description: 'Media Library built with SvelteKit',
 				theme_color: '#ffffff',
-				background_color: '#ffffff',
+				background_color: '#000000',
 				display: 'standalone',
 				scope: '/',
+				id: "/",
 				start_url: '/',
 				icons: [
 					{
