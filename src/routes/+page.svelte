@@ -15,7 +15,9 @@
 	let { data, form } = $props();
 	let editingId = $state('');
 	let deleteId = $state('');
-	let isSubmitting = $state(false);
+	let isUploading = $state(false);
+	let isUpdating = $state(false);
+	let isDeleting = $state(false);
 	let selectedFile = $state<File | null>(null);
 	let updateModal: HTMLDialogElement;
 	let deleteModal: HTMLDialogElement;
@@ -63,7 +65,7 @@
 	}
 
 	function edit(id: string) {
-		if (isSubmitting) return;
+		if (isUploading || isUpdating || isDeleting) return;
 
 		editingId = id;
 		resetFile();
@@ -71,26 +73,26 @@
 	}
 
 	function cancel() {
-		if (isSubmitting) return;
+		if (isUploading || isUpdating || isDeleting) return;
 
 		editingId = '';
 		resetFile();
 	}
 
 	function openUpdateModal() {
-		if (isSubmitting || !selectedFile) return;
+		if (isUploading || isUpdating || isDeleting || !selectedFile) return;
 
 		updateModal?.showModal();
 	}
 
 	function closeUpdateModal() {
-		if (isSubmitting) return;
+		if (isUploading || isUpdating || isDeleting) return;
 
 		updateModal?.close();
 	}
 
 	function openDeleteModal(id: string) {
-		if (isSubmitting) return;
+		if (isUploading || isUpdating || isDeleting) return;
 
 		editingId = '';
 		resetFile();
@@ -99,7 +101,7 @@
 	}
 
 	function closeDeleteModal() {
-		if (isSubmitting) return;
+		if (isUploading || isUpdating || isDeleting) return;
 
 		deleteModal?.close();
 	}
@@ -184,7 +186,7 @@
 						type="button"
 						class="btn btn-circle btn-square shrink-0 btn-ghost btn-sm"
 						onclick={cancel}
-						disabled={isSubmitting}
+						disabled={isUploading || isUpdating || isDeleting}
 						aria-label="Cancel editing"
 					>
 						<X class="h-4 w-4" />
@@ -199,11 +201,17 @@
 					enctype="multipart/form-data"
 					id="image-form"
 					use:enhance={() => {
-						isSubmitting = true;
+						if (editingId) {
+							isUpdating = true;
+						} else {
+							isUploading = true;
+						}
 
 						return async ({ update }) => {
 							await update();
-							isSubmitting = false;
+
+							isUpdating = false;
+							isUploading = false;
 
 							if (!form?.error) {
 								editingId = '';
@@ -262,7 +270,7 @@
 									name="file"
 									accept=".jpg,.jpeg,.png,.webp"
 									required
-									disabled={isSubmitting}
+									disabled={isUploading || isUpdating || isDeleting}
 									onchange={handleFileChange}
 								/>
 
@@ -282,9 +290,9 @@
 									type="button"
 									class="btn h-11 w-full rounded-xl btn-primary sm:w-auto sm:min-w-28"
 									onclick={openUpdateModal}
-									disabled={isSubmitting || !selectedFile || !!fileError}
+									disabled={isUploading || isUpdating || isDeleting || !selectedFile || !!fileError}
 								>
-									{#if isSubmitting}
+									{#if isUpdating}
 										<span class="loading loading-sm loading-spinner"></span>
 									{:else}
 										<RefreshCw class="h-4 w-4" strokeWidth={1.8} />
@@ -297,7 +305,7 @@
 									type="button"
 									class="btn h-11 w-full rounded-xl sm:w-auto sm:min-w-24"
 									onclick={cancel}
-									disabled={isSubmitting}
+									disabled={isUploading || isUpdating || isDeleting}
 								>
 									Cancel
 								</button>
@@ -305,9 +313,9 @@
 								<button
 									type="submit"
 									class="btn h-11 w-full rounded-xl btn-primary sm:w-auto sm:min-w-28"
-									disabled={isSubmitting || !selectedFile || !!fileError}
+									disabled={isUploading || isUpdating || isDeleting || !selectedFile || !!fileError}
 								>
-									{#if isSubmitting}
+									{#if isUploading}
 										<span class="loading loading-sm loading-spinner"></span>
 									{:else}
 										<Upload class="h-4 w-4" strokeWidth={1.8} />
@@ -368,7 +376,7 @@
 										type="button"
 										class="btn btn-circle btn-sm"
 										onclick={() => edit(image.id)}
-										disabled={isSubmitting}
+										disabled={isUploading || isUpdating || isDeleting}
 										aria-label="Edit image {image.id}"
 									>
 										<Pencil class="h-3.5 w-3.5" strokeWidth={1.8} />
@@ -378,7 +386,7 @@
 										type="button"
 										class="btn btn-circle btn-error btn-sm"
 										onclick={() => openDeleteModal(image.id)}
-										disabled={isSubmitting}
+										disabled={isUploading || isUpdating || isDeleting}
 										aria-label="Delete image {image.id}"
 									>
 										<Trash2 class="h-3.5 w-3.5" strokeWidth={1.8} />
@@ -409,7 +417,7 @@
 									type="button"
 									class="btn btn-circle btn-square btn-ghost btn-sm"
 									onclick={() => edit(image.id)}
-									disabled={isSubmitting}
+									disabled={isUploading || isUpdating || isDeleting}
 									aria-label="Edit image {image.id}"
 								>
 									<Pencil class="h-3.5 w-3.5" />
@@ -419,7 +427,7 @@
 									type="button"
 									class="btn btn-circle btn-square btn-ghost text-error btn-sm"
 									onclick={() => openDeleteModal(image.id)}
-									disabled={isSubmitting}
+									disabled={isUploading || isUpdating || isDeleting}
 									aria-label="Delete image {image.id}"
 								>
 									<Trash2 class="h-3.5 w-3.5" />
@@ -472,7 +480,7 @@
 				type="button"
 				class="btn w-full sm:w-auto"
 				onclick={closeUpdateModal}
-				disabled={isSubmitting}
+				disabled={isUploading || isUpdating || isDeleting}
 			>
 				Cancel
 			</button>
@@ -481,9 +489,9 @@
 				type="submit"
 				form="image-form"
 				class="btn w-full btn-primary sm:w-auto"
-				disabled={isSubmitting || !selectedFile}
+				disabled={isUploading || isUpdating || isDeleting || !selectedFile}
 			>
-				{#if isSubmitting}
+				{#if isUpdating}
 					<span class="loading loading-sm loading-spinner"></span>
 				{:else}
 					Update
@@ -493,7 +501,7 @@
 	</div>
 
 	<form method="dialog" class="modal-backdrop">
-		<button disabled={isSubmitting}>close</button>
+		<button disabled={isUploading || isUpdating || isDeleting}>close</button>
 	</form>
 </dialog>
 
@@ -520,7 +528,7 @@
 				type="button"
 				class="btn w-full sm:w-auto"
 				onclick={closeDeleteModal}
-				disabled={isSubmitting}
+				disabled={isUploading || isUpdating || isDeleting}
 			>
 				Cancel
 			</button>
@@ -530,11 +538,11 @@
 				action="?/delete"
 				class="w-full sm:w-auto"
 				use:enhance={() => {
-					isSubmitting = true;
+					isDeleting = true;
 
 					return async ({ update }) => {
 						await update();
-						isSubmitting = false;
+						isDeleting = false;
 
 						if (!form?.error) {
 							closeDeleteModal();
@@ -548,9 +556,9 @@
 				<button
 					type="submit"
 					class="btn w-full btn-error sm:w-auto"
-					disabled={isSubmitting || !deleteId}
+					disabled={isUploading || isUpdating || isDeleting || !deleteId}
 				>
-					{#if isSubmitting}
+					{#if isDeleting}
 						<span class="loading loading-sm loading-spinner"></span>
 					{:else}
 						<Trash2 class="h-4 w-4" strokeWidth={1.8} />
@@ -562,6 +570,6 @@
 	</div>
 
 	<form method="dialog" class="modal-backdrop">
-		<button disabled={isSubmitting}>close</button>
+		<button disabled={isUploading || isUpdating || isDeleting}>close</button>
 	</form>
 </dialog>
