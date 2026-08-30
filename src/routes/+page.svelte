@@ -180,8 +180,7 @@
 </script>
 
 <svelte:head>
-	<title>Media Library</title>
-	<meta name="description" content="Media Library built with SvelteKit" />
+	<title>Homepage - Media Library</title>
 </svelte:head>
 
 <div class="min-h-screen bg-base-200/30">

@@ -4,8 +4,7 @@
 </script>
 
 <svelte:head>
-	<title>Terms of Service — Media Library</title>
-	<meta name="description" content="Terms of Service for Media Library" />
+	<title>Terms of Service - Media Library</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-8 sm:px-5 sm:py-12">

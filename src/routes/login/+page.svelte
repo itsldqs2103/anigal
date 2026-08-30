@@ -7,8 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>Log in</title>
-	<meta name="description" content="Log in to your account" />
+	<title>Log in - Meida Library</title>
 </svelte:head>
 
 <div class="min-h-screen bg-base-200/30">

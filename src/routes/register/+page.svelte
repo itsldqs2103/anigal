@@ -7,8 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>Create account</title>
-	<meta name="description" content="Create your Media Library account" />
+	<title>Create account - Meida Library</title>
 </svelte:head>
 
 <div class="min-h-screen bg-base-200/30">

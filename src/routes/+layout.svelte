@@ -44,6 +44,7 @@
 </script>
 
 <svelte:head>
+	<meta name="description" content="Media Library built with SvelteKit" />
 	<link rel="icon" href={favicon} />
 	{#if !dev}
 		<link rel="manifest" href="/manifest.webmanifest" />
