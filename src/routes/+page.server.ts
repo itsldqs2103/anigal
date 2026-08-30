@@ -90,7 +90,13 @@ async function deleteImageFiles(image: StoredImage) {
 }
 
 export const actions: Actions = {
-	save: async ({ request }) => {
+	save: async ({ request, locals }) => {
+		if (!locals.user) {
+			return fail(401, {
+				error: 'Unauthorized'
+			});
+		}
+
 		const data = await request.formData();
 
 		const id = data.get('id')?.toString() || null;
@@ -189,7 +195,8 @@ export const actions: Actions = {
 					VALUES (
 						${newId},
 						${stored.file},
-						${stored.thumbnail}
+						${stored.thumbnail},
+						${locals.user.id}
 					)
 				`;
 			} catch (error) {
