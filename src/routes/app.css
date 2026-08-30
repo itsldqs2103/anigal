@@ -1,5 +1,8 @@
 @import 'tailwindcss';
-@plugin 'daisyui';
+@plugin 'daisyui' {
+	themes: dark --default;
+	exclude: properties;
+}
 
 @font-face {
 	font-family: 'Manrope Variable';
@@ -42,4 +45,36 @@ img.lazyloaded {
 
 img.lazyload:not([src]) {
 	visibility: hidden;
+}
+
+::selection {
+	@apply bg-primary text-primary-content;
+}
+
+.fancybox__container {
+	--f-spinner-color-2: var(--color-primary);
+	--fancybox-backdrop-bg: color-mix(in oklab, var(--color-base-300) 50%, transparent);
+	--f-button-bg: color-mix(in oklab, var(--color-base-300) 50%, transparent);
+	--f-button-color: var(--color-base-content);
+}
+
+.f-carousel__toolbar {
+	padding: calc(var(--spacing) * 4);
+}
+
+.blur-xs,
+.blur-sm,
+.blur-md,
+.blur-lg,
+.blur-xl,
+.blur-2xl,
+.blur-3xl,
+.backdrop-blur-xs,
+.backdrop-blur-sm,
+.backdrop-blur-md,
+.backdrop-blur-lg,
+.backdrop-blur-xl,
+.backdrop-blur-2xl,
+.backdrop-blur-3xl {
+	@apply translate-z-0 backface-hidden perspective-[1000px];
 }
