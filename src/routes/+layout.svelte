@@ -2,7 +2,6 @@
 	import './app.css';
 	import favicon from '../assets/favicon.svg';
 	import '$lib/lazysizes';
-	import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
 	let { children } = $props();
 

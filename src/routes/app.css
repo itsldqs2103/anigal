@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import '@fancyapps/ui/dist/fancybox/fancybox.css';
+
 @plugin 'daisyui' {
 	themes: dark --default;
 	exclude: properties;
