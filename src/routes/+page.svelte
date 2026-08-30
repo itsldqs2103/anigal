@@ -150,7 +150,6 @@
 </svelte:head>
 
 <div class="min-h-screen bg-base-200/30">
-	```svelte
 	<header class="border-b border-base-300/60 bg-base-100">
 		<div
 			class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-3 py-3 sm:px-5 sm:py-4"
