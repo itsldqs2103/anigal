@@ -7,6 +7,9 @@
 	import { dev } from '$app/environment';
 	import { Images } from 'lucide-svelte';
 	import { resolve } from '$app/paths';
+	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+
+	injectSpeedInsights();
 
 	let { children } = $props();
 
