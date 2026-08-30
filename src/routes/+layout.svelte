@@ -53,51 +53,51 @@
 
 <div class="p-4">
 	{@render children()}
+
+	<footer class="mt-auto border-t border-base-300/60 bg-base-100">
+		<div class="mx-auto max-w-6xl px-4 py-6 sm:px-5">
+			<div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+				<div class="flex items-center gap-2.5">
+					<div
+						class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-content"
+					>
+						<Images class="h-4 w-4" strokeWidth={1.8} />
+					</div>
+
+					<div>
+						<p class="text-xs font-semibold tracking-tight">Media Library</p>
+						<p class="text-[11px] text-base-content/40">Simple image management</p>
+					</div>
+				</div>
+
+				<nav class="flex items-center gap-4 text-xs text-base-content/45">
+					<a href={resolve('/privacy')} class="transition hover:text-base-content"> Privacy </a>
+
+					<a href={resolve('/terms')} class="transition hover:text-base-content"> Terms </a>
+				</nav>
+			</div>
+
+			<div class="my-5 h-px bg-base-200"></div>
+
+			<div class="flex flex-col items-center justify-between gap-2 sm:flex-row">
+				<p class="text-[11px] text-base-content/35">
+					&copy; {new Date().getFullYear()} Media Library. All rights reserved.
+				</p>
+
+				<div class="flex items-center gap-1.5 text-[11px] text-base-content/35">
+					<span>Built with</span>
+
+					<span class="font-medium text-base-content/55">SvelteKit</span>
+
+					<span class="text-base-content/20">·</span>
+
+					<span>Powered by</span>
+
+					<span class="font-medium text-base-content/55">Vercel</span>
+				</div>
+			</div>
+		</div>
+	</footer>
 </div>
 
 <CookieConsent />
-
-<footer class="mt-auto border-t border-base-300/60 bg-base-100">
-	<div class="mx-auto max-w-6xl px-4 py-6 sm:px-5">
-		<div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-			<div class="flex items-center gap-2.5">
-				<div
-					class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-content"
-				>
-					<Images class="h-4 w-4" strokeWidth={1.8} />
-				</div>
-
-				<div>
-					<p class="text-xs font-semibold tracking-tight">Media Library</p>
-					<p class="text-[11px] text-base-content/40">Simple image management</p>
-				</div>
-			</div>
-
-			<nav class="flex items-center gap-4 text-xs text-base-content/45">
-				<a href={resolve('/privacy')} class="transition hover:text-base-content"> Privacy </a>
-
-				<a href={resolve('/terms')} class="transition hover:text-base-content"> Terms </a>
-			</nav>
-		</div>
-
-		<div class="my-5 h-px bg-base-200"></div>
-
-		<div class="flex flex-col items-center justify-between gap-2 sm:flex-row">
-			<p class="text-[11px] text-base-content/35">
-				&copy; {new Date().getFullYear()} Media Library. All rights reserved.
-			</p>
-
-			<div class="flex items-center gap-1.5 text-[11px] text-base-content/35">
-				<span>Built with</span>
-
-				<span class="font-medium text-base-content/55">SvelteKit</span>
-
-				<span class="text-base-content/20">·</span>
-
-				<span>Powered by</span>
-
-				<span class="font-medium text-base-content/55">Vercel</span>
-			</div>
-		</div>
-	</div>
-</footer>
