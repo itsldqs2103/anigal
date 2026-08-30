@@ -355,10 +355,9 @@
 					>
 						<div class="relative aspect-square overflow-hidden bg-base-200">
 							<img
-								data-lazyload-src={image.thumbnail}
+								data-lazyload-src={`${image.thumbnail}?t=${Math.floor(new Date(image.createdAt).getTime() / 1000)}`}
 								alt="Image {image.id}"
 								class="lazyload h-full w-full object-cover"
-								data-parallax
 							/>
 
 							<div
