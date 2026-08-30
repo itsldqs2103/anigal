@@ -24,6 +24,7 @@ export default defineConfig({
 				theme_color: '#ffffff',
 				background_color: '#000000',
 				display: 'standalone',
+				"display_override": ["fullscreen"],
 				scope: '/',
 				id: "/",
 				start_url: '/',
