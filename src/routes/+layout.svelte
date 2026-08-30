@@ -44,7 +44,7 @@
 </script>
 
 <svelte:head>
-	<meta name="description" content="Media Library built with SvelteKit" />
+	<meta name="description" content="Media Library built with SvelteKit." />
 	<link rel="icon" href={favicon} />
 	{#if !dev}
 		<link rel="manifest" href="/manifest.webmanifest" />
@@ -66,7 +66,7 @@
 
 					<div>
 						<p class="text-xs font-semibold tracking-tight">Media Library</p>
-						<p class="text-[11px] text-base-content/40">Simple image management</p>
+						<p class="text-[11px] text-base-content/40">Media Library built with SvelteKit.</p>
 					</div>
 				</div>
 
