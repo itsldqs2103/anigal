@@ -209,9 +209,11 @@
 						</h3>
 
 						<p class="mt-0.5 truncate text-xs text-base-content/45">
-							{editingId
-								? `Choose a new file for image ${editingId}`
-								: 'Add an image to your collection'}
+							{#if editingId}
+								Choose a new file for image <strong>{editingId}</strong>
+							{:else}
+								Add an image to your collection
+							{/if}
 						</p>
 					</div>
 				</div>
@@ -563,7 +565,7 @@
 				<h3 class="font-semibold">Delete image?</h3>
 
 				<p class="mt-1 text-sm leading-5 text-base-content/50">
-					Image {deleteId} will be permanently deleted. This cannot be undone.
+					Image <b>{deleteId}</b> will be permanently deleted. This cannot be undone.
 				</p>
 			</div>
 		</div>
