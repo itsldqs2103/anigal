@@ -196,7 +196,7 @@ export const actions: Actions = {
 						${newId},
 						${stored.file},
 						${stored.thumbnail},
-						${locals.user.id}
+						${locals.user.email}
 					)
 				`;
 			} catch (error) {
