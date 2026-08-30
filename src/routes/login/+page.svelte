@@ -29,7 +29,7 @@
 	</header>
 
 	<main
-		class="mx-auto flex min-h-[calc(100vh-81px)] max-w-6xl items-start justify-center px-4 py-8 sm:px-5 sm:py-14"
+		class="mx-auto flex max-w-6xl items-start justify-center px-4 py-8 sm:px-5 sm:py-14"
 	>
 		<section class="w-full max-w-md">
 			<div class="mb-6 text-center">
