@@ -31,7 +31,6 @@
 }
 
 html {
-	user-select: none;
 	font-family: 'Manrope Variable', sans-serif;
 	text-rendering: optimizeLegibility;
 }
@@ -79,4 +78,9 @@ img.lazyload:not([src]) {
 .backdrop-blur-2xl,
 .backdrop-blur-3xl {
 	@apply translate-z-0 backface-hidden perspective-[1000px];
+}
+
+.modal,
+.fancybox__backdrop {
+	backdrop-filter: blur(var(--blur-xs));
 }
