@@ -55,14 +55,14 @@ async function storeImage(file: File, id: string): Promise<StoredImage> {
 		})
 		.toBuffer();
 
-	const uploadId = crypto.randomUUID();
+	const unit = Date.now();
 
 	const [mainBlob, thumbnailBlob] = await Promise.all([
-		put(`images/${id}/${uploadId}.jpg`, mainBuffer, {
+		put(`images/${id}/${unit}.jpg`, mainBuffer, {
 			access: 'public',
 			contentType: 'image/jpeg'
 		}),
-		put(`images/${id}/${uploadId}_thumb.webp`, thumbnailBuffer, {
+		put(`images/${id}/${unit}_thumb.webp`, thumbnailBuffer, {
 			access: 'public',
 			contentType: 'image/webp'
 		})
