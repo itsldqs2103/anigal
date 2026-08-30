@@ -309,7 +309,7 @@
 							<img
 								data-lazyload-src={image.thumbnail}
 								alt="Image {image.id}"
-								class="lazyload h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+								class="lazyload h-full w-full object-cover"
 								data-parallax
 							/>
 							<div
