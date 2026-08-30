@@ -11,7 +11,6 @@
 		Images,
 		Check
 	} from 'lucide-svelte';
-
 	let { data, form } = $props();
 	let editingId = $state('');
 	let deleteId = $state('');
@@ -21,68 +20,54 @@
 	let deleteModal: HTMLDialogElement;
 	let fileError = $state('');
 	const MAX_FILE_SIZE = 5 * 1024 * 1024;
-
 	function handleFileChange(event: Event) {
 		const input = event.currentTarget as HTMLInputElement;
 		const file = input.files?.[0] ?? null;
-
 		fileError = '';
-
 		if (!file) {
 			selectedFile = null;
 			return;
 		}
-
 		const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-
 		if (!allowedTypes.includes(file.type)) {
 			fileError = 'Only JPG, JPEG, PNG, and WebP images are allowed.';
 			selectedFile = null;
 			input.value = '';
 			return;
 		}
-
 		if (file.size > MAX_FILE_SIZE) {
 			fileError = 'Image must be 5 MB or smaller.';
 			selectedFile = null;
 			input.value = '';
 			return;
 		}
-
 		selectedFile = file;
 	}
-
 	function resetFile() {
 		selectedFile = null;
 		fileError = '';
-
 		const input = document.getElementById('image-file') as HTMLInputElement | null;
 		if (input) input.value = '';
 	}
-
 	function edit(id: string) {
 		if (isSubmitting) return;
 		editingId = id;
 		resetFile();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
-
 	function cancel() {
 		if (isSubmitting) return;
 		editingId = '';
 		resetFile();
 	}
-
 	function openUpdateModal() {
 		if (isSubmitting || !selectedFile) return;
 		updateModal?.showModal();
 	}
-
 	function closeUpdateModal() {
 		if (isSubmitting) return;
 		updateModal?.close();
 	}
-
 	function openDeleteModal(id: string) {
 		if (isSubmitting) return;
 		editingId = '';
@@ -90,7 +75,6 @@
 		deleteId = id;
 		deleteModal?.showModal();
 	}
-
 	function closeDeleteModal() {
 		if (isSubmitting) return;
 		deleteModal?.close();
@@ -101,45 +85,52 @@
 	<title>Media Library</title>
 	<meta name="description" content="Media Library built with SvelteKit" />
 </svelte:head>
-
 <div class="min-h-screen bg-base-200/30">
+	<!-- Header -->
 	<header class="border-b border-base-300/60 bg-base-100">
-		<div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
-			<div class="flex items-center gap-3">
+		<div
+			class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5"
+		>
+			<div class="flex min-w-0 items-center gap-3">
 				<div
-					class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-content"
+					class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-content"
 				>
 					<Images class="h-5 w-5" strokeWidth={1.8} />
 				</div>
-				<div>
-					<h1 class="text-lg font-semibold tracking-tight">Media Library</h1>
+				<div class="min-w-0">
+					<h1 class="truncate text-lg font-semibold tracking-tight">Media Library</h1>
 					<p class="text-xs text-base-content/50">Manage your images</p>
 				</div>
 			</div>
 			<div
-				class="flex items-center gap-2 rounded-full border border-base-300/70 bg-base-100 px-3 py-1.5"
+				class="flex w-fit items-center gap-2 rounded-full border border-base-300/70 bg-base-100 px-3 py-1.5"
 			>
-				<div class="h-1.5 w-1.5 rounded-full bg-success"></div>
-				<span class="text-xs font-medium text-base-content/60"
-					>{data.images?.length ?? 0} images</span
-				>
+				<div class="h-1.5 w-1.5 shrink-0 rounded-full bg-success"></div>
+				<span class="text-xs font-medium text-base-content/60">
+					{data.images?.length ?? 0} images
+				</span>
 			</div>
 		</div>
 	</header>
-	<main class="mx-auto max-w-6xl px-5 py-8">
-		<div class="mb-7">
-			<h2 class="text-2xl font-semibold tracking-tight">Your collection</h2>
-			<p class="mt-1.5 text-sm text-base-content/50">
+	<!-- Main -->
+	<main class="mx-auto max-w-6xl px-4 py-6 sm:px-5 sm:py-8">
+		<!-- Page heading -->
+		<div class="mb-6 sm:mb-7">
+			<h2 class="text-xl font-semibold tracking-tight sm:text-2xl">Your collection</h2>
+			<p class="mt-1.5 text-sm leading-5 text-base-content/50">
 				Upload and manage the images in your library.
 			</p>
 		</div>
+		<!-- Upload section -->
 		<section
-			class="mb-10 overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 shadow-sm"
+			class="mb-8 overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 shadow-sm sm:mb-10"
 		>
-			<div class="flex items-center justify-between border-b border-base-200 px-5 py-4">
-				<div class="flex items-center gap-3">
+			<div
+				class="flex items-start justify-between gap-3 border-b border-base-200 px-4 py-4 sm:px-5"
+			>
+				<div class="flex min-w-0 items-center gap-3">
 					<div
-						class="flex h-9 w-9 items-center justify-center rounded-lg bg-base-200 text-base-content/60"
+						class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-base-200 text-base-content/60"
 					>
 						{#if editingId}
 							<RefreshCw class="h-4 w-4" strokeWidth={1.8} />
@@ -147,9 +138,9 @@
 							<Upload class="h-4 w-4" strokeWidth={1.8} />
 						{/if}
 					</div>
-					<div>
+					<div class="min-w-0">
 						<h3 class="text-sm font-semibold">{editingId ? 'Replace image' : 'Upload image'}</h3>
-						<p class="text-xs text-base-content/45">
+						<p class="mt-0.5 truncate text-xs text-base-content/45">
 							{editingId
 								? `Choose a new file for image ${editingId}`
 								: 'Add an image to your collection'}
@@ -159,7 +150,7 @@
 				{#if editingId}
 					<button
 						type="button"
-						class="btn btn-circle btn-square btn-ghost btn-xs"
+						class="btn btn-circle btn-square shrink-0 btn-ghost btn-sm"
 						onclick={cancel}
 						disabled={isSubmitting}
 						aria-label="Cancel editing"
@@ -168,7 +159,7 @@
 					</button>
 				{/if}
 			</div>
-			<div class="p-5">
+			<div class="p-4 sm:p-5">
 				<form
 					method="POST"
 					action="?/save"
@@ -188,8 +179,9 @@
 					}}
 				>
 					<input type="hidden" name="id" value={editingId} />
-					<div class="flex flex-col gap-3 sm:flex-row sm:items-end">
-						<div class="flex-1">
+					<div class="flex flex-col gap-3">
+						<!-- File input -->
+						<div class="w-full">
 							<label
 								for="image-file"
 								class="mb-1.5 block text-xs font-semibold tracking-wide text-base-content/50 uppercase"
@@ -199,24 +191,29 @@
 								</span>
 							</label>
 							<div
-								class="flex h-12 items-center rounded-xl border border-base-300 bg-base-100 transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10"
+								class="flex min-h-12 w-full items-center overflow-hidden rounded-xl border border-base-300 bg-base-100 transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10"
 							>
 								<label
 									for="image-file"
-									class="flex h-full cursor-pointer items-center gap-2 rounded-l-xl px-4 text-sm font-medium hover:bg-base-200/50"
+									class="flex h-12 shrink-0 cursor-pointer items-center gap-2 px-3 text-sm font-medium hover:bg-base-200/50 sm:px-4"
 								>
-									<Upload class="h-4 w-4 text-base-content/50" strokeWidth={1.8} />Choose file</label
+									<Upload class="h-4 w-4 shrink-0 text-base-content/50" strokeWidth={1.8} />
+									<span class="xs:inline hidden sm:inline"> Choose file </span>
+									<span class="xs:hidden"> Choose </span>
+								</label>
+								<div class="h-6 w-px shrink-0 bg-base-300"></div>
+								<p
+									class="min-w-0 flex-1 truncate px-2.5 text-xs text-base-content/50 sm:px-3 sm:text-sm"
 								>
-								<div class="h-6 w-px bg-base-300"></div>
-								<p class="min-w-0 flex-1 truncate px-3 text-sm text-base-content/50">
 									{#if selectedFile?.name}
 										{#if selectedFile.name.length > 32}
-											{selectedFile.name.slice(0, 14)}...{selectedFile.name.slice(-15)}
+											{selectedFile.name.slice(0, 12)}... {selectedFile.name.slice(-12)}
 										{:else}
 											{selectedFile.name}
 										{/if}
 									{:else}
-										No file selected
+										<span class="hidden sm:inline"> No file selected </span>
+										<span class="sm:hidden"> No file </span>
 									{/if}
 								</p>
 								<input
@@ -231,18 +228,19 @@
 								/>
 								{#if selectedFile}
 									<div
-										class="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-success/10 text-success"
+										class="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-success/10 text-success sm:mr-3"
 									>
 										<Check class="h-3.5 w-3.5" strokeWidth={2.5} />
 									</div>
 								{/if}
 							</div>
 						</div>
-						<div class="flex gap-2">
+						<!-- Actions -->
+						<div class="flex w-full flex-col gap-2 sm:flex-row sm:justify-end">
 							{#if editingId}
 								<button
 									type="button"
-									class="btn h-12 rounded-xl btn-primary"
+									class="btn h-11 w-full rounded-xl btn-primary sm:w-auto sm:min-w-28"
 									onclick={openUpdateModal}
 									disabled={isSubmitting || !selectedFile || !!fileError}
 								>
@@ -254,14 +252,16 @@
 								</button>
 								<button
 									type="button"
-									class="btn h-12 rounded-xl"
+									class="btn h-11 w-full rounded-xl sm:w-auto sm:min-w-24"
 									onclick={cancel}
-									disabled={isSubmitting}>Cancel</button
+									disabled={isSubmitting}
 								>
+									Cancel
+								</button>
 							{:else}
 								<button
 									type="submit"
-									class="btn h-12 rounded-xl btn-primary"
+									class="btn h-11 w-full rounded-xl btn-primary sm:w-auto sm:min-w-28"
 									disabled={isSubmitting || !selectedFile || !!fileError}
 								>
 									{#if isSubmitting}
@@ -274,38 +274,43 @@
 						</div>
 					</div>
 				</form>
+				<!-- Error -->
 				{#if fileError || form?.error}
 					<div
-						class="mt-4 flex items-center gap-3 rounded-xl border border-error/20 bg-error/5 px-4 py-3 text-error"
+						class="mt-4 flex items-start gap-3 rounded-xl border border-error/20 bg-error/5 px-3 py-3 text-error sm:px-4"
 					>
-						<TriangleAlert class="h-4 w-4 shrink-0" strokeWidth={2} />
-						<span class="text-sm">{fileError || form?.error}</span>
+						<TriangleAlert class="mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
+						<span class="min-w-0 text-sm leading-5 wrap-break-word"> {fileError || form?.error} </span>
 					</div>
 				{/if}
 			</div>
 		</section>
-		<div class="mb-4 flex items-end justify-between">
-			<div>
+		<!-- Images heading -->
+		<div class="mb-4 flex items-end justify-between gap-3">
+			<div class="min-w-0">
 				<h2 class="text-base font-semibold">Images</h2>
 				<p class="mt-0.5 text-xs text-base-content/45">All uploaded images</p>
 			</div>
 			{#if data.images?.length > 0}
-				<span class="text-xs text-base-content/40">{data.images.length} total</span>
+				<span class="shrink-0 text-xs text-base-content/40"> {data.images.length} total </span>
 			{/if}
 		</div>
+		<!-- Images -->
 		{#if data.images?.length > 0}
-			<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+			<div class="xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
 				{#each data.images as image (image.id)}
 					<article
 						class="group overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 shadow-sm transition hover:shadow-md"
 					>
+						<!-- Image -->
 						<div class="relative aspect-square overflow-hidden bg-base-200">
 							<img
 								data-lazyload-src={image.thumbnail}
 								alt="Image {image.id}"
-								class="lazyload h-full w-full object-cover"
+								class="lazyload h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
 								data-parallax
 							/>
+							<!-- Desktop hover actions -->
 							<div
 								class="absolute inset-x-0 bottom-0 hidden items-end justify-end bg-linear-to-t from-black/60 to-transparent p-3 pt-10 opacity-0 transition group-hover:opacity-100 sm:flex"
 							>
@@ -331,24 +336,26 @@
 								</div>
 							</div>
 						</div>
-						<div class="flex items-center justify-between px-3.5 py-3">
-							<div class="flex items-center gap-2">
+						<!-- Card footer -->
+						<div class="flex min-w-0 items-center justify-between gap-2 px-3 py-3 sm:px-3.5">
+							<div class="flex min-w-0 items-center gap-2">
 								<div
-									class="flex h-7 w-7 items-center justify-center rounded-lg bg-base-200 text-base-content/50"
+									class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-base-200 text-base-content/50"
 								>
 									<Image class="h-3.5 w-3.5" strokeWidth={1.8} />
 								</div>
-								<div>
-									<p class="text-xs font-semibold">{image.id}</p>
-									<p class="text-[11px] text-base-content/40">
+								<div class="min-w-0">
+									<p class="truncate text-xs font-semibold">{image.id}</p>
+									<p class="truncate text-[10px] text-base-content/40 sm:text-[11px]">
 										{new Date(image.createdAt).toLocaleString()}
 									</p>
 								</div>
 							</div>
-							<div class="flex gap-0.5 sm:hidden">
+							<!-- Mobile actions -->
+							<div class="flex shrink-0 gap-0.5 sm:hidden">
 								<button
 									type="button"
-									class="btn btn-circle btn-square btn-ghost btn-xs"
+									class="btn btn-circle btn-square btn-ghost btn-sm"
 									onclick={() => edit(image.id)}
 									disabled={isSubmitting}
 									aria-label="Edit image {image.id}"
@@ -357,7 +364,7 @@
 								</button>
 								<button
 									type="button"
-									class="btn btn-circle btn-square btn-ghost text-error btn-xs"
+									class="btn btn-circle btn-square btn-ghost text-error btn-sm"
 									onclick={() => openDeleteModal(image.id)}
 									disabled={isSubmitting}
 									aria-label="Delete image {image.id}"
@@ -370,8 +377,9 @@
 				{/each}
 			</div>
 		{:else}
+			<!-- Empty state -->
 			<div
-				class="rounded-2xl border border-dashed border-base-300 bg-base-100 px-6 py-20 text-center"
+				class="rounded-2xl border border-dashed border-base-300 bg-base-100 px-5 py-16 text-center sm:px-6 sm:py-20"
 			>
 				<div
 					class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-base-200 text-base-content/40"
@@ -386,29 +394,35 @@
 		{/if}
 	</main>
 </div>
+<!-- Update modal -->
 <dialog bind:this={updateModal} class="modal">
-	<div class="modal-box max-w-sm rounded-2xl">
+	<div class="modal-box mx-3 w-auto max-w-sm rounded-2xl sm:mx-auto">
 		<div class="flex items-start gap-3">
 			<div
 				class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary"
 			>
 				<RefreshCw class="h-5 w-5" strokeWidth={1.8} />
 			</div>
-			<div>
+			<div class="min-w-0">
 				<h3 class="font-semibold">Update image?</h3>
 				<p class="mt-1 text-sm leading-5 text-base-content/50">
 					The current image will be replaced with the selected file.
 				</p>
 			</div>
 		</div>
-		<div class="modal-action">
-			<button type="button" class="btn" onclick={closeUpdateModal} disabled={isSubmitting}
-				>Cancel</button
+		<div class="modal-action flex-col gap-2 sm:flex-row">
+			<button
+				type="button"
+				class="btn w-full sm:w-auto"
+				onclick={closeUpdateModal}
+				disabled={isSubmitting}
 			>
+				Cancel
+			</button>
 			<button
 				type="submit"
 				form="image-form"
-				class="btn btn-primary"
+				class="btn w-full btn-primary sm:w-auto"
 				disabled={isSubmitting || !selectedFile}
 			>
 				{#if isSubmitting}
@@ -421,28 +435,35 @@
 	</div>
 	<form method="dialog" class="modal-backdrop"><button disabled={isSubmitting}>close</button></form>
 </dialog>
+<!-- Delete modal -->
 <dialog bind:this={deleteModal} class="modal">
-	<div class="modal-box max-w-sm rounded-2xl">
+	<div class="modal-box mx-3 w-auto max-w-sm rounded-2xl sm:mx-auto">
 		<div class="flex items-start gap-3">
 			<div
 				class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-error/10 text-error"
 			>
 				<TriangleAlert class="h-5 w-5" strokeWidth={1.8} />
 			</div>
-			<div>
+			<div class="min-w-0">
 				<h3 class="font-semibold">Delete image?</h3>
 				<p class="mt-1 text-sm leading-5 text-base-content/50">
 					Image {deleteId} will be permanently deleted. This cannot be undone.
 				</p>
 			</div>
 		</div>
-		<div class="modal-action">
-			<button type="button" class="btn" onclick={closeDeleteModal} disabled={isSubmitting}
-				>Cancel</button
+		<div class="modal-action flex-col gap-2 sm:flex-row">
+			<button
+				type="button"
+				class="btn w-full sm:w-auto"
+				onclick={closeDeleteModal}
+				disabled={isSubmitting}
 			>
+				Cancel
+			</button>
 			<form
 				method="POST"
 				action="?/delete"
+				class="w-full sm:w-auto"
 				use:enhance={() => {
 					isSubmitting = true;
 					return async ({ update }) => {
@@ -456,7 +477,11 @@
 				}}
 			>
 				<input type="hidden" name="id" value={deleteId} />
-				<button type="submit" class="btn btn-error" disabled={isSubmitting || !deleteId}>
+				<button
+					type="submit"
+					class="btn w-full btn-error sm:w-auto"
+					disabled={isSubmitting || !deleteId}
+				>
 					{#if isSubmitting}
 						<span class="loading loading-sm loading-spinner"></span>
 					{:else}
