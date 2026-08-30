@@ -9,8 +9,9 @@
 		Upload,
 		X,
 		Images,
-		Check
+		Check,
 	} from 'lucide-svelte';
+
 	let { data, form } = $props();
 	let editingId = $state('');
 	let deleteId = $state('');
@@ -19,7 +20,9 @@
 	let updateModal: HTMLDialogElement;
 	let deleteModal: HTMLDialogElement;
 	let fileError = $state('');
+
 	const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
 	function handleFileChange(event: Event) {
 		const input = event.currentTarget as HTMLInputElement;
 		const file = input.files?.[0] ?? null;
@@ -43,31 +46,37 @@
 		}
 		selectedFile = file;
 	}
+
 	function resetFile() {
 		selectedFile = null;
 		fileError = '';
 		const input = document.getElementById('image-file') as HTMLInputElement | null;
 		if (input) input.value = '';
 	}
+
 	function edit(id: string) {
 		if (isSubmitting) return;
 		editingId = id;
 		resetFile();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
+
 	function cancel() {
 		if (isSubmitting) return;
 		editingId = '';
 		resetFile();
 	}
+
 	function openUpdateModal() {
 		if (isSubmitting || !selectedFile) return;
 		updateModal?.showModal();
 	}
+
 	function closeUpdateModal() {
 		if (isSubmitting) return;
 		updateModal?.close();
 	}
+
 	function openDeleteModal(id: string) {
 		if (isSubmitting) return;
 		editingId = '';
@@ -75,6 +84,7 @@
 		deleteId = id;
 		deleteModal?.showModal();
 	}
+
 	function closeDeleteModal() {
 		if (isSubmitting) return;
 		deleteModal?.close();
@@ -86,7 +96,6 @@
 	<meta name="description" content="Media Library built with SvelteKit" />
 </svelte:head>
 <div class="min-h-screen bg-base-200/30">
-	<!-- Header -->
 	<header class="border-b border-base-300/60 bg-base-100">
 		<div
 			class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5"
@@ -112,16 +121,13 @@
 			</div>
 		</div>
 	</header>
-	<!-- Main -->
 	<main class="mx-auto max-w-6xl px-4 py-6 sm:px-5 sm:py-8">
-		<!-- Page heading -->
 		<div class="mb-6 sm:mb-7">
 			<h2 class="text-xl font-semibold tracking-tight sm:text-2xl">Your collection</h2>
 			<p class="mt-1.5 text-sm leading-5 text-base-content/50">
 				Upload and manage the images in your library.
 			</p>
 		</div>
-		<!-- Upload section -->
 		<section
 			class="mb-8 overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 shadow-sm sm:mb-10"
 		>
@@ -180,7 +186,6 @@
 				>
 					<input type="hidden" name="id" value={editingId} />
 					<div class="flex flex-col gap-3">
-						<!-- File input -->
 						<div class="w-full">
 							<label
 								for="image-file"
@@ -235,7 +240,6 @@
 								{/if}
 							</div>
 						</div>
-						<!-- Actions -->
 						<div class="flex w-full flex-col gap-2 sm:flex-row sm:justify-end">
 							{#if editingId}
 								<button
@@ -274,18 +278,18 @@
 						</div>
 					</div>
 				</form>
-				<!-- Error -->
 				{#if fileError || form?.error}
 					<div
 						class="mt-4 flex items-start gap-3 rounded-xl border border-error/20 bg-error/5 px-3 py-3 text-error sm:px-4"
 					>
 						<TriangleAlert class="mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
-						<span class="min-w-0 text-sm leading-5 wrap-break-word"> {fileError || form?.error} </span>
+						<span class="min-w-0 text-sm leading-5 wrap-break-word">
+							{fileError || form?.error}
+						</span>
 					</div>
 				{/if}
 			</div>
 		</section>
-		<!-- Images heading -->
 		<div class="mb-4 flex items-end justify-between gap-3">
 			<div class="min-w-0">
 				<h2 class="text-base font-semibold">Images</h2>
@@ -295,14 +299,12 @@
 				<span class="shrink-0 text-xs text-base-content/40"> {data.images.length} total </span>
 			{/if}
 		</div>
-		<!-- Images -->
 		{#if data.images?.length > 0}
 			<div class="xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
 				{#each data.images as image (image.id)}
 					<article
 						class="group overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 shadow-sm transition hover:shadow-md"
 					>
-						<!-- Image -->
 						<div class="relative aspect-square overflow-hidden bg-base-200">
 							<img
 								data-lazyload-src={image.thumbnail}
@@ -310,7 +312,6 @@
 								class="lazyload h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
 								data-parallax
 							/>
-							<!-- Desktop hover actions -->
 							<div
 								class="absolute inset-x-0 bottom-0 hidden items-end justify-end bg-linear-to-t from-black/60 to-transparent p-3 pt-10 opacity-0 transition group-hover:opacity-100 sm:flex"
 							>
@@ -336,7 +337,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- Card footer -->
 						<div class="flex min-w-0 items-center justify-between gap-2 px-3 py-3 sm:px-3.5">
 							<div class="flex min-w-0 items-center gap-2">
 								<div
@@ -351,7 +351,6 @@
 									</p>
 								</div>
 							</div>
-							<!-- Mobile actions -->
 							<div class="flex shrink-0 gap-0.5 sm:hidden">
 								<button
 									type="button"
@@ -377,7 +376,6 @@
 				{/each}
 			</div>
 		{:else}
-			<!-- Empty state -->
 			<div
 				class="rounded-2xl border border-dashed border-base-300 bg-base-100 px-5 py-16 text-center sm:px-6 sm:py-20"
 			>
@@ -394,7 +392,6 @@
 		{/if}
 	</main>
 </div>
-<!-- Update modal -->
 <dialog bind:this={updateModal} class="modal">
 	<div class="modal-box mx-3 w-auto max-w-sm rounded-2xl sm:mx-auto">
 		<div class="flex items-start gap-3">
@@ -435,7 +432,6 @@
 	</div>
 	<form method="dialog" class="modal-backdrop"><button disabled={isSubmitting}>close</button></form>
 </dialog>
-<!-- Delete modal -->
 <dialog bind:this={deleteModal} class="modal">
 	<div class="modal-box mx-3 w-auto max-w-sm rounded-2xl sm:mx-auto">
 		<div class="flex items-start gap-3">
