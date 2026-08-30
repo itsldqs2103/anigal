@@ -43,7 +43,7 @@
 				<h2 class="mt-4 text-xl font-semibold tracking-tight sm:text-2xl">Welcome back</h2>
 
 				<p class="mt-1.5 text-sm leading-5 text-base-content/50">
-					Log in to access your media library.
+					Log in to access <b>Media Library</b>.
 				</p>
 			</div>
 

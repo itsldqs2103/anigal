@@ -43,7 +43,7 @@
 				<h2 class="mt-4 text-xl font-semibold tracking-tight sm:text-2xl">Create your account</h2>
 
 				<p class="mt-1.5 text-sm leading-5 text-base-content/50">
-					Get started with your media library.
+					Get started with <b>Media Library</b>.
 				</p>
 			</div>
 
