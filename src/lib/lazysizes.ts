@@ -1,3 +1,3 @@
-import lazySizes from "lazysizes";
+import lazySizes from 'lazysizes';
 
-lazySizes.cfg.srcAttr = "data-lazyload-src";
+lazySizes.cfg.srcAttr = 'data-lazyload-src';

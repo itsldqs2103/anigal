@@ -149,10 +149,7 @@ export const actions: Actions = {
 					`;
 				} catch (error) {
 					await deleteImageFiles(stored).catch((cleanupError) => {
-						console.error(
-							'Failed to cleanup new blobs:',
-							cleanupError
-						);
+						console.error('Failed to cleanup new blobs:', cleanupError);
 					});
 
 					throw error;
@@ -162,10 +159,7 @@ export const actions: Actions = {
 					file: existing.file,
 					thumbnail: existing.thumbnail
 				}).catch((error) => {
-					console.error(
-						'Failed to delete old blobs:',
-						error
-					);
+					console.error('Failed to delete old blobs:', error);
 				});
 
 				return {
@@ -192,10 +186,7 @@ export const actions: Actions = {
 				`;
 			} catch (error) {
 				await deleteImageFiles(stored).catch((cleanupError) => {
-					console.error(
-						'Failed to cleanup uploaded blobs:',
-						cleanupError
-					);
+					console.error('Failed to cleanup uploaded blobs:', cleanupError);
 				});
 
 				throw error;

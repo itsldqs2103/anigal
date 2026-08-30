@@ -37,8 +37,7 @@ img.lazyloading {
 }
 img.lazyloaded {
 	opacity: 1;
-	transition:
-		opacity 300ms;
+	transition: opacity 300ms;
 }
 
 img.lazyload:not([src]) {
