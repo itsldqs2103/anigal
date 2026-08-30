@@ -1,9 +1,11 @@
 <script lang="ts">
 	import './app.css';
-	import favicon from '../assets/favicon.svg';
 	import '$lib/lazysizes';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import { onMount } from 'svelte';
+	import { pwaInfo } from 'virtual:pwa-info';
+
+	const webManifestLink = pwaInfo?.webManifest?.linkTag ?? '';
 
 	let { children } = $props();
 
@@ -40,7 +42,9 @@
 	});
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	{@html webManifestLink}
+</svelte:head>
 {@render children()}
 
 <CookieConsent />
