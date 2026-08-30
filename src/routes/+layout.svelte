@@ -2,6 +2,7 @@
 	import './app.css';
 	import favicon from '../assets/favicon.svg';
 	import '$lib/lazysizes';
+	import CookieConsent from '$lib/components/CookieConsent.svelte';
 
 	let { children } = $props();
 
@@ -16,3 +17,5 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 {@render children()}
+
+<CookieConsent />
