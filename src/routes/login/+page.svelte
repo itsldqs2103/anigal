@@ -10,7 +10,7 @@
 	<title>Log in - Meida Library</title>
 </svelte:head>
 
-<div class="min-h-screen bg-base-200/30">
+<div class="bg-base-200/30">
 	<header class="border-b border-base-300/60 bg-base-100">
 		<div class="mx-auto flex max-w-6xl items-center px-4 py-4 sm:px-5 sm:py-5">
 			<div class="flex min-w-0 items-center gap-3">
