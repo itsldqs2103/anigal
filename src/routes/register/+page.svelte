@@ -6,8 +6,6 @@
 	let { form }: { form: ActionData } = $props();
 </script>
 
-```svelte
-
 <svelte:head>
 	<title>Create account</title>
 	<meta name="description" content="Create your Media Library account" />
@@ -147,4 +145,3 @@
 		</section>
 	</main>
 </div>
-```
