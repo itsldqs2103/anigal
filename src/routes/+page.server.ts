@@ -2,14 +2,19 @@ import type { Actions, PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
 import { put, del } from '@vercel/blob';
 import sharp from 'sharp';
-import { sql } from '$lib/db';
+import { sql } from '$lib/server/db';
+import { redirect } from '@sveltejs/kit';
 
 type StoredImage = {
 	file: string;
 	thumbnail: string;
 };
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
+	if (!locals.user) {
+		redirect(303, '/login');
+	}
+
 	const images = await sql`
 		SELECT
 			id,
@@ -22,7 +27,8 @@ export const load: PageServerLoad = async () => {
 	`;
 
 	return {
-		images
+		images,
+		user: locals.user
 	};
 };
 

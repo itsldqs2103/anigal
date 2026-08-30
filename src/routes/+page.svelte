@@ -10,7 +10,9 @@
 		X,
 		Images,
 		Check,
-		Eye
+		Eye,
+		LogOut,
+		ChevronDown
 	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
@@ -148,31 +150,93 @@
 </svelte:head>
 
 <div class="min-h-screen bg-base-200/30">
+	```svelte
 	<header class="border-b border-base-300/60 bg-base-100">
 		<div
-			class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5"
+			class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-3 py-3 sm:px-5 sm:py-4"
 		>
-			<div class="flex min-w-0 items-center gap-3">
+			<div class="flex min-w-0 items-center gap-2.5 sm:gap-3">
 				<div
-					class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-content"
+					class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-content sm:h-10 sm:w-10"
 				>
-					<Images class="h-5 w-5" strokeWidth={1.8} />
+					<Images class="h-4.5 w-4.5 sm:h-5 sm:w-5" strokeWidth={1.8} />
 				</div>
 
 				<div class="min-w-0">
-					<h1 class="truncate text-lg font-semibold tracking-tight">Media Library</h1>
-					<p class="text-xs text-base-content/50">Manage your images</p>
+					<h1 class="truncate text-base font-semibold tracking-tight sm:text-lg">Media Library</h1>
+
+					<p class="hidden text-xs text-base-content/50 sm:block">Manage your images</p>
 				</div>
 			</div>
 
-			<div
-				class="flex w-fit items-center gap-2 rounded-full border border-base-300/70 bg-base-100 px-3 py-1.5"
-			>
-				<div class="h-1.5 w-1.5 shrink-0 rounded-full bg-success"></div>
+			<div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
+				<div
+					class="flex items-center gap-1.5 rounded-full border border-base-300/70 bg-base-100 px-2.5 py-1.5 sm:px-3"
+					title={`${data.images?.length ?? 0} images`}
+				>
+					<div class="h-1.5 w-1.5 shrink-0 rounded-full bg-success"></div>
 
-				<span class="text-xs font-medium text-base-content/60">
-					{data.images?.length ?? 0} images
-				</span>
+					<span class="text-xs font-medium text-base-content/60">
+						<span class="sm:hidden">{data.images?.length ?? 0}</span>
+						<span class="hidden sm:inline">
+							{data.images?.length ?? 0} images
+						</span>
+					</span>
+				</div>
+
+				<div class="dropdown dropdown-end">
+					<button
+						type="button"
+						class="btn h-9 min-h-9 w-9 rounded-xl border-base-300/70 bg-base-100 p-0 shadow-none hover:bg-base-200 sm:h-10 sm:min-h-10 sm:w-auto sm:gap-2 sm:px-2.5"
+						aria-label="Open user menu"
+					>
+						<div
+							class="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-content"
+						>
+							{(data.user?.email?.[0] ?? 'U').toUpperCase()}
+						</div>
+
+						<span class="hidden max-w-32 truncate text-xs font-medium sm:block">
+							{data.user?.email ?? 'User'}
+						</span>
+
+						<ChevronDown class="hidden h-3.5 w-3.5 text-base-content/40 sm:block" strokeWidth={2} />
+					</button>
+
+					<div
+						class="dropdown-content z-50 mt-2 w-[calc(100vw-1.5rem)] max-w-64 overflow-hidden rounded-2xl border border-base-300/70 bg-base-100 p-1.5 shadow-lg sm:w-64"
+					>
+						<div class="flex items-center gap-3 px-3 py-3">
+							<div
+								class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-content"
+							>
+								{(data.user?.email?.[0] ?? 'U').toUpperCase()}
+							</div>
+
+							<div class="min-w-0">
+								<p class="text-[10px] font-medium tracking-wide text-base-content/40 uppercase">
+									Signed in as
+								</p>
+
+								<p class="mt-0.5 truncate text-sm font-medium">
+									{data.user?.email ?? 'User'}
+								</p>
+							</div>
+						</div>
+
+						<div class="my-1 h-px bg-base-200"></div>
+
+						<form method="POST" action="/logout">
+							<button
+								type="submit"
+								class="flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-error transition hover:bg-error/10 active:bg-error/15"
+							>
+								<LogOut class="h-4 w-4 shrink-0" strokeWidth={1.8} />
+								<span>Log out</span>
+							</button>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</header>
