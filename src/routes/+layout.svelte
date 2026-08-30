@@ -3,9 +3,7 @@
 	import '$lib/lazysizes';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import { onMount } from 'svelte';
-	import { pwaInfo } from 'virtual:pwa-info';
-
-	const webManifestLink = pwaInfo?.webManifest?.linkTag ?? '';
+	import favicon from '../assets/favicon.svg';
 
 	let { children } = $props();
 
@@ -43,8 +41,10 @@
 </script>
 
 <svelte:head>
-	{@html webManifestLink}
+	<link rel="icon" href={favicon} />
+	<link rel="manifest" href="/manifest.webmanifest" />
 </svelte:head>
+
 {@render children()}
 
 <CookieConsent />
