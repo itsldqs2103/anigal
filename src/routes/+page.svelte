@@ -32,6 +32,41 @@
 	let Fancybox: typeof import('@fancyapps/ui').Fancybox | undefined;
 
 	onMount(() => {
+		let instances: Array<{
+			destroy: () => void;
+		}> = [];
+
+		let destroyed = false;
+
+		const init = async () => {
+			const { default: SimpleParallax } = await import('simple-parallax-js/vanilla');
+
+			if (destroyed) return;
+
+			const images = document.querySelectorAll<HTMLImageElement>('img[data-parallax]');
+
+			instances = [...images].map(
+				(image) =>
+					new SimpleParallax(image, {
+						scale: 1.25,
+						delay: 0,
+						overflow: false
+					})
+			);
+		};
+
+		init();
+
+		return () => {
+			destroyed = true;
+
+			instances.forEach((instance) => {
+				instance.destroy();
+			});
+		};
+	});
+
+	onMount(() => {
 		let mounted = true;
 
 		const init = async () => {
@@ -463,6 +498,7 @@
 					>
 						<div class="relative aspect-square overflow-hidden bg-base-200">
 							<img
+								data-parallax
 								data-lazyload-src={image.thumbnail}
 								alt="Image {image.id}"
 								class="lazyload h-full w-full object-cover"

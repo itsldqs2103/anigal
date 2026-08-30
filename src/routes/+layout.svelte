@@ -4,6 +4,7 @@
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import { onMount } from 'svelte';
 	import favicon from '../assets/favicon.svg';
+	import { dev } from '$app/environment';
 
 	let { children } = $props();
 
@@ -42,9 +43,13 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<link rel="manifest" href="/manifest.webmanifest" />
+	{#if !dev}
+		<link rel="manifest" href="/manifest.webmanifest" />
+	{/if}
 </svelte:head>
 
 {@render children()}
 
 <CookieConsent />
+
+<div>Login</div>
