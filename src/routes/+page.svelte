@@ -9,8 +9,10 @@
 		Upload,
 		X,
 		Images,
-		Check
+		Check,
+		Eye
 	} from 'lucide-svelte';
+	import { onMount } from 'svelte';
 
 	let { data, form } = $props();
 	let editingId = $state('');
@@ -24,6 +26,39 @@
 	let fileError = $state('');
 
 	const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+	let Fancybox: typeof import('@fancyapps/ui').Fancybox | undefined;
+
+	onMount(() => {
+		let mounted = true;
+
+		const init = async () => {
+			const { Fancybox: FancyboxModule } = await import('@fancyapps/ui');
+
+			if (mounted) {
+				Fancybox = FancyboxModule;
+			}
+		};
+
+		init();
+
+		return () => {
+			mounted = false;
+		};
+	});
+
+	function openLightbox(url: string, filename: string) {
+		if (!Fancybox) return;
+
+		Fancybox.show([
+			{
+				src: url,
+				type: 'image',
+				downloadSrc: url,
+				downloadFilename: filename
+			}
+		]);
+	}
 
 	function handleFileChange(event: Event) {
 		const input = event.currentTarget as HTMLInputElement;
@@ -372,6 +407,16 @@
 								class="absolute inset-x-0 bottom-0 hidden items-end justify-end bg-linear-to-t from-black/60 to-transparent p-3 pt-10 opacity-0 transition group-hover:opacity-100 sm:flex"
 							>
 								<div class="flex gap-2">
+									<button
+										type="button"
+										class="btn btn-circle btn-sm"
+										onclick={() => openLightbox(image.file, image.id)}
+										disabled={isUploading || isUpdating || isDeleting}
+										aria-label="View image {image.id}"
+									>
+										<Eye class="h-3.5 w-3.5" strokeWidth={1.8} />
+									</button>
+
 									<button
 										type="button"
 										class="btn btn-circle btn-sm"
