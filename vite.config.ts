@@ -18,16 +18,15 @@ export default defineConfig({
 			registerType: 'autoUpdate',
 
 			manifest: {
+				scope: '/',
+				id: "/",
+				start_url: '/',
 				name: 'Media Library',
 				short_name: 'Media Library',
 				description: 'Media Library built with SvelteKit',
 				theme_color: '#ffffff',
 				background_color: '#000000',
 				display: 'standalone',
-				"display_override": ["fullscreen"],
-				scope: '/',
-				id: "/",
-				start_url: '/',
 				icons: [
 					{
 						src: '/pwa-192x192.png',
