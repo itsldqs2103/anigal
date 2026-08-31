@@ -51,13 +51,13 @@ export default defineConfig({
 				"screenshots": [
 					{
 						"src": "/screenshots/desktop.png",
-						"sizes": "1911x1007",
+						"sizes": "1824x2014",
 						"type": "image/png",
 						"form_factor": "wide"
 					},
 					{
 						"src": "/screenshots/mobile.png",
-						"sizes": "800x2000",
+						"sizes": "1320x2940",
 						"type": "image/png"
 					}
 				]
