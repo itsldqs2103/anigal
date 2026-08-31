@@ -364,7 +364,7 @@
 								class="mb-1.5 block text-xs font-semibold tracking-wide text-base-content/50 uppercase"
 							>
 								Image file
-								<span class="font-normal text-base-content/40 normal-case"> (max 5 MB) </span>
+								<span class="font-normal text-base-content/40 normal-case"> (max 1 MB) </span>
 							</label>
 
 							<div
