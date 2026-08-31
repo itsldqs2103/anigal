@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 
 export default defineConfig({
+	define: { __BUILD_DATE__: JSON.stringify(new Date().toLocaleDateString()) },
 	plugins: [
 		tailwindcss(),
 		sveltekit({
@@ -19,7 +20,7 @@ export default defineConfig({
 
 			manifest: {
 				scope: '/',
-				id: "/",
+				id: '/',
 				start_url: '/',
 				name: 'Media Library',
 				short_name: 'Media Library',

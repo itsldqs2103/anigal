@@ -1,3 +1,7 @@
+<script module lang="ts">
+	declare const __BUILD_DATE__: string;
+</script>
+
 <script lang="ts">
 	import { ArrowLeft } from 'lucide-svelte';
 	import { resolve } from '$app/paths';
@@ -20,7 +24,7 @@
 		<div class="border-b border-base-200 px-5 py-5 sm:px-6">
 			<h1 class="text-xl font-semibold tracking-tight sm:text-2xl">Privacy Policy</h1>
 			<p class="mt-1 text-xs text-base-content/40">
-				Last updated: {new Date().toLocaleDateString()}
+				Last updated: {__BUILD_DATE__}
 			</p>
 		</div>
 
