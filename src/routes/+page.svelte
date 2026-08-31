@@ -758,9 +758,7 @@
 			>
 				{#if isUpdating}
 					<span class="loading loading-sm loading-spinner"></span>
-				{:else}
-					Update
-				{/if}
+				{/if} Update
 			</button>
 		</div>
 	</div>
@@ -829,8 +827,7 @@
 						<span class="loading loading-sm loading-spinner"></span>
 					{:else}
 						<Trash2 class="h-4 w-4" strokeWidth={1.8} />
-						Delete
-					{/if}
+					{/if} Delete
 				</button>
 			</form>
 		</div>
