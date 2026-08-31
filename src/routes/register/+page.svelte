@@ -21,7 +21,7 @@
 				</div>
 
 				<div class="min-w-0">
-					<h1 class="truncate text-lg font-semibold tracking-tight">Media Library</h1>
+					<h1 class="truncate text-lg font-semibold tracking-tight">AniGal</h1>
 					<p class="text-xs text-base-content/50">Manage your images</p>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 				<h2 class="mt-4 text-xl font-semibold tracking-tight sm:text-2xl">Create your account</h2>
 
 				<p class="mt-1.5 text-sm leading-5 text-base-content/50">
-					Get started with <b>Media Library</b>.
+					Get started with <b>AniGal</b>.
 				</p>
 			</div>
 

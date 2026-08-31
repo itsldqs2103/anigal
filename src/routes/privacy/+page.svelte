@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Privacy Policy - Media Library</title>
+	<title>Privacy Policy - AniGal</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-8 sm:px-5 sm:py-12">
@@ -33,7 +33,7 @@
 				<h2 class="font-semibold text-base-content">Information we collect</h2>
 				<p class="mt-1.5">
 					We may collect your email address, account information, uploaded images, and information
-					needed to operate and secure Media Library.
+					needed to operate and secure AniGal.
 				</p>
 			</section>
 

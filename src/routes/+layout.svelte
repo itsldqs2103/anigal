@@ -50,7 +50,7 @@
 </script>
 
 <svelte:head>
-	<meta name="description" content="Media Library built with SvelteKit." />
+	<meta name="description" content="AniGal built with SvelteKit." />
 	<link rel="icon" href={favicon} />
 	{#if !dev}
 		<link rel="manifest" href="/manifest.webmanifest" />
@@ -71,8 +71,8 @@
 					</div>
 
 					<div>
-						<p class="text-xs font-semibold tracking-tight">Media Library</p>
-						<p class="text-[11px] text-base-content/40">Media Library built with SvelteKit.</p>
+						<p class="text-xs font-semibold tracking-tight">AniGal</p>
+						<p class="text-[11px] text-base-content/40">AniGal built with SvelteKit.</p>
 					</div>
 				</div>
 
@@ -86,9 +86,7 @@
 			<div class="my-5 h-px bg-base-200"></div>
 
 			<div class="flex flex-col items-center justify-between gap-2 sm:flex-row">
-				<p class="text-[11px] text-base-content/35">
-					&copy; 2026 Media Library. All rights reserved.
-				</p>
+				<p class="text-[11px] text-base-content/35">&copy; 2026 AniGal. All rights reserved.</p>
 
 				<div class="flex items-center gap-1.5 text-[11px] text-base-content/35">
 					<span>Built with</span>

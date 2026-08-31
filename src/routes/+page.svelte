@@ -180,7 +180,7 @@
 </script>
 
 <svelte:head>
-	<title>Homepage - Media Library</title>
+	<title>Homepage - AniGal</title>
 </svelte:head>
 
 <div class="min-h-screen bg-base-200/30">
@@ -196,7 +196,7 @@
 				</div>
 
 				<div class="min-w-0">
-					<h1 class="truncate text-base font-semibold tracking-tight sm:text-lg">Media Library</h1>
+					<h1 class="truncate text-base font-semibold tracking-tight sm:text-lg">AniGal</h1>
 
 					<p class="hidden text-xs text-base-content/50 sm:block">Manage your images</p>
 				</div>

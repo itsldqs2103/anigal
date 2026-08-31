@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Terms of Service - Media Library</title>
+	<title>Terms of Service - AniGal</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-8 sm:px-5 sm:py-12">
@@ -32,16 +32,16 @@
 			<section>
 				<h2 class="font-semibold text-base-content">Acceptance</h2>
 				<p class="mt-1.5">
-					By using Media Library, you agree to these Terms of Service. If you do not agree, please
-					do not use the service.
+					By using AniGal, you agree to these Terms of Service. If you do not agree, please do not
+					use the service.
 				</p>
 			</section>
 
 			<section>
 				<h2 class="font-semibold text-base-content">Using the service</h2>
 				<p class="mt-1.5">
-					Media Library allows you to upload, store, view, and manage images. You are responsible
-					for your account and your use of the service.
+					AniGal allows you to upload, store, view, and manage images. You are responsible for your
+					account and your use of the service.
 				</p>
 			</section>
 
@@ -56,8 +56,7 @@
 			<section>
 				<h2 class="font-semibold text-base-content">Prohibited use</h2>
 				<p class="mt-1.5">
-					You must not use Media Library for illegal, fraudulent, abusive, or otherwise harmful
-					activities.
+					You must not use AniGal for illegal, fraudulent, abusive, or otherwise harmful activities.
 				</p>
 			</section>
 
