@@ -9,14 +9,23 @@ export const actions: Actions = {
 		const email = String(form.get('email') ?? '');
 		const password = String(form.get('password') ?? '');
 
-		if (!email || !password) {
+		const normalizedEmail = email.trim().toLowerCase();
+
+		if (!normalizedEmail || !password) {
 			return fail(400, {
 				error: 'Email and password are required.',
 				email
 			});
 		}
 
-		const user = await verifyUser(email, password);
+		if (!normalizedEmail.includes('@')) {
+			return fail(400, {
+				error: 'Please enter a valid email.',
+				email
+			});
+		}
+
+		const user = await verifyUser(normalizedEmail, password);
 
 		if (!user) {
 			return fail(400, {

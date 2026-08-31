@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { put, del } from '@vercel/blob';
 import sharp from 'sharp';
 import { sql } from '$lib/server/db';
@@ -190,8 +190,8 @@ export const actions: Actions = {
 				`;
 
 				if (existingResult.length === 0) {
-					return fail(404, {
-						error: 'Image not found'
+					error(404, {
+						message: 'Not found'
 					});
 				}
 
@@ -313,8 +313,8 @@ export const actions: Actions = {
 		`;
 
 		if (result.length === 0) {
-			return fail(404, {
-				error: 'Image not found'
+			error(404, {
+				message: 'Not found'
 			});
 		}
 
