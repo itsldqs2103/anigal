@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 
 export default defineConfig({
-	define: { __BUILD_DATE__: JSON.stringify(new Date().toLocaleDateString()) },
+	define: { __BUILD_DATE__: JSON.stringify(new Date().toLocaleDateString('en-US')) },
 	plugins: [
 		tailwindcss(),
 		sveltekit({

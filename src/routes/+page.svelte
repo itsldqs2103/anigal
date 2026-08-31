@@ -554,7 +554,7 @@
 									</p>
 
 									<p class="truncate text-[10px] text-base-content/40 sm:text-[11px]">
-										{new Date(image.createdAt).toLocaleString()}
+										{new Date(image.createdAt).toLocaleString('en-US')}
 									</p>
 								</div>
 							</div>
