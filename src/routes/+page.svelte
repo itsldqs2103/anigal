@@ -251,7 +251,7 @@
 </script>
 
 <svelte:head>
-	<title>Homepage - AniGal</title>
+	<title>Home - AniGal</title>
 </svelte:head>
 
 <div class="bg-base-200/30">
