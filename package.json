@@ -40,7 +40,6 @@
 		"@fancyapps/ui": "^6.1.14",
 		"@fontsource-variable/manrope": "^5.3.0",
 		"@neondatabase/serverless": "^1.1.0",
-		"@sentry/sveltekit": "^10.72.0",
 		"@vercel/analytics": "^2.0.1",
 		"@vercel/blob": "^2.8.0",
 		"@vercel/speed-insights": "^2.0.0",
@@ -51,7 +50,6 @@
 		"simple-parallax-js": "^7.0.0"
 	},
 	"allowScripts": {
-		"@sentry/cli@2.58.6": true,
 		"esbuild@0.28.2": true
 	}
 }

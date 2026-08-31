@@ -17,6 +17,3 @@ vite.config.js.timestamp-*
 
 .vercel
 .env*
-
-# Sentry Config File
-.env.sentry-build-plugin
