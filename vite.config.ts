@@ -22,13 +22,14 @@ export default defineConfig({
 				scope: '/',
 				id: '/',
 				start_url: '/',
+				categories: ["entertainment"],
 				name: 'AniGal',
 				short_name: 'AniGal',
 				description: 'AniGal built with SvelteKit',
 				theme_color: '#ecf9ff',
 				background_color: '#1d232a',
-				"display_override": ["fullscreen"],
-				"display": "standalone",
+				display_override: ["fullscreen"],
+				display: "standalone",
 				icons: [
 					{
 						src: '/icons/pwa-192x192.png',
