@@ -1,9 +1,8 @@
 import type { Actions, PageServerLoad } from './$types';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { put, del } from '@vercel/blob';
 import sharp from 'sharp';
 import { sql } from '$lib/server/db';
-import { redirect } from '@sveltejs/kit';
 
 type StoredImage = {
 	file: string;
@@ -32,6 +31,24 @@ export const load: PageServerLoad = async ({ locals }) => {
 		user: locals.user
 	};
 };
+
+async function consumeDailyUploadQuota(userId: string): Promise<boolean> {
+	const result = await sql`
+		INSERT INTO image_upload_usage ("userId", "date", "count")
+		VALUES (
+			${userId},
+			(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::date,
+			1
+		)
+		ON CONFLICT ("userId", "date")
+		DO UPDATE SET
+			"count" = image_upload_usage."count" + 1
+		WHERE image_upload_usage."count" < 5
+		RETURNING "count"
+	`;
+
+	return result.length > 0;
+}
 
 async function storeImage(file: File, id: string): Promise<StoredImage> {
 	const buffer = Buffer.from(await file.arrayBuffer());
@@ -120,6 +137,14 @@ export const actions: Actions = {
 			});
 		}
 
+		const allowed = await consumeDailyUploadQuota(locals.user.id);
+
+		if (!allowed) {
+			return fail(429, {
+				error: 'Daily upload limit reached. You can upload up to 5 images per day.'
+			});
+		}
+
 		try {
 			const buffer = Buffer.from(await file.arrayBuffer());
 			const metadata = await sharp(buffer).metadata();
@@ -138,6 +163,7 @@ export const actions: Actions = {
 						thumbnail
 					FROM image
 					WHERE id = ${id}
+						AND uploader = ${locals.user.email}
 					LIMIT 1
 				`;
 
@@ -159,6 +185,7 @@ export const actions: Actions = {
 							thumbnail = ${stored.thumbnail},
 							"updatedAt" = CURRENT_TIMESTAMP
 						WHERE id = ${id}
+							AND uploader = ${locals.user.email}
 					`;
 				} catch (error) {
 					await deleteImageFiles(stored).catch((cleanupError) => {
@@ -220,7 +247,13 @@ export const actions: Actions = {
 		}
 	},
 
-	delete: async ({ request }) => {
+	delete: async ({ request, locals }) => {
+		if (!locals.user) {
+			return fail(401, {
+				error: 'Unauthorized'
+			});
+		}
+
 		const data = await request.formData();
 		const id = data.get('id')?.toString();
 
@@ -237,6 +270,7 @@ export const actions: Actions = {
 				thumbnail
 			FROM image
 			WHERE id = ${id}
+				AND uploader = ${locals.user.email}
 			LIMIT 1
 		`;
 
@@ -257,6 +291,7 @@ export const actions: Actions = {
 			await sql`
 				DELETE FROM image
 				WHERE id = ${id}
+					AND uploader = ${locals.user.email}
 			`;
 
 			return {
