@@ -1,3 +1,4 @@
+import { sentrySvelteKit } from '@sentry/sveltekit';
 import tailwindcss from '@tailwindcss/vite';
 import adapter from '@sveltejs/adapter-auto';
 import { sveltekit } from '@sveltejs/kit/vite';
@@ -7,6 +8,10 @@ import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 export default defineConfig({
 	define: { __BUILD_DATE__: JSON.stringify(new Date().toLocaleDateString('en-US')) },
 	plugins: [
+		sentrySvelteKit({
+			org: 'le-do-quang-sang',
+			project: 'javascript-sveltekit'
+		}),
 		tailwindcss(),
 		sveltekit({
 			compilerOptions: {
