@@ -32,19 +32,49 @@ export const load: PageServerLoad = async ({ locals }) => {
 	};
 };
 
-async function consumeDailyUploadQuota(userId: string): Promise<boolean> {
+async function consumeUploadQuota(userId: string): Promise<boolean> {
 	const result = await sql`
-		INSERT INTO image_upload_usage ("userId", "date", "count")
+		INSERT INTO image_usage (
+			"userId",
+			"date",
+			"uploads",
+			"updates"
+		)
 		VALUES (
 			${userId},
 			(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::date,
+			1,
+			0
+		)
+		ON CONFLICT ("userId", "date")
+		DO UPDATE SET
+			"uploads" = image_usage."uploads" + 1
+		WHERE image_usage."uploads" < 10
+		RETURNING "uploads"
+	`;
+
+	return result.length > 0;
+}
+
+async function consumeUpdateQuota(userId: string): Promise<boolean> {
+	const result = await sql`
+		INSERT INTO image_usage (
+			"userId",
+			"date",
+			"uploads",
+			"updates"
+		)
+		VALUES (
+			${userId},
+			(CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Ho_Chi_Minh')::date,
+			0,
 			1
 		)
 		ON CONFLICT ("userId", "date")
 		DO UPDATE SET
-			"count" = image_upload_usage."count" + 1
-		WHERE image_upload_usage."count" < 5
-		RETURNING "count"
+			"updates" = image_usage."updates" + 1
+		WHERE image_usage."updates" < 10
+		RETURNING "updates"
 	`;
 
 	return result.length > 0;
@@ -131,17 +161,9 @@ export const actions: Actions = {
 			});
 		}
 
-		if (file.size > 10 * 1024 * 1024) {
+		if (file.size > 1 * 1024 * 1024) {
 			return fail(400, {
-				error: 'Image must be smaller than 10 MB'
-			});
-		}
-
-		const allowed = await consumeDailyUploadQuota(locals.user.id);
-
-		if (!allowed) {
-			return fail(429, {
-				error: 'Daily upload limit reached. You can upload up to 5 images per day.'
+				error: 'Image must be smaller than 1 MB'
 			});
 		}
 
@@ -170,6 +192,14 @@ export const actions: Actions = {
 				if (existingResult.length === 0) {
 					return fail(404, {
 						error: 'Image not found'
+					});
+				}
+
+				const allowed = await consumeUpdateQuota(locals.user.id);
+
+				if (!allowed) {
+					return fail(429, {
+						error: 'Daily update limit reached. You can update up to 10 images per day.'
 					});
 				}
 
@@ -206,6 +236,14 @@ export const actions: Actions = {
 					success: true,
 					action: 'updated'
 				};
+			}
+
+			const allowed = await consumeUploadQuota(locals.user.id);
+
+			if (!allowed) {
+				return fail(429, {
+					error: 'Daily upload limit reached. You can upload up to 10 images per day.'
+				});
 			}
 
 			const newId = crypto.randomUUID();
