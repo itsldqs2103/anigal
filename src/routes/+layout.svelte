@@ -3,7 +3,7 @@
 	import '$lib/lazysizes';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import { onMount } from 'svelte';
-	import favicon from '../assets/favicon.svg';
+	import favicon from '../assets/favicon.ico';
 	import { dev } from '$app/environment';
 	import { Images } from 'lucide-svelte';
 	import { resolve } from '$app/paths';
