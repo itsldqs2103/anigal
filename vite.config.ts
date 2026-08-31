@@ -25,8 +25,8 @@ export default defineConfig({
 				name: 'AniGal',
 				short_name: 'AniGal',
 				description: 'AniGal built with SvelteKit',
-				theme_color: '#ffffff',
-				background_color: '#000000',
+				theme_color: '#ecf9ff',
+				background_color: '#1d232a',
 				display: 'standalone',
 				icons: [
 					{
