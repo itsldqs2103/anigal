@@ -10,7 +10,8 @@ export default defineConfig({
 	plugins: [
 		sentrySvelteKit({
 			org: 'le-do-quang-sang',
-			project: 'javascript-sveltekit'
+			project: 'javascript-sveltekit',
+			authToken: process.env.SENTRY_AUTH_TOKEN
 		}),
 		tailwindcss(),
 		sveltekit({
