@@ -26,7 +26,15 @@
 	let fileError = $state('');
 	let successMessage = $state('');
 
+	let updateModal: HTMLDialogElement;
+	let deleteModal: HTMLDialogElement;
+
 	const MAX_FILE_SIZE = 1 * 1024 * 1024;
+
+	let successTimer: ReturnType<typeof setTimeout> | null = null;
+	let successRemaining = 5000;
+	let successStartedAt = 0;
+	let successPaused = false;
 
 	let Fancybox: typeof import('@fancyapps/ui').Fancybox | undefined;
 
@@ -136,11 +144,73 @@
 		}
 	}
 
+	function showSuccess(message: string) {
+		if (successTimer) {
+			clearTimeout(successTimer);
+			successTimer = null;
+		}
+
+		successMessage = message;
+		successRemaining = 5000;
+		successPaused = false;
+
+		startSuccessTimer();
+	}
+
+	function startSuccessTimer() {
+		if (!successMessage || successPaused || successTimer) return;
+
+		successStartedAt = Date.now();
+
+		successTimer = setTimeout(() => {
+			successMessage = '';
+			successTimer = null;
+			successRemaining = 5000;
+		}, successRemaining);
+	}
+
+	function pauseSuccessTimer() {
+		if (!successMessage || successPaused) return;
+
+		successPaused = true;
+
+		if (successTimer) {
+			clearTimeout(successTimer);
+			successTimer = null;
+
+			successRemaining = Math.max(0, successRemaining - (Date.now() - successStartedAt));
+		}
+	}
+
+	function resumeSuccessTimer() {
+		if (!successMessage || !successPaused) return;
+
+		successPaused = false;
+
+		if (successRemaining <= 0) {
+			dismissSuccess();
+			return;
+		}
+
+		startSuccessTimer();
+	}
+
+	function dismissSuccess() {
+		if (successTimer) {
+			clearTimeout(successTimer);
+			successTimer = null;
+		}
+
+		successMessage = '';
+		successRemaining = 5000;
+		successPaused = false;
+	}
+
 	function edit(id: string) {
 		if (isUploading || isUpdating || isDeleting) return;
 
 		editingId = id;
-		successMessage = '';
+		dismissSuccess();
 		resetFile();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
@@ -178,9 +248,6 @@
 
 		deleteModal?.close();
 	}
-
-	let updateModal: HTMLDialogElement;
-	let deleteModal: HTMLDialogElement;
 </script>
 
 <svelte:head>
@@ -201,6 +268,7 @@
 
 				<div class="min-w-0">
 					<h1 class="truncate text-base font-semibold tracking-tight sm:text-lg">AniGal</h1>
+
 					<p class="hidden text-xs text-base-content/50 sm:block">Manage your images</p>
 				</div>
 			</div>
@@ -280,6 +348,17 @@
 			<div
 				role="alert"
 				class="mb-6 alert rounded-xl border border-success/20 bg-success/10 alert-success text-success shadow-sm"
+				onmouseenter={pauseSuccessTimer}
+				onmouseleave={resumeSuccessTimer}
+				onfocusin={pauseSuccessTimer}
+				onfocusout={(event) => {
+					const currentTarget = event.currentTarget as HTMLElement;
+					const relatedTarget = event.relatedTarget as Node | null;
+
+					if (!relatedTarget || !currentTarget.contains(relatedTarget)) {
+						resumeSuccessTimer();
+					}
+				}}
 			>
 				<Check class="h-5 w-5 shrink-0" strokeWidth={2} />
 
@@ -290,7 +369,7 @@
 				<button
 					type="button"
 					class="btn btn-circle btn-ghost text-success btn-sm hover:bg-success/10"
-					onclick={() => (successMessage = '')}
+					onclick={dismissSuccess}
 					aria-label="Dismiss success message"
 				>
 					<X class="h-4 w-4" />
@@ -373,9 +452,9 @@
 							isUploading = false;
 
 							if (!form?.error) {
-								successMessage = wasEditing
-									? 'Image updated successfully.'
-									: 'Image uploaded successfully.';
+								showSuccess(
+									wasEditing ? 'Image updated successfully.' : 'Image uploaded successfully.'
+								);
 
 								editingId = '';
 								resetFile();
@@ -732,7 +811,7 @@
 						isDeleting = false;
 
 						if (!form?.error) {
-							successMessage = 'Image deleted successfully.';
+							showSuccess('Image deleted successfully.');
 							closeDeleteModal();
 							deleteId = '';
 						}
