@@ -27,7 +27,7 @@
 	let deleteModal: HTMLDialogElement;
 	let fileError = $state('');
 
-	const MAX_FILE_SIZE = 5 * 1024 * 1024;
+	const MAX_FILE_SIZE = 1 * 1024 * 1024;
 
 	let Fancybox: typeof import('@fancyapps/ui').Fancybox | undefined;
 
@@ -110,14 +110,14 @@
 		const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
 		if (!allowedTypes.includes(file.type)) {
-			fileError = 'Only JPG, JPEG, PNG, and WebP images are allowed.';
+			fileError = 'Only JPG, JPEG, PNG, and WEBP images are allowed.';
 			selectedFile = null;
 			input.value = '';
 			return;
 		}
 
 		if (file.size > MAX_FILE_SIZE) {
-			fileError = 'Image must be 5 MB or smaller.';
+			fileError = 'Image must be 1 MB or smaller.';
 			selectedFile = null;
 			input.value = '';
 			return;
