@@ -23,9 +23,8 @@
 	let isUpdating = $state(false);
 	let isDeleting = $state(false);
 	let selectedFile = $state<File | null>(null);
-	let updateModal: HTMLDialogElement;
-	let deleteModal: HTMLDialogElement;
 	let fileError = $state('');
+	let successMessage = $state('');
 
 	const MAX_FILE_SIZE = 1 * 1024 * 1024;
 
@@ -129,6 +128,7 @@
 	function resetFile() {
 		selectedFile = null;
 		fileError = '';
+
 		const input = document.getElementById('image-file') as HTMLInputElement | null;
 
 		if (input) {
@@ -140,6 +140,7 @@
 		if (isUploading || isUpdating || isDeleting) return;
 
 		editingId = id;
+		successMessage = '';
 		resetFile();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
@@ -177,6 +178,9 @@
 
 		deleteModal?.close();
 	}
+
+	let updateModal: HTMLDialogElement;
+	let deleteModal: HTMLDialogElement;
 </script>
 
 <svelte:head>
@@ -197,7 +201,6 @@
 
 				<div class="min-w-0">
 					<h1 class="truncate text-base font-semibold tracking-tight sm:text-lg">AniGal</h1>
-
 					<p class="hidden text-xs text-base-content/50 sm:block">Manage your images</p>
 				</div>
 			</div>
@@ -211,9 +214,7 @@
 
 					<span class="text-xs font-medium text-base-content/60">
 						<span class="sm:hidden">{data.images?.length ?? 0}</span>
-						<span class="hidden sm:inline">
-							{data.images?.length ?? 0} images
-						</span>
+						<span class="hidden sm:inline">{data.images?.length ?? 0} images</span>
 					</span>
 				</div>
 
@@ -275,6 +276,28 @@
 	</header>
 
 	<main class="mx-auto max-w-6xl px-4 py-6 sm:px-5 sm:py-8">
+		{#if successMessage}
+			<div
+				role="alert"
+				class="mb-6 alert rounded-xl border border-success/20 bg-success/10 alert-success text-success shadow-sm"
+			>
+				<Check class="h-5 w-5 shrink-0" strokeWidth={2} />
+
+				<div class="min-w-0 flex-1">
+					<p class="text-sm font-medium">{successMessage}</p>
+				</div>
+
+				<button
+					type="button"
+					class="btn btn-circle btn-ghost text-success btn-sm hover:bg-success/10"
+					onclick={() => (successMessage = '')}
+					aria-label="Dismiss success message"
+				>
+					<X class="h-4 w-4" />
+				</button>
+			</div>
+		{/if}
+
 		<div class="mb-6 sm:mb-7">
 			<h2 class="text-xl font-semibold tracking-tight sm:text-2xl">Your collection</h2>
 
@@ -335,7 +358,9 @@
 					enctype="multipart/form-data"
 					id="image-form"
 					use:enhance={() => {
-						if (editingId) {
+						const wasEditing = !!editingId;
+
+						if (wasEditing) {
 							isUpdating = true;
 						} else {
 							isUploading = true;
@@ -348,6 +373,10 @@
 							isUploading = false;
 
 							if (!form?.error) {
+								successMessage = wasEditing
+									? 'Image updated successfully.'
+									: 'Image uploaded successfully.';
+
 								editingId = '';
 								resetFile();
 								closeUpdateModal();
@@ -699,9 +728,11 @@
 
 					return async ({ update }) => {
 						await update();
+
 						isDeleting = false;
 
 						if (!form?.error) {
+							successMessage = 'Image deleted successfully.';
 							closeDeleteModal();
 							deleteId = '';
 						}
