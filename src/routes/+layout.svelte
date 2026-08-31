@@ -87,7 +87,7 @@
 
 			<div class="flex flex-col items-center justify-between gap-2 sm:flex-row">
 				<p class="text-[11px] text-base-content/35">
-					&copy; {new Date().getFullYear()} Media Library. All rights reserved.
+					&copy; 2026 Media Library. All rights reserved.
 				</p>
 
 				<div class="flex items-center gap-1.5 text-[11px] text-base-content/35">
