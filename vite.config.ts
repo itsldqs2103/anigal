@@ -1,5 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
-import adapter from '@sveltejs/adapter-vercel';
+import adapter from '@sveltejs/adapter-auto';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
@@ -13,16 +13,20 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter(),
+			adapter: adapter()
 		}),
 		SvelteKitPWA({
 			registerType: 'autoUpdate',
+
+			kit: {
+				includeVersionFile: true
+			},
 
 			manifest: {
 				scope: '/',
 				id: '/',
 				start_url: '/',
-				categories: ["entertainment"],
+				categories: ['entertainment'],
 				name: 'AniGal',
 				short_name: 'AniGal',
 				description: 'AniGal built with SvelteKit',
@@ -30,6 +34,7 @@ export default defineConfig({
 				background_color: '#1d232a',
 				display_override: ['window-controls-overlay', 'standalone'],
 				display: 'standalone',
+
 				icons: [
 					{
 						src: '/icons/pwa-192x192.png',
@@ -48,23 +53,20 @@ export default defineConfig({
 						purpose: 'maskable'
 					}
 				],
-				"screenshots": [
+
+				screenshots: [
 					{
-						"src": "/screenshots/desktop.png",
-						"sizes": "1824x2014",
-						"type": "image/png",
-						"form_factor": "wide"
+						src: '/screenshots/desktop.png',
+						sizes: '1824x2014',
+						type: 'image/png',
+						form_factor: 'wide'
 					},
 					{
-						"src": "/screenshots/mobile.png",
-						"sizes": "1320x2940",
-						"type": "image/png"
+						src: '/screenshots/mobile.png',
+						sizes: '1320x2940',
+						type: 'image/png'
 					}
 				]
-			},
-
-			workbox: {
-				globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}']
 			}
 		})
 	]
