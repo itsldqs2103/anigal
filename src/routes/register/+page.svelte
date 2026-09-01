@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
-	import { UserPlus, Mail, LockKeyhole, TriangleAlert, Images } from 'lucide-svelte';
+	import { UserPlus, Mail, LockKeyhole, TriangleAlert, Images } from '@lucide/svelte';
 	import { resolve } from '$app/paths';
 
 	let { form }: { form: ActionData } = $props();

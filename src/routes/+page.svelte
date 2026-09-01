@@ -13,7 +13,7 @@
 		Eye,
 		LogOut,
 		ChevronDown
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import { onMount } from 'svelte';
 
 	let { data, form } = $props();

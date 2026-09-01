@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Cookie } from 'lucide-svelte';
+	import { Cookie } from '@lucide/svelte';
 
 	let dialog: HTMLDialogElement;
 

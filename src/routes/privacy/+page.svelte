@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft } from '@lucide/svelte';
 	import { resolve } from '$app/paths';
 </script>
 
