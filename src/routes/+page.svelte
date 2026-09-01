@@ -609,6 +609,7 @@
 								data-lazyload-src={image.thumbnail}
 								alt="Image {image.id}"
 								class="lazyload h-full w-full object-cover"
+								fetchpriority="low"
 							/>
 
 							<div
